@@ -62,7 +62,7 @@ p{
 #section1 #avatar{
     width: 256px;
     height: 256px;
-    border: 10px solid #999;
+    border: 10px solid #A7FFEB;
     -webkit-border-radius: 50%;
     -moz-border-radius: 50%;
     -o-border-radius: 50%;
@@ -72,7 +72,7 @@ p{
     font-size: 55px;
     line-height: 100px;
     letter-spacing: 5px;
-    text-shadow: 1px 2px #2B303B,2px 4px #2B303B;
+    text-shadow: 1px 2px #004D40,2px 4px #004D40;
     margin-bottom: 20px;
 }
 #section1 p.subtitle{
