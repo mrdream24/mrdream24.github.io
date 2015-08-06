@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="utf-8"/>
+    <title>MrDream 的instagram</title>
+    <link rel="shortcut icon" href="../img/favicon.ico">
+    <meta name="viewport" content="width=100%, initial-scale=1">
+    <meta name="author" content="MrDream · 香灰" />
+    <link rel="stylesheet" type="text/css" href="" />
+
+    <script src="http://libs.baidu.com/jquery/1.9.1/jquery.min.js"></script>
+	<script type="text/javascript" src="../js/lib/instagramLite.min.js"></script>
+	<style type="text/css">
+		body{
+			background-color: #FAFAFA;
+			margin: 0;
+			padding: 0;
+			font-family: 'proxima-nova','Helvetica Neue',Arial,Helvetica,sans-serif;
+		}
+		header{
+			background: url(../img/bonnie120120.jpg) center no-repeat;
+			background-size: cover;
+			width: 100%;
+			height: 300px;
+			-webkit-filter: blur(5px) contrast(0.4) brightness(1.4); 
+		}
+		.op{
+			background-color: rgba(0,0,0,0.3);
+			position: absolute;
+			top: 0;
+			left: 0;
+			width: 100%;
+			height: 300px;
+		}
+		.op img{
+			display: block;
+			margin: 30px auto 10px;
+			-webkit-border-radius: 50%;
+			border-radius: 50%;
+		}
+		.op h1{
+			text-align: center;
+			font-size: 24px;
+			color: #fff;
+			font-weight: normal;
+		}
+		.op h3{
+			text-align: center;
+			font-size: 17px;
+			color: #fff;
+			font-weight: normal;
+			opacity: 0.6;
+		}
+		.op p{
+			text-align: center;
+			font-size: 13px;
+			color: #bbb;
+			font-weight: normal;
+			opacity: 0.8;
+		}
+		ul.ins{
+			width: 1260px;
+			margin: auto;
+		}
+		ul img{
+			width: 400px;
+			height: 400px;
+			margin: 40px 10px;
+		}
+		.load-more{
+			width: 100px;
+			height: 100px;
+			font-size: 20px;
+			line-height: 100px;
+			margin: auto;
+			/*color: #fff;*/
+			/*background-color: #3B8EDE;*/
+			text-align: center;
+			border-radius: 50%;
+			cursor: pointer;
+			background-color: #fff;
+			color: #3B8EDE;
+			border:1px #3B8EDE solid;
+			margin-bottom: 50px;
+			-webkit-transition: all .25s ease; 
+    		transition:all .25s ease;
+		}
+		.load-more:hover{
+			background-color: #3B8EDE;
+			color: #fff;
+			/*border:1px #3B8EDE solid;*/
+			-webkit-transition: all .25s ease; 
+    		transition:all .25s ease;
+		}
+		footer{
+			margin-bottom: 40px;
+		}
+		footer p{
+			text-align: center;
+			font-size: 14px;
+			color: rgba(0 , 0, 0, 0.6);
+		}
+		footer a{
+			color: #555;
+		}
+	</style>
+</head>
+<body>
+	<div>
+		<header>
+		</header>
+		<div class="op">
+			<img src="../img/bonnie120120.jpg">
+			<h1>bonnie120120</h1>
+			<h3>这是我在instagram上的最爱</h3>
+			<p>#请自备翻墙工具#</p>
+		</div>
+		<ul class="ins"></ul>
+		<div class="load-more">更多</div>
+		<footer>
+			<p>Created by <a href="/" target="_blank">MrDream</a></p>
+		</footer>
+	</div>
+	<script type="text/javascript">
+		$(function() {
+
+		    $('.ins').instagramLite({
+		        clientID: '19d38ae64fa346cdaf6d67582721e73a',
+		        username: 'bonnie120120',
+		        list: false,
+		        urls: true,
+		        load_more: '.load-more',
+		        success: function() {
+		            console.log('The request was successful!');
+		        },
+		        error: function(errorCode, errorMessage) {
+
+		            console.log('There was an error with the request');
+
+		            if(errorCode && errorMessage) {
+		                console.log(errorCode +': '+ errorMessage);
+		            }
+		        }
+		    });
+
+		});
+	</script>
+</body>
+</html>
