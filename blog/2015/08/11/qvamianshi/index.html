@@ -13,7 +13,7 @@
 <meta property="og:site_name" content="MrDream">
 <meta property="og:description" content="在拔赤大神的github页面看到阿里航旅事业部的面试题，浏览一遍，有的问题有一些明白，有一些问题则不太懂，索性转到这里，然后不管自己理解还是查阅资料，将各个问题自己给出的答案贴出来，一方面记录自己的学习，一方面如有大神指教就更更好了。
 1. CSS 盒子模型，绝对定位和相对定位(1) 清除浮动，什么时候需要清除浮动，清除浮动都有哪些方法?答：父元素在包裹一个float的子元素，如果父元素的heig">
-<meta property="og:updated_time" content="2015-08-11T06:56:35.000Z">
+<meta property="og:updated_time" content="2015-08-11T07:02:23.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="去啊面试题|试答">
 <meta name="twitter:description" content="在拔赤大神的github页面看到阿里航旅事业部的面试题，浏览一遍，有的问题有一些明白，有一些问题则不太懂，索性转到这里，然后不管自己理解还是查阅资料，将各个问题自己给出的答案贴出来，一方面记录自己的学习，一方面如有大神指教就更更好了。
@@ -243,7 +243,7 @@
 <h1 id="1-_CSS_盒子模型，绝对定位和相对定位">1. CSS 盒子模型，绝对定位和相对定位</h1><h3 id="(1)_清除浮动，什么时候需要清除浮动，清除浮动都有哪些方法?">(1) 清除浮动，什么时候需要清除浮动，清除浮动都有哪些方法?</h3><p>答：父元素在包裹一个float的子元素，如果父元素的height为auto时，父元素无法自动伸长以适应内容的高度，这样内容就会溢出，影响布局，这时就要清除浮动。<br>清除浮动的方法：</p>
 <ol>
 <li>给父级元素添加height，在height可以计算的情况下可以用。</li>
-<li>在子元素后面添加元素<div class="clear"></div>,给以css代码.clear{clear:both}。这种方法的缺点是添加了无意义的html标签。</li>
+<li>在子元素后面添加类名为clear的元素,给以css代码.clear{clear:both}。这种方法的缺点是添加了无意义的html标签。</li>
 <li>给父级元素添加 overflow:hidden 。</li>
 <li>利用:after伪元素，给父级一个clearfix的类，然后clearfix:after{content: “020”; display: block; height: 0; clear: both; visibility: hidden;}</li>
 </ol>
