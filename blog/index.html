@@ -200,6 +200,160 @@
 </nav>
       <div class="body-wrap">
   
+    <article id="post-es61" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/blog/2015/08/19/es61/" class="article-date">
+  	<time datetime="2015-08-19T05:18:04.000Z" itemprop="datePublished">2015-08-19</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/blog/2015/08/19/es61/">ES6 In Depth 读后笔记（一）</a>
+    </h1>
+  
+
+      </header>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <blockquote>
+<p>ES6在2015年中正式发布，现在是学起来的时候了，看的文章是ES6 In Depth系列文章，在各处都有翻译，我比较推荐的是<a href="http://bubkoo.com/2015/06/15/es6-in-depth-iterators-and-the-for-of-loop/" target="_blank" rel="external">bobkoo</a>这个个人博客的翻译。</p>
+</blockquote>
+<h2 id="Iterator_和_for-of_循环">Iterator 和 for-of 循环</h2><p>说起循环，最早是for循环：</p>
+<pre><code><span class="keyword">for</span> (var <span class="keyword">index</span> = <span class="number">0</span>; <span class="keyword">index</span> &lt; myArray.<span class="keyword">length</span>; <span class="keyword">index</span>++) {
+  console.<span class="keyword">log</span>(myArray[<span class="keyword">index</span>]);
+}
+</code></pre><p>在ES5中，引入了forEach方法：</p>
+<pre><code>myArray.forEach(<span class="function"><span class="keyword">function</span></span> (<span class="keyword">value</span>) {
+  console.<span class="built_in">log</span>(<span class="keyword">value</span>);
+});
+</code></pre><p>但，forEach的缺点是不能使用 break 语句来跳出循环，也不能使用 return 语句来从闭包函数中返回。</p>
+<p>于是我们用for-in：</p>
+<pre><code><span class="keyword">for</span> (<span class="keyword">var</span> index <span class="keyword">in</span> myArray) { <span class="comment">// 实际代码中不要这么做</span>
+  <span class="built_in">console</span>.log(myArray[index]);
+}
+</code></pre><p>for-in 设计的目的是用于遍历包含键值对的对象，对数组并不是那么友好，所以不要用for-in遍历数组。</p>
+<p>所以，遍历数组用ES6新引入的for-of：</p>
+<pre><code><span class="keyword">for</span> (var <span class="keyword">value</span> <span class="keyword">of</span> myArray) {
+  console.log(<span class="keyword">value</span>);
+}
+</code></pre><ul>
+<li>这是遍历数组最简单直接的方法</li>
+<li>避免了所有 for–in 语法存在的坑</li>
+<li>与 forEach() 不同的是，它支持 break、continue 和 return 语句。</li>
+</ul>
+<p>for-of不仅适用于数组，类数组的对象也适用，如DOM对象集合<a href="https://developer.mozilla.org/en-US/docs/Web/API/NodeList" target="_blank" rel="external">NodeList</a>,也可以遍历字符串，还适用于Map和Set对象。</p>
+<h2 id="Generator">Generator</h2><pre><code><span class="function"><span class="keyword">function</span>* <span class="title">quips</span>(<span class="params">name</span>) </span>{
+  <span class="keyword">yield</span> <span class="string">"hello "</span> + name + <span class="string">"!"</span>;
+  <span class="keyword">yield</span> <span class="string">"i hope you are enjoying the blog posts"</span>;
+  <span class="keyword">if</span> (name.startsWith(<span class="string">"X"</span>)) {
+    <span class="keyword">yield</span> <span class="string">"it's cool how your name starts with X, "</span> + name;
+  }
+  <span class="keyword">yield</span> <span class="string">"see you later!"</span>;
+}
+</code></pre><p>Generator 函数:</p>
+<ul>
+<li>通常的函数以 function 开始，但 Generator 函数以 function* 开始。</li>
+<li><p>在 Generator 函数内部，yield 是一个关键字，和 return 有点像。不同点在于，所有函数（包括 Generator 函数）都只能返回一次，而在 Generator 函数中可以 yield 任意次。yield 表达式暂停了 Generator 函数的执行，然后可以从暂停的地方恢复执行。</p>
+<p>   var iter = quips(“jorendorff”);</p>
+<pre><code>[object Generator]
+</code></pre><p>   iter.next()</p>
+<pre><code>{ <span class="string">value:</span> <span class="string">"hello jorendorff!"</span>, <span class="string">done:</span> <span class="literal">false</span> }
+</code></pre><p>   iter.next()</p>
+<pre><code>{ <span class="string">value:</span> <span class="string">"i hope you are enjoying the blog posts"</span>, <span class="string">done:</span> <span class="literal">false</span> }
+</code></pre><p>   iter.next()</p>
+<pre><code>{ <span class="string">value:</span> <span class="string">"see you later!"</span>, <span class="string">done:</span> <span class="literal">false</span> }
+</code></pre><p>   iter.next()</p>
+<pre><code>{ <span class="string">value:</span> undefined, <span class="string">done:</span> <span class="literal">true</span> }
+</code></pre></li>
+</ul>
+<p>Generator 函数的调用方法与普通函数一样：quips(“jorendorff”)，但调用一个 Generator 函数时并没有立即执行，而是返回了一个 Generator 对象（上面代码中的 iter），这时函数就立即暂停在函数代码的第一行。</p>
+<p>每次调用 Generator 对象的 .next() 方法时，函数就开始执行，直到遇到下一个 yield 表达式为止。</p>
+<blockquote>
+<p>可以用Generator函数实现迭代器</p>
+</blockquote>
+<pre><code><span class="comment">// This should "ding" three times</span>
+<span class="keyword">for</span> (<span class="function"><span class="keyword">var</span> <span class="keyword">value</span> of <span class="title">range</span>(<span class="params"><span class="number">0</span>, <span class="number">3</span></span>)) </span>{
+  alert(<span class="string">"Ding! at floor #"</span> + <span class="keyword">value</span>);
+}
+</code></pre><p>用Generator实现range函数</p>
+<pre><code><span class="function"><span class="keyword">function</span>* <span class="title">range</span><span class="params">(start, stop)</span> {</span>
+  <span class="keyword">for</span> (var <span class="built_in">i</span> = start; <span class="built_in">i</span> &lt; stop; <span class="built_in">i</span>++)
+    yield <span class="built_in">i</span>;
+}
+</code></pre><p>我们可以使用作为迭代器的 Generator 的哪些功能呢？</p>
+<ul>
+<li><p><em>使任何对象可遍历</em> – 编写一个 Genetator 函数去遍历 this，每遍历到一个值就 yield 一下，然后将该 Generator 函数作为要遍历的对象上的 <a href="">Symbol.iterator</a> 方法的实现。</p>
+</li>
+<li><p><em>简化返回数组的函数</em> – 假如有一个每次调用时都返回一个数组的函数，比如：</p>
+</li>
+</ul>
+<pre><code><span class="function"><span class="keyword">function</span> <span class="title">splitIntoRows</span><span class="params">(icons, rowLength)</span> {</span>
+  var rows = <span class="matrix">[]</span>;
+  <span class="keyword">for</span> (var <span class="built_in">i</span> = <span class="number">0</span>; <span class="built_in">i</span> &lt; icons.<span class="built_in">length</span>; <span class="built_in">i</span> += rowLength) <span class="cell">{
+    rows.push(icons.slice(i, i + rowLength));
+  }</span>
+  <span class="keyword">return</span> rows;
+}
+</code></pre><p>使用 Generator 可以简化这类函数：</p>
+<pre><code><span class="function"><span class="keyword">function</span>* <span class="title">splitIntoRows</span><span class="params">(icons, rowLength)</span> {</span>
+  <span class="keyword">for</span> (var <span class="built_in">i</span> = <span class="number">0</span>; <span class="built_in">i</span> &lt; icons.<span class="built_in">length</span>; <span class="built_in">i</span> += rowLength) <span class="cell">{
+    yield icons.slice(i, i + rowLength);
+  }</span>
+}
+</code></pre><ul>
+<li><p><em>无穷大的结果集</em> – 我们不能构建一个无穷大的数组，但是我们可以返回一个生成无尽序列的 Generator，并且每个调用者都可以从中获取到任意多个需要的值。</p>
+</li>
+<li><p><em>重构复杂的循环</em> – 你是否想将一个复杂冗长的函数重构为两个简单的函数？Generator 是你重构工具箱中一把新的瑞士军刀。对于一个复杂的循环，我们可以将生成数据集那部分代码重构为一个 Generator 函数，然后用 for-of 遍历：for (var data of myNewGenerator(args))。</p>
+</li>
+<li><p><em>构建迭代器的工具</em> – ES6 并没有提供一个可扩展的库，来对数据集进行 filter 和 map 等操作，但 Generator 可以用几行代码就实现这类功能。</p>
+</li>
+</ul>
+<h2 id="模板字符串">模板字符串</h2><pre><code><span class="function"><span class="keyword">function</span> <span class="title">authorize</span>(<span class="params">user, action</span>) </span>{
+  <span class="keyword">if</span> (!user.hasPrivilege(action)) {
+    <span class="keyword">throw</span> <span class="keyword">new</span> <span class="built_in">Error</span>(
+      <span class="string">`User <span class="subst">${user.name}</span> is not authorized to do <span class="subst">${action}</span>.`</span>);
+  }
+}
+</code></pre><p>上面代码中，${user.name} 和 ${action} 被称为模板占位符，JavaScript 将把 user.name和 action 的值分别插到对应的位置上，然后生成像这样 “User jorendorff is not authorized to do hockey.” 的字符串。</p>
+
+      
+    </div>
+    
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/blog/tags/技术/">技术</a></li></ul>
+	</div>
+
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+  
     <article id="post-webpack" class="article article-type-post" itemscope itemprop="blogPost">
   
     <div class="article-meta">
@@ -856,77 +1010,6 @@ React.render(<span class="tag">&lt;<span class="title">App</span>/&gt;</span>, d
 	</div>
 
       
-
-      
-      <div class="clearfix"></div>
-    </div>
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-  
-    <article id="post-第二篇" class="article article-type-post" itemscope itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/blog/2014/12/15/第二篇/" class="article-date">
-  	<time datetime="2014-12-15T09:43:37.000Z" itemprop="datePublished">2014-12-15</time>
-</a>
-    </div>
-  
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/blog/2014/12/15/第二篇/">2014-12-15日，记</a>
-    </h1>
-  
-
-      </header>
-      
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>今天是周一。 </p>
-<h2 id="美剧">美剧</h2><p>周末两天在租的房子里待了两天没出门，因为身体不舒服，要静养。看了一个美剧，叫《复仇》，感觉没有想象中有意思，我还是喜欢像《国土安全》这一类型的美剧，情节一以贯之，节奏紧张，应该是上周末，看了第四季《国土安全》的前九集，真的是一口气看完，实在是过瘾，但再看别的就有点食之无味的感觉。<br>总之现在还在找一个新的美剧，让我沉浸其中，不能自拔。</p>
-<p>关于美剧，我最近比较喜欢的几部有疑犯追踪，国土安全，权利的游戏，绝命毒师，纸牌屋。现在的新剧感觉都一般。</p>
-<h2 id="阅读">阅读</h2><p>周六的时候还把《碧血剑》看完了，我的宏大的“金庸作品重读计划”已经完成了《鹿鼎记》和《碧血剑》，下一部准备看《侠客行》。很明显，《鹿鼎记》比《碧血剑》好看得多，感觉后者还是很稚嫩的，还在老派武侠的感觉里没走出来，前者则是金庸后期非常成熟的作品。</p>
-<h2 id="游戏">游戏</h2><p>周日的时候在PS Store上买了数字般的gta5，于是噩梦开始了，下载44g的东西，就靠我租的房子那里孱弱的网络，下了一晚上，终于开始安装，以为马上可以玩了，又开始了漫长的安装过程，一晚上安装了10%。周一早上开着ps4主机就来工作了，希望晚上回去会有惊喜。</p>
-<h2 id="工作">工作</h2><p>上周的和bong在一起的分享页面在手机上css3动画失效，这源于我的一个低级的失误，keyframe竟然没有加各个浏览器的适配，导致在电脑上是可以的，但在手机上是失效的，于是加上了-webkit-，-moz-,-o-。这种低级错误希望以后不要再犯了。</p>
-<p>然后研究了一下在网页上实现ios7的毛玻璃效果，基本上是以下css代码：</p>
-<pre><code><span class="rule"><span class="attribute">-webkit-filter</span>:<span class="value"><span class="function">blur</span>(<span class="number">10px</span>)</span></span>;
-<span class="rule"><span class="attribute">filter</span>:<span class="value"><span class="function">url</span>(<span class="hexcolor">#b</span>lur-effect)</span></span>;
-<span class="rule"><span class="attribute">opacity</span>:<span class="value">.<span class="number">35</span></span></span>;
-</code></pre><p>但是奇妙的是可以实时渲染，可以看这个网址<a href="http://codepen.io/wmnsk/pen/GxCsL" target="_blank" rel="external">ios毛玻璃</a>。</p>
-<p>下午就搞了一下你看到的这个个人博客，github pages + hexo，个人感觉很棒，直接markdown写完，发布，很爽！</p>
-<p>但问题是，不知道写什么。。。</p>
-
-      
-    </div>
-    
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/blog/tags/日记/">日记</a></li></ul>
-	</div>
-
-      
-	<div class="article-category tagcloud">
-	<a class="article-category-link" href="/blog/categories/日记/">日记</a>
-	</div>
-
 
       
       <div class="clearfix"></div>
