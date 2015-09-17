@@ -13,7 +13,7 @@
 			background-size: 348px 646px;
 			width: 348px;
 			height: 646px;
-			margin: 400px auto;
+			margin: 400px auto 20px;
 		}
 		.wrap{
 			padding-top: 84px;
@@ -41,9 +41,14 @@
 			background-size: 248px 441px;
 			transform: translateY(100%);
 		}
+		.btns{
+			width: 300px;
+			margin: 100px auto;
+		}
 		button{
 			width: 100px;
 			height: 30px;
+			margin: auto;
 		}
 		.transitioned{
 		    -webkit-transition: -webkit-transform 0.91s cubic-bezier(0.29, 0.37, 0.45, 0.94) 0.1s;
@@ -74,8 +79,10 @@
 				</div>
 			</div>
 		</div>
-		<button id="up">往上</button>
+		<div class="btns">
+			<button id="up">往上</button>
 		<button id="down">往下</button>
+		</div>
 	</div>
 </body>
 <script type="text/javascript" src="http://apps.bdimg.com/libs/jquery/2.1.1/jquery.min.js"></script>
