@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8"/>
+	<title>iphone DEMO</title>
+	<style type="text/css">
+		*{
+			margin: 0;
+			padding: 0;
+		}
+		.iphone-wrap{
+			background: url('../img/iphone/hw_large.png') center no-repeat;
+			background-size: 348px 646px;
+			width: 348px;
+			height: 646px;
+			margin: 400px auto;
+		}
+		.wrap{
+			padding-top: 84px;
+		}
+		.iphone-content{
+		    -webkit-transition: background-color 0s linear 4.65s;
+		    transition: background-color 0s linear 4.65s;
+		    height: 441px;
+		    position: relative;
+		    overflow: hidden;
+		}
+		.iphone-content .inner-screen.static{
+		    top: 0;
+		    width: 100%;
+		    height: 100%;
+		    position: absolute;
+		    background-position: 50% 50%;
+		}
+		.iphone-content .inner-screen.static.photos-screen{
+			background: url('../img/iphone/photos_large.jpg') center no-repeat;
+			background-size: 248px 441px;
+		}
+		.iphone-content .inner-screen.static.hard-screen{
+			background: url('../img/iphone/hardware_large.jpg') center no-repeat;
+			background-size: 248px 441px;
+			transform: translateY(100%);
+		}
+		button{
+			width: 100px;
+			height: 30px;
+		}
+		.transitioned{
+		    -webkit-transition: -webkit-transform 0.91s cubic-bezier(0.29, 0.37, 0.45, 0.94) 0.1s;
+            transition: transform 0.91s cubic-bezier(0.29, 0.37, 0.45, 0.94) 0.1s;
+		}
+		.move-up{
+			transform: translateY(-100%);
+		}
+		.move-down{
+			transform: translateY(100%);
+		}
+		.iphone-content .inner-screen.static.enter{
+			transform:none;
+		}
+	</style>
+</head>
+<body>
+	<div>
+		<div class="iphone-wrap">
+			<div class="wrap">
+				<div class="iphone-content">
+					<div class="photos-iphone-content">
+						<figure class="inner-screen photos-screen static"></figure>
+					</div>
+					<div class="hard-iphone-content">
+						<figure class="inner-screen hard-screen static"></figure>
+					</div>
+				</div>
+			</div>
+		</div>
+		<button id="up">往上</button>
+		<button id="down">往下</button>
+	</div>
+</body>
+<script type="text/javascript" src="http://apps.bdimg.com/libs/jquery/2.1.1/jquery.min.js"></script>
+<script type="text/javascript">
+	$('#up').on('click', function () {
+		$('.photos-screen').removeClass('enter');
+		$('.hard-screen').removeClass('move-down');
+		$('.photos-screen').addClass('transitioned move-up');
+		$('.hard-screen').addClass('transitioned enter');
+	})
+
+	$('#down').on('click', function(){
+		$('.photos-screen').removeClass('move-up');
+		$('.hard-screen').removeClass('enter');
+		$('.photos-screen').addClass('transitioned enter');
+		$('.hard-screen').addClass('transitioned move-down');
+	})
+	
+</script>
+	
+</html>
