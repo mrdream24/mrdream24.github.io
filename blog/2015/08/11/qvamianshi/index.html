@@ -13,7 +13,7 @@
 <meta property="og:site_name" content="MrDream">
 <meta property="og:description" content="在拔赤大神的github页面看到阿里航旅事业部的面试题，浏览一遍，有的问题有一些明白，有一些问题则不太懂，索性转到这里，然后不管自己理解还是查阅资料，将各个问题自己给出的答案贴出来，一方面记录自己的学习，一方面如有大神指教就更更好了。
 1. CSS 盒子模型，绝对定位和相对定位(1) 清除浮动，什么时候需要清除浮动，清除浮动都有哪些方法?答：父元素在包裹一个float的子元素，如果父元素的heig">
-<meta property="og:updated_time" content="2015-08-18T05:23:03.000Z">
+<meta property="og:updated_time" content="2015-10-27T07:57:58.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="去啊面试题|试答">
 <meta name="twitter:description" content="在拔赤大神的github页面看到阿里航旅事业部的面试题，浏览一遍，有的问题有一些明白，有一些问题则不太懂，索性转到这里，然后不管自己理解还是查阅资料，将各个问题自己给出的答案贴出来，一方面记录自己的学习，一方面如有大神指教就更更好了。
@@ -249,8 +249,16 @@
 </ol>
 <p>第四种应该是用得最多，最完美的清除浮动的方法。</p>
 <h3 id="(2)_如何保持浮层水平垂直居中">(2) 如何保持浮层水平垂直居中</h3><p>答：其实不太理解这个问题的确切意思，是在考绝对定位吗？</p>
-<p>通过使用百分比绝对定位,与外补丁负值的方法，负值的大小为其自身宽度高度的一半”达到让层垂直居中的效果。<br>div.innerbox {<br>    position:absolute;<br>    top:50%;<br>    left:50%;<br>    margin:-100px 0 0 -100px;<br>    width:200px;<br>    height:200px;<br>}</p>
-<h3 id="(3)_position_和_display_的取值和各自的意思和用法">(3) position 和 display 的取值和各自的意思和用法</h3><p>答：position有5个值：static，relative，absolute，fixed，inherit。</p>
+<p>通过使用百分比绝对定位,与外补丁负值的方法，负值的大小为其自身宽度高度的一半”达到让层垂直居中的效果。</p>
+<pre><code><span class="tag">div</span><span class="class">.innerbox</span> <span class="rules">{
+    <span class="rule"><span class="attribute">position</span>:<span class="value">absolute</span></span>;
+    <span class="rule"><span class="attribute">top</span>:<span class="value"><span class="number">50%</span></span></span>;
+    <span class="rule"><span class="attribute">left</span>:<span class="value"><span class="number">50%</span></span></span>;
+    <span class="rule"><span class="attribute">margin</span>:<span class="value">-<span class="number">100px</span> <span class="number">0</span> <span class="number">0</span> -<span class="number">100px</span></span></span>;
+    <span class="rule"><span class="attribute">width</span>:<span class="value"><span class="number">200px</span></span></span>;
+    <span class="rule"><span class="attribute">height</span>:<span class="value"><span class="number">200px</span></span></span>;
+}</span>
+</code></pre><h3 id="(3)_position_和_display_的取值和各自的意思和用法">(3) position 和 display 的取值和各自的意思和用法</h3><p>答：position有5个值：static，relative，absolute，fixed，inherit。</p>
 <ol>
 <li>static: 这是不设置position值的默认值。在一般情况下不需要显式设置。在默认static下，top,bottom,left,right及z-index属性都是被忽略的。</li>
 <li>relative: 相对定位，顾名思义，relative就是相对元素在文档流中原本的位置，通过TBLR进行移动。实际上元素在文档流中依然占据原来的位置，只是视觉上移动了。</li>
@@ -258,7 +266,115 @@
 <li>fixed：固定定位。脱离文档流，相对于当前浏览器窗口进行TBLR移动。</li>
 <li>inherit：继承父级的定位。<br>display值有：none，block，inline，inline-block等。</li>
 </ol>
-<h3 id="(4)_样式的层级关系，选择器优先级，样式冲突，以及抽离样式模块怎么写，说出思路，有无实践经验">(4) 样式的层级关系，选择器优先级，样式冲突，以及抽离样式模块怎么写，说出思路，有无实践经验</h3><h1 id="2-_JavaScript_基础">2. JavaScript 基础</h1><h3 id="(1)_JavaScript_里有哪些数据类型，解释清楚_null_和_undefined，解释清楚原始数据类型和引用数据类型。比如讲一下_1_和_Number(1)_的区别">(1) JavaScript 里有哪些数据类型，解释清楚 null 和 undefined，解释清楚原始数据类型和引用数据类型。比如讲一下 1 和 Number(1) 的区别</h3><h3 id="(2)_将一下_prototype_是什么东西，原型链的理解，什么时候用_prototype">(2) 将一下 prototype 是什么东西，原型链的理解，什么时候用 prototype</h3><h3 id="(3)_函数里的this什么含义，什么情况下，怎么用。">(3) 函数里的this什么含义，什么情况下，怎么用。</h3><h3 id="(4)_apply_和_call_什么含义，什么区别？什么时候用。">(4) apply 和 call 什么含义，什么区别？什么时候用。</h3><h3 id="(5)_数组和对象有哪些原生方法，列举一下，分别是什么含义，比如链接两个数组用哪个方法，删除数组的质定项。">(5) 数组和对象有哪些原生方法，列举一下，分别是什么含义，比如链接两个数组用哪个方法，删除数组的质定项。</h3><h1 id="3-_JavaScript_的面向对象">3. JavaScript 的面向对象</h1><h3 id="(1)_JS_模块包装格式都用过哪些，CommonJS、AMD、CMD、KMD。定义一个JS_模块代码，最精简的格式是怎样。">(1) JS 模块包装格式都用过哪些，CommonJS、AMD、CMD、KMD。定义一个JS 模块代码，最精简的格式是怎样。</h3><h3 id="(2)_JS_怎么实现一个类。怎么实例化这个类。">(2) JS 怎么实现一个类。怎么实例化这个类。</h3><h3 id="(3)_是否了解自定义事件。jQuery里的fire函数是什么意思，什么时候用。">(3) 是否了解自定义事件。jQuery里的fire函数是什么意思，什么时候用。</h3><h3 id="(4)_说一下了解的js_设计模式，解释一下单例、工厂、观察者。">(4) 说一下了解的js 设计模式，解释一下单例、工厂、观察者。</h3><h3 id="(5)_ajax_跨域有哪些方法，jsonp_的原理是什么，如果页面编码和被请求的资源编码不一致如何处理？">(5) ajax 跨域有哪些方法，jsonp 的原理是什么，如果页面编码和被请求的资源编码不一致如何处理？</h3><h1 id="4-_开源工具">4. 开源工具</h1><h3 id="(1)_是否了解开源的工具_bower、npm、yeoman、grunt、gulp，有无用过，有无写过，一个_npm_的包里的_package-json_具备的必要的字段都有哪些（名称、版本号，依赖）">(1) 是否了解开源的工具 bower、npm、yeoman、grunt、gulp，有无用过，有无写过，一个 npm 的包里的 package.json 具备的必要的字段都有哪些（名称、版本号，依赖）</h3><h3 id="(2)_fiddle、charles_有没有用过，什么时候用">(2) fiddle、charles 有没有用过，什么时候用</h3><h3 id="(3)_会不会用_ps_扣图，png、jpg、gif_这些图片格式解释一下，分别什么时候用。是否了解webp">(3) 会不会用 ps 扣图，png、jpg、gif 这些图片格式解释一下，分别什么时候用。是否了解webp</h3><h3 id="(4)_说一下你常用的命令行工具">(4) 说一下你常用的命令行工具</h3><h3 id="(5)_会不会用git，说上来几个命令，说一下git和svn的区别，有没有用git解决过冲突">(5) 会不会用git，说上来几个命令，说一下git和svn的区别，有没有用git解决过冲突</h3><h1 id="5-_计算机基础">5. 计算机基础</h1><h3 id="(1)_说一下网络五层模型（HTTP协议从应用层到底层都基于哪些协议），HTTP_协议头字段说上来几个，缓存字段是怎么定义的，http和https的区别，在具体使用的时候有什么不一样。是否尽可能详细的掌握HTTP协议">(1) 说一下网络五层模型（HTTP协议从应用层到底层都基于哪些协议），HTTP 协议头字段说上来几个，缓存字段是怎么定义的，http和https的区别，在具体使用的时候有什么不一样。是否尽可能详细的掌握HTTP协议</h3><h3 id="(2)_cookies_是干嘛的，服务器和浏览器之间的_cookies_是怎么传的，httponly_的_cookies_和可读写的_cookie_有什么区别，有无长度限制">(2) cookies 是干嘛的，服务器和浏览器之间的 cookies 是怎么传的，httponly 的 cookies 和可读写的 cookie 有什么区别，有无长度限制</h3><h3 id="(3)_从敲入_URL_到渲染完成的整个过程，包括_DOM_构建的过程，说的约详细越好。">(3) 从敲入 URL 到渲染完成的整个过程，包括 DOM 构建的过程，说的约详细越好。</h3><h3 id="(4)_是否了解Web注入攻击，说下原理，最常见的两种攻击（XSS_和_CSRF）了解到什么程度。">(4) 是否了解Web注入攻击，说下原理，最常见的两种攻击（XSS 和 CSRF）了解到什么程度。</h3><h3 id="(5)_是否了解公钥加密和私钥加密。如何确保表单提交里的密码字段不被泄露。验证码是干嘛的，是为了解决什么安全问题。">(5) 是否了解公钥加密和私钥加密。如何确保表单提交里的密码字段不被泄露。验证码是干嘛的，是为了解决什么安全问题。</h3><h3 id="(6)_编码常识：文件编码、URL_编码、Unicode编码_什么含义。一个gbk编码的页面如何正确引用一个utf8的的资源">(6) 编码常识：文件编码、URL 编码、Unicode编码 什么含义。一个gbk编码的页面如何正确引用一个utf8的的资源</h3><h1 id="6-_考察学习能力和方法">6. 考察学习能力和方法</h1><h3 id="(1)_你每天必须登录的网站（前端技术相关）是什么？">(1) 你每天必须登录的网站（前端技术相关）是什么？</h3><h3 id="(2)_前端技术方面看过哪些书，有无笔记，都有哪些收获。">(2) 前端技术方面看过哪些书，有无笔记，都有哪些收获。</h3><h3 id="(3)_收藏了哪些代码片段？">(3) 收藏了哪些代码片段？</h3><h3 id="(4)_怎么理解前端技术的大趋势？自己再做哪方面的知识储备？">(4) 怎么理解前端技术的大趋势？自己再做哪方面的知识储备？</h3><h3 id="(5)_是否了解或精通其他（后端）的编程语言？">(5) 是否了解或精通其他（后端）的编程语言？</h3><h3 id="(6)_做过的项目有没有什么（视觉、交互）美感？什么是美？你觉得让你自己赏心悦目的网站或应用有哪些？">(6) 做过的项目有没有什么（视觉、交互）美感？什么是美？你觉得让你自己赏心悦目的网站或应用有哪些？</h3><h3 id="(7)_做项目有没有遇到哪些印象深刻的技术攻关，具体遇到什么问题，怎么找答案的，最后怎么解的。">(7) 做项目有没有遇到哪些印象深刻的技术攻关，具体遇到什么问题，怎么找答案的，最后怎么解的。</h3>
+<h3 id="(4)_样式的层级关系，选择器优先级，样式冲突，以及抽离样式模块怎么写，说出思路，有无实践经验">(4) 样式的层级关系，选择器优先级，样式冲突，以及抽离样式模块怎么写，说出思路，有无实践经验</h3><p>答：样式的层级关系：样式的层级关系到上面提到的定位属性，把position : static这个默认的定位属性值同意认为没有定位，position:relative、position:absolute和position:fixed都认为是有定位。</p>
+<ol>
+<li>在没有定位属性的兄弟元素中，一般在HTML结构下面的元素层级高于结构上面的元素。</li>
+<li>兄弟元素中有定位属性的元素层级高于没有定位属性的元素。</li>
+<li>兄弟元素中有position:relative和position:absolute定位属性的元素，结构下面的元素层级高于结构上面的元素，但是有z-index设置时，z-index值大者居上。</li>
+<li>非兄弟元素，任意一者或其祖元素拥有动态定位时，同时各自向上寻找动态定位的祖元素，并分别从中拿出具备最高级别的祖元素（或其本身）进行比较。</li>
+</ol>
+<ul>
+<li>1.子元素的z-index无论多大，父元素大者居上</li>
+<li>2.父元素居下，子元素也可以居上<br>选择器优先级：一般而言，选择器越特殊，它的优先级越高。也就是选择器指向的越准确，它的优先级就越高。通常我们用1表示标签名选择器的优先级，用10表示类选择 器的优先级，用100标示ID选择器的优先级。比如 .polaris span {color:red;}的选择器优先级是 10 + 1 也就是11；而 .polaris 的优先级是10；浏览器自然会显示红色的字。</li>
+</ul>
+<h1 id="2-_JavaScript_基础">2. JavaScript 基础</h1><h3 id="(1)_JavaScript_里有哪些数据类型，解释清楚_null_和_undefined，解释清楚原始数据类型和引用数据类型。比如讲一下_1_和_Number(1)_的区别">(1) JavaScript 里有哪些数据类型，解释清楚 null 和 undefined，解释清楚原始数据类型和引用数据类型。比如讲一下 1 和 Number(1) 的区别</h3><p>答：数据类型：JavaScript的数据类型，共有六种。（ES6又新增了第七种Symbol类型的值。）六种数据类型又可以分成两组：原始类型（primitive type）和合成类型（complex type）。<br>原始类型包括五种数据类型。</p>
+<ul>
+<li>数值（number）</li>
+<li>字符串（string）</li>
+<li>布尔值（boolean）</li>
+<li>null</li>
+<li>undefined<br>合成类型只有一种值：对象（object）。但是，严格地分，又可以分成三个小类型。</li>
+<li>对象（object）</li>
+<li>数组（array）</li>
+<li>函数（function）<br>null和undefined：null是一个对象，但是为空。因为是对象，所以 typeof null返回“object”。null参与数值运算时其值会自动转换为 0 。<br>undefined是全局对象（window）的一个特殊属性，其值是未定义的。但 typeof undefined 返回 ‘undefined’ 。 undefined参与任何数值计算时，其结果一定是NaN。<br>阮一峰大神也有篇文章写null和undefined。<a href="http://www.ruanyifeng.com/blog/2014/03/undefined-vs-null.html" target="_blank" rel="external">链接</a></li>
+</ul>
+<p>基本类型值指的是简单的数据段，而引用类型值指那些可能由多个值构成的对象。在将一个值赋给变量时，解析器必须确定这个值是基本类型值还是引用类型值JavaScript有5种基本数据类型，Undefined、Null、Boolean、Number 和 String。这5种基本数据类型是按值访问的，因为可以操作保存在变量中的实际值。<br>引用类型的值是保存在内存中的对象。与其他语言不同，JavaScript不允许访问内存中的位置，也就是说不能直接操作对象的内存空间。在操作对象时，实际上是在操作对象的引用而不是实际的对象。为此，引用类型的值是按引用访问的。<br>1是一个数字，是基本数据类型。而Number(1)是引用数据类型，是一个对象，返回一个值为1的对象。</p>
+<h3 id="(2)_讲一下_prototype_是什么东西，原型链的理解，什么时候用_prototype？">(2) 讲一下 prototype 是什么东西，原型链的理解，什么时候用 prototype？</h3><p>答：在JavaScript语言中，每一个对象都有一个对应的原型对象，被称为prototype对象。定义在原型对象上的所有属性和方法，都能被派生对象继承。这就是JavaScript继承机制的基本设计。<br>构造函数是一个函数，同时也是一个对象，也有自己的属性和方法，其中有一个prototype属性指向另一个对象，一般称为prototype对象。该对象非常特别，只要定义在它上面的属性和方法，能被所有实例对象共享。也就是说，构造函数生成实例对象时，自动为实例对象分配了一个prototype属性。</p>
+<pre><code>function <span class="keyword">Animal</span> (name) {
+  this.name = name;
+}
+
+<span class="keyword">Animal</span>.prototype.color = <span class="string">"white"</span>;
+
+var cat1 = new <span class="keyword">Animal</span>('大毛');
+var cat2 = new <span class="keyword">Animal</span>('二毛');
+
+cat1.color // 'white'
+cat2.color // 'white'
+</code></pre><p>原型链：由于JavaScript的所有对象都有构造函数，而所有构造函数都有prototype属性（其实是所有函数都有prototype属性），所以所有对象都有自己的prototype原型对象。<br>因此，一个对象的属性和方法，有可能是定义它自身上面，也有可能定义在它的原型对象上面（就像上面代码中的walk方法）。由于原型本身也是对象，又有自己的原型，所以形成了一条原型链（prototype chain）。比如，a对象是b对象的原型，b对象是c对象的原型，以此类推。因为追根溯源，最源头的对象都是从Object构造函数生成（使用new Object()命令），所以如果一层层地上溯，所有对象的原型最终都可以上溯到Object.prototype。那么，Object.prototype有没有原型呢？回答可以是有，也可以是没有，因为Object.prototype的原型是没有任何属性和方法的null。<br>“原型链”的作用在于，当读取对象的某个属性时，JavaScript引擎先寻找对象本身的属性，如果找不到，就到它的原型去找，如果还是找不到，就到原型的原型去找。以此类推，如果直到最顶层的Object.prototype还是找不到，则返回undefined。<br>prototype对象有一个constructor属性，默认指向prototype对象所在的构造函数。</p>
+<h3 id="(3)_函数里的this什么含义，什么情况下，怎么用。">(3) 函数里的this什么含义，什么情况下，怎么用。</h3><p>答：this就是指函数当前的运行环境。在JavaScript语言之中，所有函数都是在某个运行环境之中运行，this就是这个环境。对于JavaScipt语言来说，一切皆对象，运行环境也是对象，所以可以理解成，所有函数总是在某个对象之中运行，this就指向这个对象。<br>所谓“运行环境”就是对象，this指函数运行时所在的那个对象。如果一个函数在全局环境中运行，this就是指顶层对象（浏览器中为window对象）；如果一个函数作为某个对象的方法运行，this就是指那个对象。<br>使用场合：</p>
+<ol>
+<li><p>全局环境<br> 在全局环境使用this，它指的就是顶层对象window。</p>
+<p> this === window // true </p>
+<p> function f() {</p>
+<pre><code><span class="built_in">console</span>.log(<span class="keyword">this</span> === <span class="built_in">window</span>); <span class="regexp">//</span> <span class="literal">true</span>
+</code></pre><p> }</p>
+</li>
+<li><p>构造函数<br> 构造函数中的this，指的是实例对象。</p>
+</li>
+<li>对象的方法<br> 当a对象的方法被赋予b对象，该方法就变成了普通函数，其中的this就从指向a对象变成了指向b对象。这就是this取决于运行时所在的对象的含义，所以要特别小心。如果将某个对象的方法赋值给另一个对象，会改变this的指向。</li>
+<li>Node.js<br> 在Node.js中，this的指向又分成两种情况。全局环境中，this指向全局对象global；模块环境中，this指向module.exports。</li>
+</ol>
+<p>关于this，阮一峰也有一篇<a href="http://www.ruanyifeng.com/blog/2010/04/using_this_keyword_in_javascript.html" target="_blank" rel="external">文章</a>。</p>
+<h3 id="(4)_apply_和_call_什么含义，什么区别？什么时候用。">(4) apply 和 call 什么含义，什么区别？什么时候用。</h3><p>答：apply 和 call方法都是固定或者切换this指向的方法。</p>
+<ol>
+<li><p>call方法：函数的call方法，可以指定该函数内部this的指向（即函数执行时所在的作用域），然后在所指定的作用域中，调用该函数。</p>
+<pre><code>func.<span class="function"><span class="title">call</span><span class="params">(thisValue, arg1, arg2, ...)</span></span>
+</code></pre></li>
+</ol>
+<p>它的第一个参数就是this所要指向的那个对象，后面的参数则是函数调用时所需的参数。<br>call方法的一个应用是调用对象的原生方法。<br>    var obj = {};<br>    obj.hasOwnProperty(‘toString’) // false</p>
+<pre><code>obj.hasOwnProperty = <span class="function"><span class="keyword">function</span> (<span class="params"></span>)</span>{
+  <span class="keyword">return</span> <span class="literal">true</span>;
+};
+obj.hasOwnProperty(<span class="string">'toString'</span>) <span class="comment">// true</span>
+
+<span class="built_in">Object</span>.prototype.hasOwnProperty.call(obj, <span class="string">'toString'</span>) <span class="comment">// false</span>
+</code></pre><p>上面代码中，hasOwnProperty是obj对象继承的方法，如果这个方法一旦被覆盖，就不会得到正确结果。call方法可以解决这个方法，它将hasOwnProperty方法的原始定义放到obj对象上执行，这样无论obj上有没有同名方法，都不会影响结果。</p>
+<ol>
+<li>apply方法：apply方法的作用与call方法类似，也是改变this指向，然后再调用该函数。唯一的区别就是，它接收一个数组作为函数执行时的参数，使用格式如下。<pre><code>func.<span class="function"><span class="title">apply</span><span class="params">(thisValue, [arg1, arg2, ...])</span></span>
+</code></pre></li>
+</ol>
+<p>apply方法的第一个参数也是this所要指向的那个对象，如果设为null或undefined，则等同于指定全局对象。第二个参数则是一个数组，该数组的所有成员依次作为参数，传入原函数。原函数的参数，在call方法中必须一个个添加，但是在apply方法中，必须以数组形式添加。<br>利用这一点，可以做一些有趣的应用。</p>
+<ul>
+<li><p>找出数组最大元素<br>  JavaScript不提供找出数组最大元素的函数。结合使用apply方法和Math.max方法，就可以返回数组的最大元素。</p>
+<pre><code><span class="keyword">var</span> a = [<span class="number">10</span>, <span class="number">2</span>, <span class="number">4</span>, <span class="number">15</span>, <span class="number">9</span>];
+
+<span class="built_in">Math</span>.max.apply(<span class="literal">null</span>, a)
+<span class="comment">// 15</span>
+</code></pre></li>
+<li><p>将数组的空元素变为undefined</p>
+<pre><code>Array.apply(null, [<span class="string">"a"</span>,,<span class="string">"b"</span>])
+// [ '<span class="literal">a</span>', undefined, 'b' ]
+</code></pre></li>
+</ul>
+<h3 id="(5)_数组和对象有哪些原生方法，列举一下，分别是什么含义，比如链接两个数组用哪个方法，删除数组的质定项。">(5) 数组和对象有哪些原生方法，列举一下，分别是什么含义，比如链接两个数组用哪个方法，删除数组的质定项。</h3><p>答：array:</p>
+<ul>
+<li>isArray方法<br>  Array.isArray方法用来判断一个值是否为数组。它可以弥补typeof运算符的不足。</li>
+<li>valueOf方法，toString方法</li>
+<li>push方法，pop方法<br>  push方法用于在数组的末端添加一个或多个元素，并返回添加后的数组的长度。pop方法用于删除数组的最后一个元素，并返回该元素。</li>
+<li>join方法，concat方法<br>  join方法以参数作为分隔符，将所有数组成员组成一个字符串返回。如果不提供参数，默认用逗号分隔。concat方法将新数组的成员，添加到原数组的尾部，然后返回一个新数组，常用于连接多个数组。</li>
+<li>shift方法，unshift方法<br>  shift方法用于删除数组的第一个元素，并返回该元素。unshift方法用于在数组的第一个位置添加元素，并返回添加新元素后的数组长度。</li>
+<li>reverse方法<br>  reverse方法用于颠倒数组中元素的顺序，使用这个方法以后，返回改变后的原数组。</li>
+<li>slice方法<br>  slice方法返回指定位置的数组成员组成的新数组，原数组不变。它的第一个参数为起始位置（从0开始），第二个参数为终止位置（但该位置的元素本身不包括在内）。如果省略第二个参数，则一直返回到原数组的最后一个成员。</li>
+<li>splice()<br>  splice方法用于删除元素，并可以在被删除的位置添加入新的数组元素。它的返回值是被删除的元素。需要特别注意的是，该方法会改变原数组。<br>  splice的第一个参数是删除的起始位置，第二个参数是被删除的元素个数。如果后面还有更多的参数，则表示这些就是要被插入数组的新元素。</li>
+<li>sort()<br>  sort方法对数组元素进行排序，默认是按照字典顺序排序。排序后，原数组将被改变。</li>
+<li>Array.prototype.map()<br>  map方法对数组的所有成员依次调用一个函数，根据函数结果返回一个新数组。</li>
+<li>Array.prototype.forEach()<br>  数组实例的forEach方法与map方法很相似，也是遍历数组的所有成员，执行某种操作，但是forEach方法没有返回值。如果需要有返回值，一般使用map方法，如果只是单纯操作数据，一般使用forEach方法。</li>
+<li>filter方法<br>  filter方法依次对所有数组成员调用一个测试函数，返回结果为true的成员组成一个新数组返回。</li>
+<li>some方法，every方法<br>  这两个方法类似“断言”（assert），用来判断数组成员是否符合某种条件。<br>  some方法对所有元素调用一个测试函数，只要有一个元素通过该测试，就返回true，否则返回false。<br>  every方法对所有元素调用一个测试函数，只有所有元素通过该测试，才返回true，否则返回false。</li>
+<li><p>reduce方法，reduceRight方法<br>  reduce方法和reduceRight方法的作用，是依次处理数组的每个元素，最终累计为一个值。这两个方法的差别在于，reduce对数组元素的处理顺序是从左到右（从第一个成员到最后一个成员），reduceRight则是从右到左（从最后一个成员到第一个成员），其他地方完全一样。<br>  reduce方法的第一个参数是一个处理函数。该函数接受四个参数，分别是：</p>
+<pre><code><span class="bullet">1. </span>用来累计的变量（即当前状态），默认值为0
+</code></pre><ol>
+<li>数组的当前元素</li>
+<li>当前元素在数组中的序号（从0开始）</li>
+<li>原数组<br>这四个参数之中，只有前两个是必须的，后两个则是可选的。<br> [1, 2, 3, 4, 5].reduce(function(x, y){<pre><code><span class="keyword">return</span> x+y;
+</code></pre> });<br> // 15</li>
+</ol>
+</li>
+<li><p>indexOf 和 lastIndexOf<br>  indexOf方法返回给定元素在数组中第一次出现的位置，如果没有出现则返回-1。indexOf方法还可以接受第二个参数，表示搜索的开始位置。<br>  lastIndexOf方法返回给定元素在数组中最后一次出现的位置，如果没有出现则返回-1。</p>
+</li>
+</ul>
+<h1 id="3-_JavaScript_的面向对象">3. JavaScript 的面向对象</h1><h3 id="(1)_JS_模块包装格式都用过哪些，CommonJS、AMD、CMD、KMD。定义一个JS_模块代码，最精简的格式是怎样。">(1) JS 模块包装格式都用过哪些，CommonJS、AMD、CMD、KMD。定义一个JS 模块代码，最精简的格式是怎样。</h3><h3 id="(2)_JS_怎么实现一个类。怎么实例化这个类。">(2) JS 怎么实现一个类。怎么实例化这个类。</h3><h3 id="(3)_是否了解自定义事件。jQuery里的fire函数是什么意思，什么时候用。">(3) 是否了解自定义事件。jQuery里的fire函数是什么意思，什么时候用。</h3><h3 id="(4)_说一下了解的js_设计模式，解释一下单例、工厂、观察者。">(4) 说一下了解的js 设计模式，解释一下单例、工厂、观察者。</h3><h3 id="(5)_ajax_跨域有哪些方法，jsonp_的原理是什么，如果页面编码和被请求的资源编码不一致如何处理？">(5) ajax 跨域有哪些方法，jsonp 的原理是什么，如果页面编码和被请求的资源编码不一致如何处理？</h3><h1 id="4-_开源工具">4. 开源工具</h1><h3 id="(1)_是否了解开源的工具_bower、npm、yeoman、grunt、gulp，有无用过，有无写过，一个_npm_的包里的_package-json_具备的必要的字段都有哪些（名称、版本号，依赖）">(1) 是否了解开源的工具 bower、npm、yeoman、grunt、gulp，有无用过，有无写过，一个 npm 的包里的 package.json 具备的必要的字段都有哪些（名称、版本号，依赖）</h3><h3 id="(2)_fiddle、charles_有没有用过，什么时候用">(2) fiddle、charles 有没有用过，什么时候用</h3><h3 id="(3)_会不会用_ps_扣图，png、jpg、gif_这些图片格式解释一下，分别什么时候用。是否了解webp">(3) 会不会用 ps 扣图，png、jpg、gif 这些图片格式解释一下，分别什么时候用。是否了解webp</h3><h3 id="(4)_说一下你常用的命令行工具">(4) 说一下你常用的命令行工具</h3><h3 id="(5)_会不会用git，说上来几个命令，说一下git和svn的区别，有没有用git解决过冲突">(5) 会不会用git，说上来几个命令，说一下git和svn的区别，有没有用git解决过冲突</h3><h1 id="5-_计算机基础">5. 计算机基础</h1><h3 id="(1)_说一下网络五层模型（HTTP协议从应用层到底层都基于哪些协议），HTTP_协议头字段说上来几个，缓存字段是怎么定义的，http和https的区别，在具体使用的时候有什么不一样。是否尽可能详细的掌握HTTP协议">(1) 说一下网络五层模型（HTTP协议从应用层到底层都基于哪些协议），HTTP 协议头字段说上来几个，缓存字段是怎么定义的，http和https的区别，在具体使用的时候有什么不一样。是否尽可能详细的掌握HTTP协议</h3><h3 id="(2)_cookies_是干嘛的，服务器和浏览器之间的_cookies_是怎么传的，httponly_的_cookies_和可读写的_cookie_有什么区别，有无长度限制">(2) cookies 是干嘛的，服务器和浏览器之间的 cookies 是怎么传的，httponly 的 cookies 和可读写的 cookie 有什么区别，有无长度限制</h3><h3 id="(3)_从敲入_URL_到渲染完成的整个过程，包括_DOM_构建的过程，说的约详细越好。">(3) 从敲入 URL 到渲染完成的整个过程，包括 DOM 构建的过程，说的约详细越好。</h3><h3 id="(4)_是否了解Web注入攻击，说下原理，最常见的两种攻击（XSS_和_CSRF）了解到什么程度。">(4) 是否了解Web注入攻击，说下原理，最常见的两种攻击（XSS 和 CSRF）了解到什么程度。</h3><h3 id="(5)_是否了解公钥加密和私钥加密。如何确保表单提交里的密码字段不被泄露。验证码是干嘛的，是为了解决什么安全问题。">(5) 是否了解公钥加密和私钥加密。如何确保表单提交里的密码字段不被泄露。验证码是干嘛的，是为了解决什么安全问题。</h3><h3 id="(6)_编码常识：文件编码、URL_编码、Unicode编码_什么含义。一个gbk编码的页面如何正确引用一个utf8的的资源">(6) 编码常识：文件编码、URL 编码、Unicode编码 什么含义。一个gbk编码的页面如何正确引用一个utf8的的资源</h3><h1 id="6-_考察学习能力和方法">6. 考察学习能力和方法</h1><h3 id="(1)_你每天必须登录的网站（前端技术相关）是什么？">(1) 你每天必须登录的网站（前端技术相关）是什么？</h3><h3 id="(2)_前端技术方面看过哪些书，有无笔记，都有哪些收获。">(2) 前端技术方面看过哪些书，有无笔记，都有哪些收获。</h3><h3 id="(3)_收藏了哪些代码片段？">(3) 收藏了哪些代码片段？</h3><h3 id="(4)_怎么理解前端技术的大趋势？自己再做哪方面的知识储备？">(4) 怎么理解前端技术的大趋势？自己再做哪方面的知识储备？</h3><h3 id="(5)_是否了解或精通其他（后端）的编程语言？">(5) 是否了解或精通其他（后端）的编程语言？</h3><h3 id="(6)_做过的项目有没有什么（视觉、交互）美感？什么是美？你觉得让你自己赏心悦目的网站或应用有哪些？">(6) 做过的项目有没有什么（视觉、交互）美感？什么是美？你觉得让你自己赏心悦目的网站或应用有哪些？</h3><h3 id="(7)_做项目有没有遇到哪些印象深刻的技术攻关，具体遇到什么问题，怎么找答案的，最后怎么解的。">(7) 做项目有没有遇到哪些印象深刻的技术攻关，具体遇到什么问题，怎么找答案的，最后怎么解的。</h3>
       
     </div>
     

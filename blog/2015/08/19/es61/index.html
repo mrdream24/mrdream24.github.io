@@ -19,7 +19,7 @@ for (var index = 0; index &amp;lt; myArray.length; index++) {
 Iterator 和 for-of 循环说起循环，最早是for循环：
 for (var index = 0; index &amp;lt; myArray.length; index++) {
   console.log(myArray[inde">
-<meta property="og:updated_time" content="2015-08-19T06:12:05.000Z">
+<meta property="og:updated_time" content="2015-10-27T08:07:26.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="ES6 In Depth 读后笔记（一）">
 <meta name="twitter:description" content="ES6在2015年中正式发布，现在是学起来的时候了，看的文章是ES6 In Depth系列文章，在各处都有翻译，我比较推荐的是bobkoo这个个人博客的翻译。
@@ -269,11 +269,7 @@ for (var index = 0; index &amp;lt; myArray.length; index++) {
 <pre><code><span class="keyword">for</span> (var <span class="keyword">value</span> <span class="keyword">of</span> myArray) {
   console.log(<span class="keyword">value</span>);
 }
-</code></pre><ul>
-<li>这是遍历数组最简单直接的方法</li>
-<li>避免了所有 for–in 语法存在的坑</li>
-<li>与 forEach() 不同的是，它支持 break、continue 和 return 语句。</li>
-</ul>
+</code></pre><p>* 这是遍历数组最简单直接的方法<br>* 避免了所有 for–in 语法存在的坑<br>* 与 forEach() 不同的是，它支持 break、continue 和 return 语句。</p>
 <p>for-of不仅适用于数组，类数组的对象也适用，如DOM对象集合<a href="https://developer.mozilla.org/en-US/docs/Web/API/NodeList" target="_blank" rel="external">NodeList</a>,也可以遍历字符串，还适用于Map和Set对象。</p>
 <h2 id="Generator">Generator</h2><pre><code><span class="function"><span class="keyword">function</span>* <span class="title">quips</span>(<span class="params">name</span>) </span>{
   <span class="keyword">yield</span> <span class="string">"hello "</span> + name + <span class="string">"!"</span>;
@@ -285,18 +281,17 @@ for (var index = 0; index &amp;lt; myArray.length; index++) {
 }
 </code></pre><p>Generator 函数:</p>
 <ul>
-<li>通常的函数以 function 开始，但 Generator 函数以 function* 开始。</li>
-<li><p>在 Generator 函数内部，yield 是一个关键字，和 return 有点像。不同点在于，所有函数（包括 Generator 函数）都只能返回一次，而在 Generator 函数中可以 yield 任意次。yield 表达式暂停了 Generator 函数的执行，然后可以从暂停的地方恢复执行。</p>
-<p>   var iter = quips(“jorendorff”);</p>
-<pre><code>[object Generator]
-</code></pre><p>   iter.next()</p>
-<pre><code>{ <span class="string">value:</span> <span class="string">"hello jorendorff!"</span>, <span class="string">done:</span> <span class="literal">false</span> }
-</code></pre><p>   iter.next()</p>
-<pre><code>{ <span class="string">value:</span> <span class="string">"i hope you are enjoying the blog posts"</span>, <span class="string">done:</span> <span class="literal">false</span> }
-</code></pre><p>   iter.next()</p>
-<pre><code>{ <span class="string">value:</span> <span class="string">"see you later!"</span>, <span class="string">done:</span> <span class="literal">false</span> }
-</code></pre><p>   iter.next()</p>
-<pre><code>{ <span class="string">value:</span> undefined, <span class="string">done:</span> <span class="literal">true</span> }
+<li><p>通常的函数以 function 开始，但 Generator 函数以 function* 开始。<br>在 Generator 函数内部，yield 是一个关键字，和 return 有点像。不同点在于，所有函数（包括 Generator 函数）都只能返回一次，而在 Generator 函数中可以 yield 任意次。yield 表达式暂停了 Generator 函数的执行，然后可以从暂停的地方恢复执行。</p>
+<pre><code>var iter = quips(<span class="string">"jorendorff"</span>);
+[<span class="keyword">object</span> <span class="type">Generator</span>]
+iter.next<span class="literal">()</span>
+{ <span class="keyword">value</span>: <span class="string">"hello jorendorff!"</span>, <span class="keyword">done</span>: <span class="literal">false</span> }
+iter.next<span class="literal">()</span>
+{ <span class="keyword">value</span>: <span class="string">"i hope you are enjoying the blog posts"</span>, <span class="keyword">done</span>: <span class="literal">false</span> }
+iter.next<span class="literal">()</span>
+{ <span class="keyword">value</span>: <span class="string">"see you later!"</span>, <span class="keyword">done</span>: <span class="literal">false</span> }
+iter.next<span class="literal">()</span>
+{ <span class="keyword">value</span>: undefined, <span class="keyword">done</span>: <span class="literal">true</span> }
 </code></pre></li>
 </ul>
 <p>Generator 函数的调用方法与普通函数一样：quips(“jorendorff”)，但调用一个 Generator 函数时并没有立即执行，而是返回了一个 Generator 对象（上面代码中的 iter），这时函数就立即暂停在函数代码的第一行。</p>
@@ -315,9 +310,9 @@ for (var index = 0; index &amp;lt; myArray.length; index++) {
 }
 </code></pre><p>我们可以使用作为迭代器的 Generator 的哪些功能呢？</p>
 <ul>
-<li><p><em>使任何对象可遍历</em> – 编写一个 Genetator 函数去遍历 this，每遍历到一个值就 yield 一下，然后将该 Generator 函数作为要遍历的对象上的 <a href="">Symbol.iterator</a> 方法的实现。</p>
+<li><p><em>使任何对象可遍历\</em> – 编写一个 Genetator 函数去遍历 this，每遍历到一个值就 yield 一下，然后将该 Generator 函数作为要遍历的对象上的 <a href="">Symbol.iterator</a> 方法的实现。</p>
 </li>
-<li><p><em>简化返回数组的函数</em> – 假如有一个每次调用时都返回一个数组的函数，比如：</p>
+<li><p><em>简化返回数组的函数\</em> – 假如有一个每次调用时都返回一个数组的函数，比如：</p>
 </li>
 </ul>
 <pre><code><span class="function"><span class="keyword">function</span> <span class="title">splitIntoRows</span><span class="params">(icons, rowLength)</span> {</span>
@@ -334,11 +329,11 @@ for (var index = 0; index &amp;lt; myArray.length; index++) {
   }</span>
 }
 </code></pre><ul>
-<li><p><em>无穷大的结果集</em> – 我们不能构建一个无穷大的数组，但是我们可以返回一个生成无尽序列的 Generator，并且每个调用者都可以从中获取到任意多个需要的值。</p>
+<li><p><em>无穷大的结果集\</em> – 我们不能构建一个无穷大的数组，但是我们可以返回一个生成无尽序列的 Generator，并且每个调用者都可以从中获取到任意多个需要的值。</p>
 </li>
-<li><p><em>重构复杂的循环</em> – 你是否想将一个复杂冗长的函数重构为两个简单的函数？Generator 是你重构工具箱中一把新的瑞士军刀。对于一个复杂的循环，我们可以将生成数据集那部分代码重构为一个 Generator 函数，然后用 for-of 遍历：for (var data of myNewGenerator(args))。</p>
+<li><p><em>重构复杂的循环\</em> – 你是否想将一个复杂冗长的函数重构为两个简单的函数？Generator 是你重构工具箱中一把新的瑞士军刀。对于一个复杂的循环，我们可以将生成数据集那部分代码重构为一个 Generator 函数，然后用 for-of 遍历：for (var data of myNewGenerator(args))。</p>
 </li>
-<li><p><em>构建迭代器的工具</em> – ES6 并没有提供一个可扩展的库，来对数据集进行 filter 和 map 等操作，但 Generator 可以用几行代码就实现这类功能。</p>
+<li><p><em>构建迭代器的工具\</em> – ES6 并没有提供一个可扩展的库，来对数据集进行 filter 和 map 等操作，但 Generator 可以用几行代码就实现这类功能。</p>
 </li>
 </ul>
 <h2 id="模板字符串">模板字符串</h2><pre><code><span class="function"><span class="keyword">function</span> <span class="title">authorize</span>(<span class="params">user, action</span>) </span>{
