@@ -8,32 +8,59 @@
 			margin: 0;
 			padding: 0;
 		}
-		#canvas{
+		#container{
 			background-color:yellow;
 		}
 	</style>
 </head>
 <body>
-	<canvas id="canvas" width="500" height="500"></canvas>
+	<div id="container"></div>
 </body>
 <script type="text/javascript" src="http://apps.bdimg.com/libs/jquery/2.1.1/jquery.min.js"></script>
+<script type="text/javascript" src="../js/lib/kinetic-v5.1.0.min.js"></script>
 <script type="text/javascript">
-	var canvas=document.getElementById("canvas");
-	var cxt=canvas.getContext("2d");
-	cxt.beginPath();
-	cxt.moveTo(0,500);
-	cxt.lineTo(125,500);
-	cxt.lineTo(125,0);
-	cxt.closePath();//填充或闭合 需要先闭合路径才能画
-	//空心三角形
-	cxt.strokeStyle="red";
-	cxt.stroke();
-	//实心三角形
-	cxt.beginPath();
-	cxt.moveTo(350,50);
-	cxt.lineTo(300,200);
-	cxt.lineTo(400,300);
-	cxt.closePath();
-	cxt.fill();
+	var stage = new Kinetic.Stage({
+    	container: 'container',
+    	width: 500,
+    	height: 500
+    });
+    var layer = new Kinetic.Layer({
+        y: 0 
+	});
+	var leftTriangle = new Kinetic.Line({
+		x: 150,
+		points:[0, 500, 125, 500, 125, 490],
+		tension: 0,
+		closed: true,
+		fill: '#000'
+	});
+	var rightTriangle = new Kinetic.Line({
+		x: 150,
+		points:[250, 500, 125, 500, 125, 490],
+		tension: 0,
+		closed: true,
+		fill: '#fff'
+	});
+	layer.add(leftTriangle)
+		.add(rightTriangle);
+	stage.add(layer);
+
+	var leftTriangleTween = new Kinetic.Tween({
+		node:leftTriangle,
+		duration: 1,
+		easing: Kinetic.Easings.EaseOut,
+		points: [0, 500, 125, 500, 125, 0]
+	});
+	var rightTriangleTween = new Kinetic.Tween({
+		node:rightTriangle,
+		duration: 1,
+		easing: Kinetic.Easings.EaseOut,
+		points: [250, 500, 125, 500, 125, 0]
+	});
+
+	stage.getContainer().addEventListener('mouseover', function() {
+        leftTriangleTween.play();
+        rightTriangleTween.play();
+	});
 </script>	
 </html>
