@@ -8,59 +8,124 @@
 			margin: 0;
 			padding: 0;
 		}
+		.main{
+			position:relative;
+		}
 		#container{
+			position:absolute;
+			/*background-color:yellow;*/
+			width:90%;
+			height:500px;
+			left:50%;
+			margin-left:-45%;
+		}
+		#container2{
+			position:absolute;
 			background-color:yellow;
+			width:90%;
+			height:500px;
+			left:50%;
+			margin-left:-45%;
 		}
 	</style>
 </head>
 <body>
-	<div id="container"></div>
+	<div class="main">
+		<div id="container2"></div>
+		<div id="container"></div>
+	</div>
 </body>
 <script type="text/javascript" src="http://apps.bdimg.com/libs/jquery/2.1.1/jquery.min.js"></script>
 <script type="text/javascript" src="../js/lib/kinetic-v5.1.0.min.js"></script>
+<!-- <script type="text/javascript" src="../js/lib/paper-core.min.js"></script> -->
 <script type="text/javascript">
+
+	var containerWidth = $('#container').width(),
+		containerHeight = $('#container').height();
+
+	var offsetWidth = containerWidth/21;
+
 	var stage = new Kinetic.Stage({
     	container: 'container',
-    	width: 500,
-    	height: 500
+    	width: containerWidth,
+    	height: containerHeight
     });
     var layer = new Kinetic.Layer({
-        y: 0 
-	});
-	var leftTriangle = new Kinetic.Line({
-		x: 150,
-		points:[0, 500, 125, 500, 125, 490],
-		tension: 0,
-		closed: true,
-		fill: '#000'
-	});
-	var rightTriangle = new Kinetic.Line({
-		x: 150,
-		points:[250, 500, 125, 500, 125, 490],
-		tension: 0,
-		closed: true,
-		fill: '#fff'
-	});
-	layer.add(leftTriangle)
-		.add(rightTriangle);
-	stage.add(layer);
-
-	var leftTriangleTween = new Kinetic.Tween({
-		node:leftTriangle,
-		duration: 1,
-		easing: Kinetic.Easings.EaseOut,
-		points: [0, 500, 125, 500, 125, 0]
-	});
-	var rightTriangleTween = new Kinetic.Tween({
-		node:rightTriangle,
-		duration: 1,
-		easing: Kinetic.Easings.EaseOut,
-		points: [250, 500, 125, 500, 125, 0]
+        y:0
 	});
 
-	stage.getContainer().addEventListener('click', function() {
-        leftTriangleTween.play();
-        rightTriangleTween.play();
+    getGroupAndAnim(0, 200, 'red', 'blue', layer, stage, 2000, containerWidth, containerHeight);
+    getGroupAndAnim((containerWidth*4/21), 100, 'red', 'blue', layer, stage, 2100, containerWidth, containerHeight);
+    getGroupAndAnim((containerWidth*4/21*2), 200, 'red', 'blue', layer, stage, 2200, containerWidth, containerHeight);
+    getGroupAndAnim((containerWidth*4/21*3), 100, 'red', 'blue', layer, stage, 2300, containerWidth, containerHeight);
+    getGroupAndAnim((containerWidth*4/21*4), 200, 'red', 'blue', layer, stage, 2400, containerWidth, containerHeight);
+
+    var stage2 = new Kinetic.Stage({
+    	container: 'container2',
+    	width: containerWidth,
+    	height: containerHeight
+    });
+    var layer2 = new Kinetic.Layer({
+        y:0
 	});
+
+    getGroupAndAnim(0, 0, 'rgba(0, 0, 0, 0.1)', 'rgba(0, 0, 0, 0.1)', layer2, stage2, 2000, containerWidth, containerHeight);
+    getGroupAndAnim((containerWidth*4/21), 0, 'rgba(0, 0, 0, 0.1)', 'rgba(0, 0, 0, 0.1)', layer2, stage2, 2100, containerWidth, containerHeight);
+    getGroupAndAnim((containerWidth*4/21*2), 0, 'rgba(0, 0, 0, 0.1)', 'rgba(0, 0, 0, 0.1)', layer2, stage2, 2200, containerWidth, containerHeight);
+    getGroupAndAnim((containerWidth*4/21*3), 0, 'rgba(0, 0, 0, 0.1)', 'rgba(0, 0, 0, 0.1)', layer2, stage2, 2300, containerWidth, containerHeight);
+    getGroupAndAnim((containerWidth*4/21*4), 0, 'rgba(0, 0, 0, 0.1)', 'rgba(0, 0, 0, 0.1)', layer2, stage2, 2400, containerWidth, containerHeight);
+
+	
+
+	function getGroupAndAnim(xNum, yNum, leftColor, rightColor, layer, stage, delayTime, width, height){
+		var leftTri = makeTriangle(xNum, leftColor, rightColor, width, height)[0],
+			rightTri = makeTriangle(xNum, leftColor, rightColor, width, height)[1];
+
+		layer.add(leftTri).add(rightTri);
+
+		stage.add(layer);
+
+		makeAnimation(leftTri, rightTri, yNum, delayTime, width, height);
+	}
+
+	function makeTriangle (xNum, leftColor, rightColor, width, height) {
+		var leftTriangle = new Kinetic.Line({
+			x: xNum,
+			points:[0, height, (width*5/42), height, (width*5/42), height],
+			tension: 0,
+			closed: true,
+			fill: leftColor
+		});
+
+		var rightTriangle = new Kinetic.Line({
+			x: xNum,
+			points:[(width*5/21), height, (width*5/42), height, (width*5/42), height],
+			tension: 0,
+			closed: true,
+			fill: rightColor
+		});
+
+		return [leftTriangle, rightTriangle];		
+	}
+
+	function makeAnimation (leftTriangle, rightTriangle, y, time, width, height) {
+		var leftTriangleTween = new Kinetic.Tween({
+			node: leftTriangle,
+			duration: 0.5,
+			easing: Kinetic.Easings.EaseOut,
+			points: [0, height, (width*5/34), height, (width*5/34), y]
+		});
+		var rightTriangleTween = new Kinetic.Tween({
+			node: rightTriangle,
+			duration: 0.5,
+			easing: Kinetic.Easings.EaseOut,
+			points: [(width*5/17), height, (width*5/34), height, (width*5/34), y]
+		});
+
+		setTimeout(function() {
+			leftTriangleTween.play();
+			rightTriangleTween.play();
+		}, time);
+	}
 </script>	
 </html>
