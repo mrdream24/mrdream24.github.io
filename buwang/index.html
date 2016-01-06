@@ -1,0 +1,393 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8"/>
+	<title>不忘</title>
+	<meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport">
+	<link rel="shortcut icon" href="img/favicon.ico">
+	<link rel="stylesheet" type="text/css" href="../css/font/SourceSansPro.css">
+	<link rel="stylesheet" type="text/css" href="../css/font/style.css">
+	<style type="text/css">
+		*{
+			margin: 0;
+			padding: 0;
+			font-family: "Source Sans Pro", "Arial","Microsoft YaHei","黑体","宋体",sans-serif;
+		}
+		ol,ul {
+		    list-style: none;
+		    margin:0;
+		    padding:0;
+		}
+		h1,h2,h3{
+			font-weight: normal;
+		}
+		header{
+			width:100%;
+			height:50px;
+			background-color:#3E82F7;
+		}
+		header .wrap{
+			width:1000px;
+			height:auto;
+			margin:auto;
+			position:relative;
+		}
+		header h1{
+			text-align:center;
+			font-size:25px;
+			line-height:50px;
+			color:#FFFFFF;
+		}
+		header .write{
+			width:40px;
+			height:40px;
+			position:absolute;
+			right:100px;
+			top:5px;
+			border: 2px solid #fff;
+			border-radius:5px;
+			padding: 0 8px;
+			box-sizing: border-box;
+			cursor:pointer;
+		}
+		.icon-pencil{
+			font-size:20px;
+			line-height:36px;
+			color:#fff;
+		}
+		.icon-pencil:before {
+		    content: "\e905";
+		}
+		.main{
+			width:700px;
+			height:auto;
+			margin: 50px auto;
+		}
+		.main .one{
+			width:100%;
+			height:76px;
+			padding: 0 12px;
+			box-sizing: border-box;
+			margin-bottom:40px;
+		}
+		.main .one:hover{
+			background-color:#F3F4F5;
+		}
+		.main .one .left{
+			width:70%;
+			height:auto;
+			float:left;
+			margin-top:10px;
+		}
+		.main .one .left h2{
+			color:#397FFB;
+			font-size:25px;
+			line-height:40px;
+		}
+		.main .one .left p{
+			color:#4e627a;
+			font-size:14px;
+			line-height:18px;
+		}
+		.main .one .right{
+			width:30%;
+			height:auto;
+			float:left;
+		}
+		.main .one .right .icon{
+			font-size:50px;
+			line-height:76px;
+			text-align:center;
+			margin-left:30%;
+			color:#397FFB;
+		}
+		.icon-windows8:before {
+		    content: "\e903";
+		}
+		.icon-chrome:before {
+		    content: "\e904";
+		}
+		.icon-android:before {
+		    content: "\e902";
+		}
+		.icon-finder:before {
+		    content: "\e901";
+		}
+		.icon-appleinc:before {
+		    content: "\e900";
+		}
+		.ishide{
+			width:100%;
+			height:100%;
+			background-color:rgba(0, 0, 0, 0.5);
+			position:fixed;
+			top:0;
+			left:0;
+			bottom: 0;
+			right:0;
+			z-index:100;
+			display:none;
+		}
+		.fix-win{
+			width:500px;
+			height:550px;
+			position:fixed;
+			z-index:900;
+			left:50%;
+			top:-300px;
+			margin-left:-250px;
+			background-color:#FFFFFF;
+			border-radius:4px;
+			opacity:0;
+			-webkit-transition: all ease-in-out .2s;
+    		transition: all ease-in-out .2s;
+		}
+		.fix-win.active{
+			top:50px;
+			opacity:1;
+			-webkit-transition: all ease-in-out .2s;
+    		transition: all ease-ib-out .2s;
+		}
+		.fix-win h2{
+			font-size:14px;
+			line-height:50px;
+			color:#52667E;
+			margin-left:4%;
+		}
+		.fix-win .form{
+			width:70%;
+			margin: auto;
+		}
+		.fix-win .li{
+			width:100%;
+			height: auto;
+		}
+		.fix-win .li label{
+			display:block;
+			font-size:14px;
+			line-height:30px;
+			color:#52667E;
+		}
+		.fix-win .li input{
+			width:100%;
+			height:45px;
+			margin:6px auto 20px;
+			border-radius:3px;
+		    -webkit-appearance: none;
+    		word-break: normal;
+		    color: #555;
+		    background-color: #fff;
+		    border: 2px solid rgba(115,126,140,0.2);
+		    padding:12px;
+		    box-sizing: border-box;
+		    font-size:15px;
+	        -webkit-transition: border-color ease-in-out .15s;
+    		transition: border-color ease-in-out .15s;
+		    outline: none;
+		}
+		.fix-win .li input:focus{
+			border: 2px solid rgba(115,126,140, 1);
+		}
+		.fix-win .li span{
+			font-size:30px;
+			margin:0 10px;
+			line-height:45px;
+			color:#c9c9c9;
+			cursor:pointer;
+		}
+		.fix-win .li span.active{
+			color:#000;
+		}
+		.fix-win .submit-btn{
+			width:100%;
+			height:40px;
+			border: 1px solid #3E82F7;
+			border-radius:4px;
+			background-color:#fff;
+			text-align:center;
+			font-size:15px;
+			color:#3E82F7;
+			line-height:40px;
+			margin:40px auto;
+			cursor:pointer;
+		}
+		.fix-win .submit-btn:hover{
+			background-color:#3E82F7;
+			color:#fff;
+		}
+		@media screen and (max-width: 768px){
+			header .wrap{
+				width:100%;
+			}
+			header .write{
+				width:30px;
+				height:30px;
+				top:10px;
+				right:20px;
+				padding:0 6px;
+			}
+			.icon-pencil{
+				font-size:14px;
+				line-height:30px;
+			}
+			.fix-win{
+				width:100%;
+				height: 500px;
+				left:0;
+				margin-left:0;
+				top:-500px;
+			}
+			.fix-win .li input{
+				height:35px;
+			    margin: 6px auto 10px;
+			}
+			.fix-win .li span{
+				font-size:25px;
+			}
+			.main{
+				width:100%;
+			}
+			.main .one{
+				width:90%;
+				margin: auto;
+			}
+			.main .one .left h2{
+				font-size:20px;
+			}
+			.main .one .left p{
+				font-size:13px;
+			}
+			.main .one .right .icon{
+				font-size:40px;
+				margin-left:45%;
+			}
+		}
+	</style>
+</head>
+<body>
+	<header>
+		<div class="wrap">
+			<h1>不忘</h1>
+			<div class="write">
+				<span class="icon-pencil"></span>
+			</div>
+		</div>
+	</header>
+	<div class="ishide"></div>
+	<div class="fix-win">
+		<h2>记下你不想忘记的</h2>
+		<div class="form">
+			<div class="li">
+				<label>名称</label>
+				<input type="text" id="note-title" placehoder="填写标题">
+			</div>
+			<div class="li">
+				<label>链接</label>
+				<input type="url" id="note-url" placehoder="填写URL">
+			</div>
+			<div class="li">
+				<label>一句话描述它</label>
+				<input type="text" id="note-des" placehoder="填写一句话描述">
+			</div>
+			<div class="li">
+				<label>类型</label>
+				<span class="icon-appleinc" id="icon-appleinc"></span>
+				<span class="icon-finder" id="icon-finder"></span>
+				<span class="icon-android" id="icon-android"></span>
+				<span class="icon-windows8" id="icon-windows8"></span>
+				<span class="icon-chrome" id="icon-chrome"></span>
+			</div>
+			<div class="submit-btn">提交</div>
+		</div>
+	</div>
+	<div class="main">
+		<!-- <div class="one">
+			<a href="http://premii.com/" target="_blank">
+				<div class="left">
+					<h2>DHARMESH PATEL的个人网站</h2>
+					<p>这是DHARMESH PATEL的个人网站，设计的很好。</p>
+				</div>
+			</a>
+			<div class="right">
+				<span class="icon icon-windows8"></span>
+			</div>
+		</div>
+		<div class="one">
+			<a href="http://premii.com/" target="_blank">
+				<div class="left">
+					<h2>DHARMESH PATEL的个人网站</h2>
+					<p>这是DHARMESH PATEL的个人网站，设计的很好。</p>
+				</div>
+			</a>
+			<div class="right">
+				<span class="icon icon-windows8"></span>
+			</div>
+		</div> -->
+	</div>
+</body>
+<script src="http://libs.baidu.com/jquery/1.9.0/jquery.js"></script>
+<script src="../js/lib/firebase.js"></script>
+<script type="text/javascript">
+	var buwangData = new Firebase("https://buwang.firebaseio.com/");
+	var html = '';
+	buwangData.once('value', function(snapshot){
+		snapshot.forEach(function(data){
+			html += '<div class="one"><a href="'+ data.val().url 
+					+'" target="_blank"><div class="left"><h2>'+ data.val().title 
+					+'</h2><p>'+ data.val().des 
+					+'</p></div></a><div class="right"><span class="icon '+ data.val().class 
+					+'"></span></div></div>';
+		})
+		// console.log(newPost);
+		$('.main').append(html);
+	}, function(errorObject){
+		console.log("The read failed: " + errorObject.code);
+	})
+
+	$('.write').on('click', function() {
+		$('.ishide').show();
+		$('.fix-win').addClass('active');
+	})
+
+	$('.ishide').on('click', function(){
+		$('.ishide').hide();
+		$('.fix-win').removeClass('active');
+	})
+
+	$('.fix-win .li span').on('click', function(){
+		$(this).siblings().removeClass('active');
+		$(this).addClass('active');
+	})
+
+	$('.submit-btn').on('click', function(){
+		var titleInput = $('#note-title').val();
+		var urlInput = $('#note-url').val();
+		var desInput = $('#note-des').val();
+		var classInput = $('.fix-win .li span.active').attr('id');
+		if(titleInput == ''){
+			alert('标题不能为空');
+		}else if(urlInput == ''){
+			alert('URL不能为空');
+		}else if(desInput == ''){
+			alert('一句话描述不能为空');
+		}else if(classInput == undefined){
+			alert('请选择类型');
+		}else{
+			buwangData.push({
+				title: titleInput,
+				url: urlInput,
+				des: desInput,
+				class:classInput
+			}, function(error){
+				if(error){
+					alert('上传数据出现错误');
+				}else{
+					$('.ishide').hide();
+					$('.fix-win').removeClass('active');
+				}
+			});
+		}
+	})
+
+</script>
+</html>
