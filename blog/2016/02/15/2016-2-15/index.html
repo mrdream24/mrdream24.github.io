@@ -24,7 +24,28 @@
 <h3 id="setAttribute"><code>setAttribute</code></h3><p>这个方法接收两个参数，第一个是要修改的属性名字，第二个是做出的修改的值。</p>
 <figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">object.setAttribute(attribute, value)</span><br></pre></td></tr></table></figure>
 <p>这是DOM <em>改</em> 的一个方法。并且是修改<em>属性节点</em>的方法。</p>
-<h2 id="待续。。。。。">待续。。。。。</h2></div><div class="tags"><a href="/blog/tags/JavaScript-DOM/">JavaScript DOM</a></div><div class="post-nav"><a href="/blog/2016/02/08/2016-2-8/" class="next">马上开始写 react &amp; ES6 --- 基于gulp 和 Babel 的脚手架<i class="icon-next"></i></a></div><div id="disqus_thread"><script>var disqus_shortname = 'mrdream## Your disqus_shortname, e.g. username';
+<h3 id="childNodes属性"><code>childNodes</code>属性</h3><p>childNodes 属性可以用来获取任何一个元素的所有子元素，它是一个包含这个元素全部子元素的数组，同样，它支持<code>length</code>方法：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">element.childNodes</span><br></pre></td></tr></table></figure>
+<h3 id="nodeType属性"><code>nodeType</code>属性</h3><p>每一个节点都有 nodeType 属性。这个属性可以让我们知道自己正在与哪一种节点打交道。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">node.nodeType</span><br></pre></td></tr></table></figure>
+<p>差劲的是 nodeType 的值并不是文字，而是数字。</p>
+<p>nodeType 属性总共有12种可取值，但其中仅有3种具有使用价值：</p>
+<ul>
+<li><em>元素节点</em> 的 nodeType 属性值是1。</li>
+<li><em>属性节点</em> 的 nodeType 属性值是2。</li>
+<li><em>文本节点</em> 的 nodeType 属性值是3。    </li>
+</ul>
+<h3 id="nodeValue_属性"><code>nodeValue</code> 属性</h3><p>如果想改变一个文本节点的值，那就是用 DOM 提供的 nodeValue 属性，它用来得到（和设置）一个节点的值：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">node.nodeValue</span><br></pre></td></tr></table></figure>
+<h3 id="firstChild_和_lastChild_属性"><code>firstChild</code> 和 <code>lastChild</code> 属性</h3><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">node.firstChild</span><br></pre></td></tr></table></figure>
+<p>这种写法完全等价于：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">node.childNodes[<span class="number">0</span>]</span><br></pre></td></tr></table></figure>
+<p>而相对应的</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">node.lastChild</span><br></pre></td></tr></table></figure>
+<p>等价于：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">node.childNodes[node.childNodes.length - <span class="number">1</span>]</span><br></pre></td></tr></table></figure>
+<h2 id="最后">最后</h2><p>上面记录了基本的 DOM 的<em>查</em>和<em>改</em>的方法，以及一些 DOM 节点的属性，下一篇文章会记录 DOM 的 <em>增</em> 和 <em>删</em>。</p>
+</div><div class="tags"><a href="/blog/tags/JavaScript-DOM/">JavaScript DOM</a></div><div class="post-nav"><a href="/blog/2016/02/08/2016-2-8/" class="next">马上开始写 react &amp; ES6 --- 基于gulp 和 Babel 的脚手架<i class="icon-next"></i></a></div><div id="disqus_thread"><script>var disqus_shortname = 'mrdream## Your disqus_shortname, e.g. username';
 var disqus_identifier = '2016/02/15/2016-2-15/';
 var disqus_title = '重读 JavaScript DOM 编程艺术（一）--DOM 的增删改查';
 var disqus_url = 'http://mrdream24.github.io/blog/2016/02/15/2016-2-15/';
