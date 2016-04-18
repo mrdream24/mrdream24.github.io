@@ -1,40 +1,347 @@
-<!DOCTYPE html><html lang="zh-CN"><head><meta http-equiv="content-type" content="text/html; charset=utf-8"><meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport"><meta content="yes" name="apple-mobile-web-app-capable"><meta content="black-translucent" name="apple-mobile-web-app-status-bar-style"><meta content="telephone=no" name="format-detection"><meta name="description"><title>(译)用ES6构建新一代可复用 JS 模块 | MrDream</title><link rel="stylesheet" type="text/css" href="/blog/css/normalize.css?v=0.1.0"><link rel="stylesheet" type="text/css" href="/blog/css/pure-min.css?v=0.1.0"><link rel="stylesheet" type="text/css" href="/blog/css/grids-responsive-min.css?v=0.1.0"><link rel="stylesheet" type="text/css" href="/blog/css/style.css?v=0.1.0"><link rel="Shortcut Icon" type="image/x-icon" href="/blog/favicon.ico"><link rel="apple-touch-icon" href="/blog/apple-touch-icon.png"><link rel="apple-touch-icon-precomposed" href="/blog/apple-touch-icon.png"></head><body><div class="body_container"><div id="header"><div class="site-name"><h1 class="hidden">(译)用ES6构建新一代可复用 JS 模块</h1><a id="logo" href="/blog/.">MrDream</a><p class="description">我的琴声呜咽，泪水全无</p></div><div id="nav-menu"><a href="/blog/." class="current"><i class="icon-home"> 首页</i></a><a href="/blog/archives/"><i class="icon-archive"> 归档</i></a><a href="/blog/../cv/"><i class="icon-about"> 关于</i></a></div></div><div id="layout" class="pure-g"><div class="pure-u-1 pure-u-md-3-4"><div class="content_container"><div class="post post-page"><h1 class="post-title">(译)用ES6构建新一代可复用 JS 模块</h1><div class="post-meta">2016-02-04</div><span data-disqus-identifier="2016/02/04/2016-2-4/" class="disqus-comment-count"></span><div class="post-content"><p>你是不是也在为可以<strong>使用ES6的新特性</strong>而兴奋，却不太确定应该从哪开始，或者如何开始？不止你一个人这样！我已经花了一年半的时间去解决这个幸福的难题。在这段时间里 JavaScript 工具链中有几个令人兴奋的突破。</p>
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next muse use-motion">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+  <link href="/blog/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css"/>
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+<link href="/blog/vendors/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css" />
+
+<link href="/blog/css/main.css?v=5.0.1" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="ES6, JavaScript," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/blog/favicon.ico?v=5.0.1" />
+
+
+
+
+
+
+<meta name="description" content="你是不是也在为可以使用ES6的新特性而兴奋，却不太确定应该从哪开始，或者如何开始？不止你一个人这样！我已经花了一年半的时间去解决这个幸福的难题。在这段时间里 JavaScript 工具链中有几个令人兴奋的突破。
+这些突破让我们可以用ES6书写完全的JS模块，而不会为了一些基本的条件而妥协，比如testing，linting 和（最重要的）其他人可以轻易理解我们所写的代码。
+
+在这篇文章中，我们集中">
+<meta property="og:type" content="article">
+<meta property="og:title" content="(译)用ES6构建新一代可复用 JS 模块">
+<meta property="og:url" content="http://mrdream24.github.io/blog/2016/02/04/2016-2-4/index.html">
+<meta property="og:site_name" content="MrDream">
+<meta property="og:description" content="你是不是也在为可以使用ES6的新特性而兴奋，却不太确定应该从哪开始，或者如何开始？不止你一个人这样！我已经花了一年半的时间去解决这个幸福的难题。在这段时间里 JavaScript 工具链中有几个令人兴奋的突破。
+这些突破让我们可以用ES6书写完全的JS模块，而不会为了一些基本的条件而妥协，比如testing，linting 和（最重要的）其他人可以轻易理解我们所写的代码。
+
+在这篇文章中，我们集中">
+<meta property="og:image" content="https://media-mediatemple.netdna-ssl.com/wp-content/uploads/2016/02/js-opt.png">
+<meta property="og:updated_time" content="2016-02-05T16:13:30.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="(译)用ES6构建新一代可复用 JS 模块">
+<meta name="twitter:description" content="你是不是也在为可以使用ES6的新特性而兴奋，却不太确定应该从哪开始，或者如何开始？不止你一个人这样！我已经花了一年半的时间去解决这个幸福的难题。在这段时间里 JavaScript 工具链中有几个令人兴奋的突破。
+这些突破让我们可以用ES6书写完全的JS模块，而不会为了一些基本的条件而妥协，比如testing，linting 和（最重要的）其他人可以轻易理解我们所写的代码。
+
+在这篇文章中，我们集中">
+<meta name="twitter:image" content="https://media-mediatemple.netdna-ssl.com/wp-content/uploads/2016/02/js-opt.png">
+
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    scheme: 'Muse',
+    sidebar: {"position":"left","display":"post"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: 0,
+      author: '博主'
+    }
+  };
+</script>
+
+  <title> (译)用ES6构建新一代可复用 JS 模块 | MrDream </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-tw">
+
+  
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/blog/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">MrDream</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle">我的琴声呜咽，我的泪水全无</p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/blog/." rel="section">
+            
+              <i class="menu-item-icon fa fa-home fa-fw"></i> <br />
+            
+            首頁
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/blog/../cv/" rel="section">
+            
+              <i class="menu-item-icon fa fa-user fa-fw"></i> <br />
+            
+            關於
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/blog/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-archive fa-fw"></i> <br />
+            
+            歸檔
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/blog/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-tags fa-fw"></i> <br />
+            
+            標籤
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                (译)用ES6构建新一代可复用 JS 模块
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">發表於</span>
+            <time itemprop="dateCreated" datetime="2016-02-04T21:19:01+08:00" content="2016-02-04">
+              2016-02-04
+            </time>
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/blog/2016/02/04/2016-2-4/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2016/02/04/2016-2-4/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>你是不是也在为可以<strong>使用ES6的新特性</strong>而兴奋，却不太确定应该从哪开始，或者如何开始？不止你一个人这样！我已经花了一年半的时间去解决这个幸福的难题。在这段时间里 JavaScript 工具链中有几个令人兴奋的突破。</p>
 <p>这些突破让我们可以用ES6书写完全的JS模块，而不会为了一些基本的条件而妥协，比如testing，linting 和（最重要的）其他人可以轻易理解我们所写的代码。</p>
 <p><img src="https://media-mediatemple.netdna-ssl.com/wp-content/uploads/2016/02/js-opt.png" alt=""></p>
 <p>在这篇文章中，我们集中精力在<strong>如何用ES6构建JS模块</strong>，并且无论你在你的网站或者app中使用CommonJS，AMD（asynchronous module definition）或者普通的网页script引入，这个模块都可以轻易被引用。</p>
-<h2 id="The_Tools">The Tools</h2><p>在这个系列文章的第一部分和第二部分，我们来看一下这些卓越的工具们。在这篇文章中，我们详细说明如何编写，编译，打包代码；而在第二篇文章会集中在linting，formatting 和 testing（利用 JSCS，ESLint，mocha，Chai，Karma 和 Istanbul）。让我们来看看在这篇文章中涉及到的工具：</p>
+<p>##The Tools</p>
+<p>在这个系列文章的第一部分和第二部分，我们来看一下这些卓越的工具们。在这篇文章中，我们详细说明如何编写，编译，打包代码；而在第二篇文章会集中在linting，formatting 和 testing（利用 JSCS，ESLint，mocha，Chai，Karma 和 Istanbul）。让我们来看看在这篇文章中涉及到的工具：</p>
 <ul>
 <li><a href="http://babeljs.io/" target="_blank" rel="external">Babel</a>(刚刚度过了它的第一个生日)可以把ES6代码转化为ES5代码，不仅简单，而且优雅。</li>
 <li><a href="http://webpack.github.io/" target="_blank" rel="external">Webpack</a>，webpack平寂了我们组里的“模块战争”，我们每个人都镇定得使用着webpack来应付<em>一切</em>(CommonJS，AMD 和 ES6)。它也在打包独立的ES6库方面做得非常棒——这是我们在过去一直渴望看到的。</li>
 <li><a href="http://gulpjs.com/" target="_blank" rel="external">Gulp</a>一个强大的自动化构建工具。</li>
 </ul>
-<h2 id="The_Goal">The Goal</h2><h3 id="WRITE_IN_ES6,_USE_IN_ES5">WRITE IN ES6, USE IN ES5</h3><p>我们将要讨论的是书写客户端（client-side）ES6 <em>libraries</em>，而不是整个网站或者 app 。（无论是在你的开源项目里或者是在你工作中的软件项目，这是可以在不同的项目中可复用的代码。）”等一下！“，你可能会想：”这个难道不是在浏览器支持ES6之后才能实现的吗？“</p>
+<p>##The Goal</p>
+<p>###WRITE IN ES6, USE IN ES5</p>
+<p>我们将要讨论的是书写客户端（client-side）ES6 <em>libraries</em>，而不是整个网站或者 app 。（无论是在你的开源项目里或者是在你工作中的软件项目，这是可以在不同的项目中可复用的代码。）”等一下！“，你可能会想：”这个难道不是在浏览器支持ES6之后才能实现的吗？“</p>
 <p>你是对的！然而，我们利用上面提到的<a href="http://babeljs.io/" target="_blank" rel="external">Babel</a>可以把ES6代码转化为ES5代码，在大多数情况下现在就可以实现我们的目标。</p>
-<h3 id="MAKE_IT_EASY_FOR_ANYONE_TO_CONSUME">MAKE IT EASY FOR ANYONE TO CONSUME</h3><p>我们目标的第二部分是写一个无论在什么模块规范下都可以使用的JS模块。AMD死忠饭？你会得到一个可用的模块。CommonJS 加 browserify 才是你的最爱？没问题！你会得到一个可用的模块。或者你对AMD和CommonJS不感冒，你只是想要在你的页面上加一个<code>&lt;script&gt;</code>引用并且成功运行？你也会得到一个可用的模块。Webpack会把我们的代码打包成<a href="https://github.com/umdjs/umd" target="_blank" rel="external">UMD（ universal module definition）</a>模块规范，使我们的代码在任何代码规范中都可用。</p>
-<h2 id="Setting_Up_Our_Project">Setting Up Our Project</h2><p>在接下来的几分钟，我们将要完成<a href="https://github.com/ifandelse/legoQuotes/releases/tag/v1.0.0" target="_blank" rel="external">这些代码</a>。我经常用<em>src/</em>，<em>spec/</em> 和 <em>lib/</em>文件夹来构建项目。在<em>src/</em>目录里，你会看到一个有趣的示例模块，这个模块是提供<a href="http://www.imdb.com/title/tt1490017/" target="_blank" rel="external">乐高电影</a>里的乐高角色的随机语录。这个示例会用到ES6的<a href="http://www.2ality.com/2015/02/es6-classes-final.html" target="_blank" rel="external">classes</a>，<a href="http://www.2ality.com/2014/09/es6-modules-final.html" target="_blank" rel="external">modules</a>，<a href="http://www.2ality.com/2015/02/es6-scoping.html" target="_blank" rel="external">const</a>，<a href="http://www.2ality.com/2015/01/es6-destructuring.html" target="_blank" rel="external">destructuring</a>，<a href="http://www.2ality.com/2015/03/es6-generators.html" target="_blank" rel="external">generator</a>等—这些可以被安全转化为ES5代码的新特性。</p>
+<p>###MAKE IT EASY FOR ANYONE TO CONSUME</p>
+<p>我们目标的第二部分是写一个无论在什么模块规范下都可以使用的JS模块。AMD死忠饭？你会得到一个可用的模块。CommonJS 加 browserify 才是你的最爱？没问题！你会得到一个可用的模块。或者你对AMD和CommonJS不感冒，你只是想要在你的页面上加一个<code>&lt;script&gt;</code>引用并且成功运行？你也会得到一个可用的模块。Webpack会把我们的代码打包成<a href="https://github.com/umdjs/umd" target="_blank" rel="external">UMD（ universal module definition）</a>模块规范，使我们的代码在任何代码规范中都可用。</p>
+<p>##Setting Up Our Project </p>
+<p>在接下来的几分钟，我们将要完成<a href="https://github.com/ifandelse/legoQuotes/releases/tag/v1.0.0" target="_blank" rel="external">这些代码</a>。我经常用<em>src/</em>，<em>spec/</em> 和 <em>lib/</em>文件夹来构建项目。在<em>src/</em>目录里，你会看到一个有趣的示例模块，这个模块是提供<a href="http://www.imdb.com/title/tt1490017/" target="_blank" rel="external">乐高电影</a>里的乐高角色的随机语录。这个示例会用到ES6的<a href="http://www.2ality.com/2015/02/es6-classes-final.html" target="_blank" rel="external">classes</a>，<a href="http://www.2ality.com/2014/09/es6-modules-final.html" target="_blank" rel="external">modules</a>，<a href="http://www.2ality.com/2015/02/es6-scoping.html" target="_blank" rel="external">const</a>，<a href="http://www.2ality.com/2015/01/es6-destructuring.html" target="_blank" rel="external">destructuring</a>，<a href="http://www.2ality.com/2015/03/es6-generators.html" target="_blank" rel="external">generator</a>等–这些可以被安全转化为ES5代码的新特性。</p>
 <p>这篇文章的主要目的是讨论如何利用 Babel 和 Webpack 来编译和打包 ES6 library。然而我还是想简要的介绍我们的示例代码以证明我们切实在用 ES6。</p>
 <p><strong>Note:</strong> 你如果是 ES6 新手，不必担心。这个示例足够简单到你们会看懂。</p>
-<h2 id="The_LegoCharacter_Class">The LegoCharacter Class</h2><p>在 <em>LegoCharacter.js</em> 模块中，我们可以看到如下代码（查看注释了解更多）：</p>
+<p>##The LegoCharacter Class</p>
+<p>在 <em>LegoCharacter.js</em> 模块中，我们可以看到如下代码（查看注释了解更多）：</p>
 <figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// LegoCharacter.js</span></span><br><span class="line"><span class="comment">// Let's import only the getRandom method from utils.js</span></span><br><span class="line"><span class="keyword">import</span> &#123; getRandom &#125; <span class="keyword">from</span> <span class="string">"./utils"</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">// the LegoCharacter class is the default export of the module, similar</span></span><br><span class="line"><span class="comment">// in concept to how many node module authors would export a single value</span></span><br><span class="line"><span class="keyword">export</span> <span class="keyword">default</span> <span class="class"><span class="keyword">class</span> <span class="title">LegoCharacter</span> </span>&#123;</span><br><span class="line">   <span class="comment">// We use destructuring to match properties on the object</span></span><br><span class="line">   <span class="comment">// passed into separate variables for character and actor</span></span><br><span class="line">   <span class="keyword">constructor</span>( &#123; character, actor &#125; ) &#123;</span><br><span class="line">      <span class="keyword">this</span>.actor = actor;</span><br><span class="line">      <span class="keyword">this</span>.name = character;</span><br><span class="line">      <span class="keyword">this</span>.sayings = [</span><br><span class="line">         <span class="string">"I haven't been given any funny quotes yet."</span></span><br><span class="line">      ];</span><br><span class="line">   &#125;</span><br><span class="line">   <span class="comment">// shorthand method syntax, FOR THE WIN</span></span><br><span class="line">   <span class="comment">// I've been making this typo for years, it's finally valid syntax :)</span></span><br><span class="line">   saySomething() &#123;</span><br><span class="line">      <span class="keyword">return</span> <span class="keyword">this</span>.sayings[ getRandom( <span class="number">0</span>, <span class="keyword">this</span>.sayings.length - <span class="number">1</span> ) ];</span><br><span class="line">   &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>这些代码本身很无聊—class意味着可以被继承，就像我们在 <em>Emmet.js </em> 模块里做的：</p>
+<p>这些代码本身很无聊–class意味着可以被继承，就像我们在 <em>Emmet.js </em> 模块里做的：</p>
 <figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// emmet.js</span></span><br><span class="line"><span class="keyword">import</span> LegoCharacter <span class="keyword">from</span> <span class="string">"./LegoCharacter"</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">// Here we use the extends keyword to make</span></span><br><span class="line"><span class="comment">// Emmet inherit from LegoCharacter</span></span><br><span class="line"><span class="keyword">export</span> <span class="keyword">default</span> <span class="class"><span class="keyword">class</span> <span class="title">Emmet</span> <span class="keyword">extends</span> <span class="title">LegoCharacter</span> </span>&#123;</span><br><span class="line">   <span class="keyword">constructor</span>() &#123;</span><br><span class="line">      <span class="comment">// super lets us call the LegoCharacter's constructor</span></span><br><span class="line">      <span class="keyword">super</span>( &#123; actor: <span class="string">"Chris Pratt"</span>, character: <span class="string">"Emmet"</span> &#125; );</span><br><span class="line">      <span class="keyword">this</span>.sayings = [</span><br><span class="line">         <span class="string">"Introducing the double-decker couch!"</span>,</span><br><span class="line">         <span class="string">"So everyone can watch TV together and be buddies!"</span>,</span><br><span class="line">         <span class="string">"We're going to crash into the sun!"</span>,</span><br><span class="line">         <span class="string">"Hey, Abraham Lincoln, you bring your space chair right back!"</span>,</span><br><span class="line">         <span class="string">"Overpriced coffee! Yes!"</span></span><br><span class="line">      ];</span><br><span class="line">   &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>在我们的项目中，<em>LegoCharacter.js</em> 和 <em>emmet.js</em> 都是分开的单独的文件—这是我们示例代码中的典型例子。跟你之前写的 JavaScript 代码相比，我们的示例代码可能比较陌生。然而，在我们完成我们一系列的工作之后，我们将会得到一个 将这些代码打包到一起的‘built’版本。</p>
-<h2 id="The_index-js">The index.js</h2><p>我们项目中的另一个文件— <em>index.js</em> —是我们项目的主入口。在这个文件中 import 了一些 Lego 角色的类，生成他们的实例，并且提供了一个生成器函数（generator function），这个生成器函数来 <code>yield</code> 一个随机的语录：</p>
+<p>在我们的项目中，<em>LegoCharacter.js</em> 和 <em>emmet.js</em> 都是分开的单独的文件–这是我们示例代码中的典型例子。跟你之前写的 JavaScript 代码相比，我们的示例代码可能比较陌生。然而，在我们完成我们一系列的工作之后，我们将会得到一个 将这些代码打包到一起的‘built’版本。</p>
+<p>##The index.js</p>
+<p>我们项目中的另一个文件– <em>index.js</em> –是我们项目的主入口。在这个文件中 import 了一些 Lego 角色的类，生成他们的实例，并且提供了一个生成器函数（generator function），这个生成器函数来 <code>yield</code> 一个随机的语录：</p>
 <figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// index.js</span></span><br><span class="line"><span class="comment">// Notice that lodash isn't being imported via a relative path</span></span><br><span class="line"><span class="comment">// but all the other modules are. More on that in a bit :)</span></span><br><span class="line"><span class="keyword">import</span> _ <span class="keyword">from</span> <span class="string">"lodash"</span>;</span><br><span class="line"><span class="keyword">import</span> Emmet <span class="keyword">from</span> <span class="string">"./emmet"</span>;</span><br><span class="line"><span class="keyword">import</span> Wyldstyle <span class="keyword">from</span> <span class="string">"./wyldstyle"</span>;</span><br><span class="line"><span class="keyword">import</span> Benny <span class="keyword">from</span> <span class="string">"./benny"</span>;</span><br><span class="line"><span class="keyword">import</span> &#123; getRandom &#125; <span class="keyword">from</span> <span class="string">"./utils"</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">// Taking advantage of new scope controls in ES6</span></span><br><span class="line"><span class="comment">// once a const is assigned, the reference cannot change.</span></span><br><span class="line"><span class="comment">// Of course, transpiling to ES5, this becomes a var, but</span></span><br><span class="line"><span class="comment">// a linter that understands ES6 can warn you if you</span></span><br><span class="line"><span class="comment">// attempt to re-assign a const value, which is useful.</span></span><br><span class="line"><span class="keyword">const</span> emmet = <span class="keyword">new</span> Emmet();</span><br><span class="line"><span class="keyword">const</span> wyldstyle = <span class="keyword">new</span> Wyldstyle();</span><br><span class="line"><span class="keyword">const</span> benny = <span class="keyword">new</span> Benny();</span><br><span class="line"><span class="keyword">const</span> characters = &#123; emmet, wyldstyle, benny &#125;;</span><br><span class="line"></span><br><span class="line"><span class="comment">// Pointless generator function that picks a random character</span></span><br><span class="line"><span class="comment">// and asks for a random quote and then yields it to the caller</span></span><br><span class="line"><span class="function"><span class="keyword">function</span>* <span class="title">randomQuote</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">   <span class="keyword">const</span> chars = _.values( characters );</span><br><span class="line">   <span class="keyword">const</span> character = chars[ getRandom( <span class="number">0</span>, chars.length - <span class="number">1</span> ) ];</span><br><span class="line">   <span class="keyword">yield</span> <span class="string">`<span class="subst">$&#123;character.name&#125;</span>: <span class="subst">$&#123;character.saySomething()&#125;</span>`</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// Using object literal shorthand syntax, FTW</span></span><br><span class="line"><span class="keyword">export</span> <span class="keyword">default</span> &#123;</span><br><span class="line">   characters,</span><br><span class="line">   getRandomQuote() &#123;</span><br><span class="line">      <span class="keyword">return</span> randomQuote().next().value;</span><br><span class="line">   &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
 <p>在这个代码块中，<em>index.js</em> 引入了lodash，我们的三个Lego角色的类，和一个实用函数（utility function）。然后生成三个类的实例，导出（exports）这三个实例和<code>getRandomQuote</code>方法。一切都很完美，当代码被转化为ES5代码后依然会有一样的作用。</p>
-<h2 id="OK-_Now_What?">OK. Now What?</h2><p>我们已经运用了ES6的一些闪亮的新特性，那么如何才能转化为ES5的代码呢？首先，我们需要通过 <a href="https://docs.npmjs.com/getting-started/installing-npm-packages-globally" target="_blank" rel="external">npm</a>来安装Babel:</p>
+<p>##OK. Now What? </p>
+<p>我们已经运用了ES6的一些闪亮的新特性，那么如何才能转化为ES5的代码呢？首先，我们需要通过 <a href="https://docs.npmjs.com/getting-started/installing-npm-packages-globally" target="_blank" rel="external">npm</a>来安装Babel:</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm install -g babel</span><br></pre></td></tr></table></figure>
 <p>在全局安装Babel会提供我们一个<code>babel</code> <a href="http://babeljs.io/docs/usage/cli/" target="_blank" rel="external">命令行工具（command line interface (CLI) option）</a>。如果在项目的根目录写下如下命令，我们可以编译我们的模块代码为ES5代码，并且把他们放到<em>lib/</em>目录：</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">babel ./src <span class="_">-d</span> ./lib/</span><br></pre></td></tr></table></figure>
 <p>现在看一下<em>lib/</em>目录，我们将看到如下文件列表：</p>
-<figure class="highlight stylus"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">LegoCharacter<span class="selector-class">.js</span></span><br><span class="line">benny<span class="selector-class">.js</span></span><br><span class="line">emmet<span class="selector-class">.js</span></span><br><span class="line">index<span class="selector-class">.js</span></span><br><span class="line">utils<span class="selector-class">.js</span></span><br><span class="line">wyldstyle.js</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">LegoCharacter.js</span><br><span class="line">benny.js</span><br><span class="line">emmet.js</span><br><span class="line">index.js</span><br><span class="line">utils.js</span><br><span class="line">wyldstyle.js</span><br></pre></td></tr></table></figure>
 <p>还记得上面我们提到的吗？Babel把每一个模块代码转化为ES5代码，并且以同样的目录结构放入<em>lib/</em>目录。看一下这些文件可以告诉我们两个事情：</p>
 <ul>
 <li>首先，在node环境中只要依赖 <a href="http://babeljs.io/docs/usage/require/" target="_blank" rel="external">babel/register</a>运行时，这些文件就可以马上使用。在这篇文章结束之前，你会看到一个在node中运行的例子。</li>
 <li>第二，我们还有很多工作要做，以使这些文件打包进<em>一个</em>文件中，并且以<a href="https://github.com/umdjs/umd" target="_blank" rel="external">UMD(universal module definition )</a>规范打包，并且可以在浏览器环境中使用。</li>
 </ul>
-<h2 id="Enter_webpack">Enter webpack</h2><p>我打赌你已经听说过<a href="http://webpack.github.io/" target="_blank" rel="external">Webpack</a>，它被描述为“一个JavaScript和其他静态资源打包工具”。Webpack的典型应用场景就是作为你的网站应用的加载器和打包器，可以打包你的JavaScript代码和其他静态资源，比如CSS文件和模板文件，将它们打包为一个（或者更多）文件。webpack有一个非常棒的生态系统，叫做“loaders”，它可以使webpack对你的代码进行一些变换。打包一个UMD规范的文件并不是webpack最用途广泛的应用，我们还可以用webpack loader将ES6代码转化为ES5代码，并且把我们的示例代码打包为一个输出文件。</p>
-<h3 id="LOADERS">LOADERS</h3><p>在webpack中，loaders可以做很多事情，比如转化ES6代码为ES5，把LESS编译为CSS，加载JSON文件，加载模板文件，<em>等等</em>。Loaders为将要转化的文件一个<code>test</code>模式。很多loaders也有自己额外的配置信息。（好奇有多少loaders存在？看<a href="http://webpack.github.io/docs/list-of-loaders.html" target="_blank" rel="external">这个列表</a>）</p>
+<p>##Enter webpack</p>
+<p>我打赌你已经听说过<a href="http://webpack.github.io/" target="_blank" rel="external">Webpack</a>，它被描述为“一个JavaScript和其他静态资源打包工具”。Webpack的典型应用场景就是作为你的网站应用的加载器和打包器，可以打包你的JavaScript代码和其他静态资源，比如CSS文件和模板文件，将它们打包为一个（或者更多）文件。webpack有一个非常棒的生态系统，叫做“loaders”，它可以使webpack对你的代码进行一些变换。打包一个UMD规范的文件并不是webpack最用途广泛的应用，我们还可以用webpack loader将ES6代码转化为ES5代码，并且把我们的示例代码打包为一个输出文件。</p>
+<p>###LOADERS</p>
+<p>在webpack中，loaders可以做很多事情，比如转化ES6代码为ES5，把LESS编译为CSS，加载JSON文件，加载模板文件，<em>等等</em>。Loaders为将要转化的文件一个<code>test</code>模式。很多loaders也有自己额外的配置信息。（好奇有多少loaders存在？看<a href="http://webpack.github.io/docs/list-of-loaders.html" target="_blank" rel="external">这个列表</a>）</p>
 <p>我们首先在全局环境安装webpack（它将给我们一个webpack<a href="http://webpack.github.io/docs/cli.html" target="_blank" rel="external">命令行工具（CLI）</a>）:</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm install -g webpack</span><br></pre></td></tr></table></figure>
 <p>接下来为我们本地项目安装<a href="https://www.npmjs.com/package/babel-loader" target="_blank" rel="external">babel-loader</a>。这个loader可以加载我们的ES6模块并且把它们转化为ES5。我们可以在开发模式安装它，它将出现在package.json文件的<code>devDependencies</code>中：</p>
@@ -43,52 +350,364 @@
 <p>下面是初始化的webpack.config.js，我已经做了很多注释，我们也会讨论一些重要的细节：</p>
 <figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">module</span>.exports = &#123;</span><br><span class="line">   <span class="comment">// entry is the "main" source file we want to include/import</span></span><br><span class="line">   entry: <span class="string">"./src/index.js"</span>,</span><br><span class="line">   <span class="comment">// output tells webpack where to put the bundle it creates</span></span><br><span class="line">   output: &#123;</span><br><span class="line">      <span class="comment">// in the case of a "plain global browser library", this</span></span><br><span class="line">      <span class="comment">// will be used as the reference to our module that is</span></span><br><span class="line">      <span class="comment">// hung off of the window object.</span></span><br><span class="line">      library: <span class="string">"legoQuotes"</span>,</span><br><span class="line">      <span class="comment">// We want webpack to build a UMD wrapper for our module</span></span><br><span class="line">      libraryTarget: <span class="string">"umd"</span>,</span><br><span class="line">      <span class="comment">// the destination file name</span></span><br><span class="line">      filename: <span class="string">"lib/legoQuotes.js"</span></span><br><span class="line">   &#125;,</span><br><span class="line">   <span class="comment">// externals let you tell webpack about external dependencies</span></span><br><span class="line">   <span class="comment">// that shouldn't be resolved by webpack.</span></span><br><span class="line">   externals: [</span><br><span class="line">      &#123;</span><br><span class="line">         <span class="comment">// We're not only webpack that lodash should be an</span></span><br><span class="line">         <span class="comment">// external dependency, but we're also specifying how</span></span><br><span class="line">         <span class="comment">// lodash should be loaded in different scenarios</span></span><br><span class="line">         <span class="comment">// (more on that below)</span></span><br><span class="line">         lodash: &#123;</span><br><span class="line">            root: <span class="string">"_"</span>,</span><br><span class="line">            commonjs: <span class="string">"lodash"</span>,</span><br><span class="line">            commonjs2: <span class="string">"lodash"</span>,</span><br><span class="line">            amd: <span class="string">"lodash"</span></span><br><span class="line">         &#125;</span><br><span class="line">      &#125;</span><br><span class="line">   ],</span><br><span class="line">   <span class="built_in">module</span>: &#123;</span><br><span class="line">      loaders: [</span><br><span class="line">         <span class="comment">// babel loader, testing for files that have a .js extension</span></span><br><span class="line">         <span class="comment">// (except for files in our node_modules folder!).</span></span><br><span class="line">         &#123;</span><br><span class="line">            test: <span class="regexp">/\.js$/</span>,</span><br><span class="line">            exclude: <span class="regexp">/node_modules/</span>,</span><br><span class="line">            loader: <span class="string">"babel"</span>,</span><br><span class="line">            query: &#123;</span><br><span class="line">               compact: <span class="literal">false</span> <span class="comment">// because I want readable output</span></span><br><span class="line">            &#125;</span><br><span class="line">         &#125;</span><br><span class="line">      ]</span><br><span class="line">   &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
 <p>让我们来看一些关键的配置信息。</p>
-<h3 id="Output">Output</h3><p>一个wenpack的配置文件应该有一个<code>output</code>对象，来描述webpack如何build 和 package我们的代码。在上面的例子中，我们需要打包一个UMD规范的文件到<em>lib/</em>目录中。</p>
-<h3 id="Externals">Externals</h3><p>你应该注意到我们的示例中使用了lodash。我们从外部引入依赖lodash用来更好的构建我们的项目，而不是直接在output中include进来lodash本身。<code>externals</code>选项让我们具体声明一个外部依赖。在lodash的例子中，它的global property key（<code>_</code>）跟它的名字（”lodash“）是不一样的，所以我们上面的配置告诉webpack如何在不同的规范中依赖lodash(CommonJS, AMD and browser root)。</p>
-<h2 id="The_Babel_Loader">The Babel Loader</h2><p>你可能注意到我们把 babel-loader 直接写成了“babel”。这是webpack的命名规范：如果插件命名为“myLoaderName-loader”格式，那么我们在用的时候就可以直接写做”myLoaderName“。</p>
+<p>###Output</p>
+<p>一个wenpack的配置文件应该有一个<code>output</code>对象，来描述webpack如何build 和 package我们的代码。在上面的例子中，我们需要打包一个UMD规范的文件到<em>lib/</em>目录中。</p>
+<p>###Externals</p>
+<p>你应该注意到我们的示例中使用了lodash。我们从外部引入依赖lodash用来更好的构建我们的项目，而不是直接在output中include进来lodash本身。<code>externals</code>选项让我们具体声明一个外部依赖。在lodash的例子中，它的global property key（<code>_</code>）跟它的名字（”lodash“）是不一样的，所以我们上面的配置告诉webpack如何在不同的规范中依赖lodash(CommonJS, AMD and browser root)。</p>
+<p>##The Babel Loader</p>
+<p>你可能注意到我们把 babel-loader 直接写成了“babel”。这是webpack的命名规范：如果插件命名为“myLoaderName-loader”格式，那么我们在用的时候就可以直接写做”myLoaderName“。</p>
 <p>除了在<em>node_modules/</em>目录下的.js文件,loader会作用到任何其他.js文件。<code>compact</code>选项中的配置表示我们不需要压缩编译过的文件，因为我想要我的代码具有可读性（一会我们会压缩我们的代码）。</p>
 <p>如果我们在项目根目录中运行<code>webpack</code>命令，它将根据<em>webpack.config.js</em>文件来build我们的代码，并且在命令行里输出如下的内容：</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">» webpack</span><br><span class="line">Hash: f33a1067ef2c63b81060</span><br><span class="line">Version: webpack 1.12.1</span><br><span class="line">Time: 758ms</span><br><span class="line">            Asset     Size  Chunks             Chunk Names</span><br><span class="line">lib/legoQuotes.js  12.5 kB       0  [emitted]  main</span><br><span class="line">    + 7 hidden modules</span><br></pre></td></tr></table></figure>
 <p>现在如果我们查看<em>lib/</em>目录，我们会发现一个崭新的<em>legoQuotes.js</em>文件，并且它是符合webpack的UMD规范的代码，就像下面的代码片段：</p>
 <figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">(<span class="function"><span class="keyword">function</span> <span class="title">webpackUniversalModuleDefinition</span>(<span class="params">root, factory</span>) </span>&#123;</span><br><span class="line">   <span class="keyword">if</span>(<span class="keyword">typeof</span> exports === <span class="string">'object'</span> &amp;&amp; <span class="keyword">typeof</span> <span class="built_in">module</span> === <span class="string">'object'</span>)</span><br><span class="line">      <span class="built_in">module</span>.exports = factory(<span class="built_in">require</span>(<span class="string">"lodash"</span>));</span><br><span class="line">   <span class="keyword">else</span> <span class="keyword">if</span>(<span class="keyword">typeof</span> define === <span class="string">'function'</span> &amp;&amp; define.amd)</span><br><span class="line">      define([<span class="string">"lodash"</span>], factory);</span><br><span class="line">   <span class="keyword">else</span> <span class="keyword">if</span>(<span class="keyword">typeof</span> exports === <span class="string">'object'</span>)</span><br><span class="line">      exports[<span class="string">"legoQuotes"</span>] = factory(<span class="built_in">require</span>(<span class="string">"lodash"</span>));</span><br><span class="line">   <span class="keyword">else</span></span><br><span class="line">      root[<span class="string">"legoQuotes"</span>] = factory(root[<span class="string">"_"</span>]);</span><br><span class="line">&#125;)(<span class="keyword">this</span>, <span class="function"><span class="keyword">function</span>(<span class="params">__WEBPACK_EXTERNAL_MODULE_1__</span>) </span>&#123;</span><br><span class="line"></span><br><span class="line"><span class="comment">// MODULE CODE HERE</span></span><br><span class="line"></span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
 <p>UMD规范首先检查是否是CommonJS规范，然后再检查是否是AMD规范，然后再检查另一种CommonJS规范，最后回落到纯浏览器引用。你可以发现首先在CommonJS或者AMD环境中检查是否以“lodash”加载lodash，然后在浏览器中是否以<code>_</code>代表lodash。</p>
-<h2 id="What_Happened,_Exactly？">What Happened, Exactly？</h2><p>当我们在命令行里运行<code>webpack</code>命令，它首先去寻找配置文件的默认名字（<em>webpack.config.js</em>），然后阅读这些配置信息。它会发现<em>src/index.js</em>是主入口文件，然后开始加载这个文件和这个文件的依赖项（除了lodash，我们已经告诉webpack这是外部依赖）。每一个依赖文件都是<em>.js</em>文件，所以babel loader会作用在每一个文件，把他们从ES6代码转化为ES5。然后所有的文件打包成为一个输出文件，<em>legoQuotes.js</em>，然后把它放到<em>lib</em>目录中。</p>
+<p>##What Happened, Exactly？</p>
+<p>当我们在命令行里运行<code>webpack</code>命令，它首先去寻找配置文件的默认名字（<em>webpack.config.js</em>），然后阅读这些配置信息。它会发现<em>src/index.js</em>是主入口文件，然后开始加载这个文件和这个文件的依赖项（除了lodash，我们已经告诉webpack这是外部依赖）。每一个依赖文件都是<em>.js</em>文件，所以babel loader会作用在每一个文件，把他们从ES6代码转化为ES5。然后所有的文件打包成为一个输出文件，<em>legoQuotes.js</em>，然后把它放到<em>lib</em>目录中。</p>
 <p>观察代码会发现ES6代码确实已经被转化为ES5.比如，<code>LegoCharacter</code>类中有一个ES5构造函数：</p>
 <figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// around line 179</span></span><br><span class="line"><span class="keyword">var</span> LegoCharacter = (<span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">   <span class="function"><span class="keyword">function</span> <span class="title">LegoCharacter</span>(<span class="params">_ref</span>) </span>&#123;</span><br><span class="line">      <span class="keyword">var</span> character = _ref.character;</span><br><span class="line">      <span class="keyword">var</span> actor = _ref.actor;</span><br><span class="line">      _classCallCheck(<span class="keyword">this</span>, LegoCharacter);</span><br><span class="line">      <span class="keyword">this</span>.actor = actor;</span><br><span class="line">      <span class="keyword">this</span>.name = character;</span><br><span class="line">      <span class="keyword">this</span>.sayings = [<span class="string">"I haven't been given any funny quotes yet."</span>];</span><br><span class="line">   &#125;</span><br><span class="line"></span><br><span class="line">   _createClass(LegoCharacter, [&#123;</span><br><span class="line">      key: <span class="string">"saySomething"</span>,</span><br><span class="line">      value: <span class="function"><span class="keyword">function</span> <span class="title">saySomething</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">         <span class="keyword">return</span> <span class="keyword">this</span>.sayings[(<span class="number">0</span>, _utils.getRandom)(<span class="number">0</span>, <span class="keyword">this</span>.sayings.length - <span class="number">1</span>)];</span><br><span class="line">      &#125;</span><br><span class="line">   &#125;]);</span><br><span class="line"></span><br><span class="line">   <span class="keyword">return</span> LegoCharacter;</span><br><span class="line">&#125;)();</span><br></pre></td></tr></table></figure>
-<h2 id="It’s_Usable!">It’s Usable!</h2><p>这时我们就可以include这个打包好的文件到所有的浏览器（IE9+，当然~）中，也可以在node中运行完美，只要babel运行时依赖完美。</p>
+<p>##It’s Usable!</p>
+<p>这时我们就可以include这个打包好的文件到所有的浏览器（IE9+，当然~）中，也可以在node中运行完美，只要babel运行时依赖完美。</p>
 <p>如果我们想在浏览器使用，它看起来会像下面的样子：</p>
 <figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">&lt;!-- index.html --&gt;</span></span><br><span class="line"><span class="meta">&lt;!DOCTYPE html&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">html</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">head</span>&gt;</span></span><br><span class="line">   <span class="tag">&lt;<span class="name">meta</span> <span class="attr">charset</span>=<span class="string">"utf-8"</span>&gt;</span></span><br><span class="line">   <span class="tag">&lt;<span class="name">meta</span> <span class="attr">http-equiv</span>=<span class="string">"X-UA-Compatible"</span> <span class="attr">content</span>=<span class="string">"IE=edge"</span>&gt;</span></span><br><span class="line">   <span class="tag">&lt;<span class="name">title</span>&gt;</span>Lego Quote Module Example<span class="tag">&lt;/<span class="name">title</span>&gt;</span></span><br><span class="line">   <span class="tag">&lt;<span class="name">link</span> <span class="attr">rel</span>=<span class="string">"stylesheet"</span> <span class="attr">href</span>=<span class="string">"style.css"</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">head</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">body</span>&gt;</span></span><br><span class="line">   <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"container"</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">blockquote</span> <span class="attr">id</span>=<span class="string">"quote"</span>&gt;</span><span class="tag">&lt;/<span class="name">blockquote</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">button</span> <span class="attr">id</span>=<span class="string">"btnMore"</span>&gt;</span>Get Another Quote<span class="tag">&lt;/<span class="name">button</span>&gt;</span></span><br><span class="line">   <span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line">   <span class="tag">&lt;<span class="name">script</span> <span class="attr">src</span>=<span class="string">"../node_modules/lodash/index.js"</span>&gt;</span><span class="undefined"></span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br><span class="line">   <span class="tag">&lt;<span class="name">script</span> <span class="attr">src</span>=<span class="string">"../node_modules/babel-core/browser-polyfill.js"</span>&gt;</span><span class="undefined"></span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br><span class="line">   <span class="tag">&lt;<span class="name">script</span> <span class="attr">src</span>=<span class="string">"../lib/legoQuotes.js"</span>&gt;</span><span class="undefined"></span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br><span class="line">   <span class="tag">&lt;<span class="name">script</span> <span class="attr">src</span>=<span class="string">"./main.js"</span>&gt;</span><span class="undefined"></span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">body</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">html</span>&gt;</span></span><br></pre></td></tr></table></figure>
 <p>你会看到我们已经依赖<em>legoQuotes.js</em>（就在babel的<em>browser-polyfill.js</em>下面），就像其他依赖一样使用<code>&lt;script&gt;</code>标签。我们的<em>main.js</em>使用了legoQuotes库，看起来是这个样子：</p>
 <figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// main.js</span></span><br><span class="line">( <span class="function"><span class="keyword">function</span>(<span class="params"> legoQuotes </span>) </span>&#123;</span><br><span class="line">   <span class="keyword">var</span> btn = <span class="built_in">document</span>.getElementById( <span class="string">"btnMore"</span> );</span><br><span class="line">   <span class="keyword">var</span> quote = <span class="built_in">document</span>.getElementById( <span class="string">"quote"</span> );</span><br><span class="line"></span><br><span class="line">   <span class="function"><span class="keyword">function</span> <span class="title">writeQuoteToDom</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">      quote.innerHTML = legoQuotes.getRandomQuote();</span><br><span class="line">   &#125;</span><br><span class="line"></span><br><span class="line">   btn.addEventListener( <span class="string">"click"</span>, writeQuoteToDom );</span><br><span class="line">   writeQuoteToDom();</span><br><span class="line">&#125; )( legoQuotes );</span><br></pre></td></tr></table></figure>
 <p>在node环境中使用，是这个样子：</p>
 <figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">require</span>(<span class="string">"babel/polyfill"</span>);</span><br><span class="line"><span class="keyword">var</span> lego = <span class="built_in">require</span>(<span class="string">"./lib/legoQuotes.js"</span>);</span><br><span class="line"><span class="built_in">console</span>.log(lego.getRandomQuote());</span><br><span class="line"><span class="comment">// &gt; Wyldstyle: Come with me if you want to not die.</span></span><br></pre></td></tr></table></figure>
-<h2 id="Moving_To_Gulp">Moving To Gulp</h2><p>Babel和webpack的命令行工具都非常有用和高效，但是我更倾向于用类似于Gulp的自动化构建工具来执行其他类似的任务。如果你有很多项目，那么你会体会到构建命令一致性所带来的好处，我们只需要记住类似<code>gulp someTaskName</code>的命令，而不需要记很多其他命令。在大多数情况下，这无所谓对与错，如果你喜欢其他的命令行工具，就去使用它。在我看来使用Gulp是一个简单而高效的选择。</p>
-<h3 id="SETTING_UP_A_BUILD_TASK">SETTING UP A BUILD TASK</h3><p>首先，我们要安装Gulp：</p>
+<p>##Moving To Gulp</p>
+<p>Babel和webpack的命令行工具都非常有用和高效，但是我更倾向于用类似于Gulp的自动化构建工具来执行其他类似的任务。如果你有很多项目，那么你会体会到构建命令一致性所带来的好处，我们只需要记住类似<code>gulp someTaskName</code>的命令，而不需要记很多其他命令。在大多数情况下，这无所谓对与错，如果你喜欢其他的命令行工具，就去使用它。在我看来使用Gulp是一个简单而高效的选择。</p>
+<p>###SETTING UP A BUILD TASK</p>
+<p>首先，我们要安装Gulp：</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm install -g gulp</span><br></pre></td></tr></table></figure>
 <p>接下来我们创建一个gulpfile配置文件。然后我们运行<code>npm install --save-dev webpack-stream</code>命令，来安装和使用<a href="https://www.npmjs.com/package/webpack-stream" target="_blank" rel="external">webpack-stream</a>gulp 插件。这个插件可以让webpack在gulp任务中完美运行。</p>
 <figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// gulpfile.js</span></span><br><span class="line"><span class="keyword">var</span> gulp = <span class="built_in">require</span>( <span class="string">"gulp"</span> );</span><br><span class="line"><span class="keyword">var</span> webpack = <span class="built_in">require</span>( <span class="string">"webpack-stream"</span> );</span><br><span class="line"></span><br><span class="line">gulp.task( <span class="string">"build"</span>, <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">   <span class="keyword">return</span> gulp.src( <span class="string">"src/index.js"</span> )</span><br><span class="line">      .pipe( webpack( <span class="built_in">require</span>( <span class="string">"./webpack.config.js"</span> ) ) )</span><br><span class="line">      .pipe( gulp.dest( <span class="string">"./lib"</span> ) )</span><br><span class="line">&#125; );</span><br></pre></td></tr></table></figure>
 <p>现在我已经把<em>index.js</em>放到了gulp的src中并且写入了output目录，那么我需要修改<em>webpack.config.js</em>文件，我删除了<code>entry</code>并且更新了<code>filename</code>。我还添加了<a href="http://webpack.github.io/docs/configuration.html#devtool" target="_blank" rel="external">devtool</a>配置，它的值为<code>#inline-source-map</code>（这将会在一个文件末尾写入一个source map）：</p>
 <figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// webpack.config.js</span></span><br><span class="line"><span class="built_in">module</span>.exports = &#123;</span><br><span class="line">   output: &#123;</span><br><span class="line">      library: <span class="string">"legoQuotes"</span>,</span><br><span class="line">      libraryTarget: <span class="string">"umd"</span>,</span><br><span class="line">      filename: <span class="string">"legoQuotes.js"</span></span><br><span class="line">   &#125;,</span><br><span class="line">   devtool: <span class="string">"#inline-source-map"</span>,</span><br><span class="line">   externals: [</span><br><span class="line">      &#123;</span><br><span class="line">         lodash: &#123;</span><br><span class="line">            root: <span class="string">"_"</span>,</span><br><span class="line">            commonjs: <span class="string">"lodash"</span>,</span><br><span class="line">            commonjs2: <span class="string">"lodash"</span>,</span><br><span class="line">            amd: <span class="string">"lodash"</span></span><br><span class="line">         &#125;</span><br><span class="line">      &#125;</span><br><span class="line">   ],</span><br><span class="line">   <span class="built_in">module</span>: &#123;</span><br><span class="line">      loaders: [</span><br><span class="line">         &#123;</span><br><span class="line">            test: <span class="regexp">/\.js$/</span>,</span><br><span class="line">            exclude: <span class="regexp">/node_modules/</span>,</span><br><span class="line">            loader: <span class="string">"babel"</span>,</span><br><span class="line">            query: &#123;</span><br><span class="line">               compact: <span class="literal">false</span></span><br><span class="line">            &#125;</span><br><span class="line">         &#125;</span><br><span class="line">      ]</span><br><span class="line">   &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
-<h3 id="WHAT_ABOUT_MINIFYING?">WHAT ABOUT MINIFYING?</h3><p>我很高兴你问了这个问题！我们用<a href="https://www.npmjs.com/package/gulp-uglify" target="_blank" rel="external">gulp-uglify</a>，配合使用<a href="https://www.npmjs.com/package/gulp-sourcemaps" target="_blank" rel="external">gulp-sourcemaps</a>(给我们的min文件生成source map)，<a href="https://www.npmjs.com/package/gulp-rename" target="_blank" rel="external">gulp-rename</a>(我们给压缩文件重命名，这样就不会覆盖未压缩的原始文件)，来完成代码压缩工作。我们添加它们到我们的项目中：</p>
+<p>###WHAT ABOUT MINIFYING?</p>
+<p>我很高兴你问了这个问题！我们用<a href="https://www.npmjs.com/package/gulp-uglify" target="_blank" rel="external">gulp-uglify</a>，配合使用<a href="https://www.npmjs.com/package/gulp-sourcemaps" target="_blank" rel="external">gulp-sourcemaps</a>(给我们的min文件生成source map)，<a href="https://www.npmjs.com/package/gulp-rename" target="_blank" rel="external">gulp-rename</a>(我们给压缩文件重命名，这样就不会覆盖未压缩的原始文件)，来完成代码压缩工作。我们添加它们到我们的项目中：</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm install --save-dev gulp-uglify gulp-sourcemaps gulp-rename</span><br></pre></td></tr></table></figure>
 <p>我们的未压缩文件依然有行内的source map，但是gulp-sourcemaps的作用是为压缩文件生成一个单独的source map文件：</p>
 <figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// gulpfile.js</span></span><br><span class="line"><span class="keyword">var</span> gulp = <span class="built_in">require</span>( <span class="string">"gulp"</span> );</span><br><span class="line"><span class="keyword">var</span> webpack = <span class="built_in">require</span>( <span class="string">"webpack-stream"</span> );</span><br><span class="line"><span class="keyword">var</span> sourcemaps = <span class="built_in">require</span>( <span class="string">"gulp-sourcemaps"</span> );</span><br><span class="line"><span class="keyword">var</span> rename = <span class="built_in">require</span>( <span class="string">"gulp-rename"</span> );</span><br><span class="line"><span class="keyword">var</span> uglify = <span class="built_in">require</span>( <span class="string">"gulp-uglify"</span> );</span><br><span class="line"></span><br><span class="line">gulp.task( <span class="string">"build"</span>, <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">   <span class="keyword">return</span> gulp.src( <span class="string">"src/index.js"</span> )</span><br><span class="line">      .pipe( webpack( <span class="built_in">require</span>( <span class="string">"./webpack.config.js"</span> ) ) )</span><br><span class="line">      .pipe( gulp.dest( <span class="string">"./lib"</span> ) )</span><br><span class="line">      .pipe( sourcemaps.init( &#123; loadMaps: <span class="literal">true</span> &#125; ) )</span><br><span class="line">      .pipe( uglify() )</span><br><span class="line">      .pipe( rename( <span class="string">"legoQuotes.min.js"</span> ) )</span><br><span class="line">      .pipe( sourcemaps.write( <span class="string">"./"</span> ) )</span><br><span class="line">      .pipe( gulp.dest( <span class="string">"lib/"</span> ) );</span><br><span class="line">&#125; );</span><br></pre></td></tr></table></figure>
 <p>现在在命令行里运行<code>gulp build</code>，我们会看到如下输出：</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">» gulp build</span><br><span class="line">[19:08:25] Using gulpfile ~/git/oss/next-gen-js/gulpfile.js</span><br><span class="line">[19:08:25] Starting <span class="string">'build'</span>...</span><br><span class="line">[19:08:26] Version: webpack 1.12.1</span><br><span class="line">        Asset     Size  Chunks             Chunk Names</span><br><span class="line">legoQuotes.js  23.3 kB       0  [emitted]  main</span><br><span class="line">[19:08:26] Finished <span class="string">'build'</span> after 1.28 s</span><br></pre></td></tr></table></figure>
 <p>现在在<em>lib/</em>目录里有三个文件：<em>legoQuotes.js</em>，<em>legoQuotes.min.js</em> 和 <em>legoQuotes.min.js.map</em>。</p>
-<h2 id="Webpack_Banner_Plugin">Webpack Banner Plugin</h2><p>如果你需要在你打包好的文件头部添加licence等注释信息，webpack可以简单实现。我更新了<em>webpack.config.js</em>文件，添加了<a href="http://webpack.github.io/docs/list-of-plugins.html#bannerplugin" target="_blank" rel="external">BannerPlugin</a>。我不喜欢亲自去编辑这些注释信息，所以我引入了<em>package.json</em>文件来获取这些关于库的信息。我还把<em>webpack.config.js</em>写成了ES6的格式，可以使用新特性<a href="http://www.2ality.com/2015/01/template-strings-html.html" target="_blank" rel="external">template string</a>来书写这些信息。在<em>webpack.config.js</em>文件底部可以看到我们添加了<code>plugins</code>属性，目前<code>BannerPlugin</code>使我们唯一使用的插件：</p>
+<p>##Webpack Banner Plugin </p>
+<p>如果你需要在你打包好的文件头部添加licence等注释信息，webpack可以简单实现。我更新了<em>webpack.config.js</em>文件，添加了<a href="http://webpack.github.io/docs/list-of-plugins.html#bannerplugin" target="_blank" rel="external">BannerPlugin</a>。我不喜欢亲自去编辑这些注释信息，所以我引入了<em>package.json</em>文件来获取这些关于库的信息。我还把<em>webpack.config.js</em>写成了ES6的格式，可以使用新特性<a href="http://www.2ality.com/2015/01/template-strings-html.html" target="_blank" rel="external">template string</a>来书写这些信息。在<em>webpack.config.js</em>文件底部可以看到我们添加了<code>plugins</code>属性，目前<code>BannerPlugin</code>使我们唯一使用的插件：</p>
 <figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// webpack.config.js</span></span><br><span class="line"><span class="keyword">import</span> webpack <span class="keyword">from</span> <span class="string">"webpack"</span>;</span><br><span class="line"><span class="keyword">import</span> pkg <span class="keyword">from</span> <span class="string">"./package.json"</span>;</span><br><span class="line"><span class="keyword">var</span> banner = <span class="string">`</span><br><span class="line">   <span class="subst">$&#123;pkg.name&#125;</span> - <span class="subst">$&#123;pkg.description&#125;</span></span><br><span class="line">   Author: <span class="subst">$&#123;pkg.author&#125;</span></span><br><span class="line">   Version: v<span class="subst">$&#123;pkg.version&#125;</span></span><br><span class="line">   Url: <span class="subst">$&#123;pkg.homepage&#125;</span></span><br><span class="line">   License(s): <span class="subst">$&#123;pkg.license&#125;</span></span><br><span class="line">`</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">export</span> <span class="keyword">default</span> &#123;</span><br><span class="line">   output: &#123;</span><br><span class="line">      library: pkg.name,</span><br><span class="line">      libraryTarget: <span class="string">"umd"</span>,</span><br><span class="line">      filename: <span class="string">`<span class="subst">$&#123;pkg.name&#125;</span>.js`</span></span><br><span class="line">   &#125;,</span><br><span class="line">   devtool: <span class="string">"#inline-source-map"</span>,</span><br><span class="line">   externals: [</span><br><span class="line">      &#123;</span><br><span class="line">         lodash: &#123;</span><br><span class="line">            root: <span class="string">"_"</span>,</span><br><span class="line">            commonjs: <span class="string">"lodash"</span>,</span><br><span class="line">            commonjs2: <span class="string">"lodash"</span>,</span><br><span class="line">            amd: <span class="string">"lodash"</span></span><br><span class="line">         &#125;</span><br><span class="line">      &#125;</span><br><span class="line">   ],</span><br><span class="line">   <span class="built_in">module</span>: &#123;</span><br><span class="line">      loaders: [</span><br><span class="line">         &#123;</span><br><span class="line">            test: <span class="regexp">/\.js$/</span>,</span><br><span class="line">            exclude: <span class="regexp">/node_modules/</span>,</span><br><span class="line">            loader: <span class="string">"babel"</span>,</span><br><span class="line">            query: &#123;</span><br><span class="line">               compact: <span class="literal">false</span></span><br><span class="line">            &#125;</span><br><span class="line">         &#125;</span><br><span class="line">      ]</span><br><span class="line">   &#125;,</span><br><span class="line">   plugins: [</span><br><span class="line">      <span class="keyword">new</span> webpack.BannerPlugin( banner )</span><br><span class="line">   ]</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
 <p>(<strong>Note:</strong> 值得注意的是当我把<em>webpack.config.js</em>写成ES6，就不能再使用webpack命令行工具来运行它了。)</p>
 <p>我们的<em>gulpfile.js</em>也做了两个更新：在第一行添加了babel register hook；我们传入了gulp-uglify 的配置信息：</p>
 <figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// gulpfile.js</span></span><br><span class="line"><span class="built_in">require</span>(<span class="string">"babel/register"</span>);</span><br><span class="line"><span class="keyword">var</span> gulp = <span class="built_in">require</span>( <span class="string">"gulp"</span> );</span><br><span class="line"><span class="keyword">var</span> webpack = <span class="built_in">require</span>( <span class="string">"webpack-stream"</span> );</span><br><span class="line"><span class="keyword">var</span> sourcemaps = <span class="built_in">require</span>( <span class="string">"gulp-sourcemaps"</span> );</span><br><span class="line"><span class="keyword">var</span> rename = <span class="built_in">require</span>( <span class="string">"gulp-rename"</span> );</span><br><span class="line"><span class="keyword">var</span> uglify = <span class="built_in">require</span>( <span class="string">"gulp-uglify"</span> );</span><br><span class="line"></span><br><span class="line">gulp.task( <span class="string">"build"</span>, <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">   <span class="keyword">return</span> gulp.src( <span class="string">"src/index.js"</span> )</span><br><span class="line">      .pipe( webpack( <span class="built_in">require</span>( <span class="string">"./webpack.config.js"</span> ) ) )</span><br><span class="line">      .pipe( gulp.dest( <span class="string">"./lib"</span> ) )</span><br><span class="line">      .pipe( sourcemaps.init( &#123; loadMaps: <span class="literal">true</span> &#125; ) )</span><br><span class="line">      .pipe( uglify( &#123;</span><br><span class="line">         <span class="comment">// This keeps the banner in the minified output</span></span><br><span class="line">         preserveComments: <span class="string">"license"</span>,</span><br><span class="line">         compress: &#123;</span><br><span class="line">            <span class="comment">// just a personal preference of mine</span></span><br><span class="line">               negate_iife: <span class="literal">false</span></span><br><span class="line">            &#125;</span><br><span class="line">      &#125; ) )</span><br><span class="line">      .pipe( rename( <span class="string">"legoQuotes.min.js"</span> ) )</span><br><span class="line">      .pipe( sourcemaps.write( <span class="string">"./"</span> ) )</span><br><span class="line">      .pipe( gulp.dest( <span class="string">"lib/"</span> ) );</span><br><span class="line">&#125; );</span><br></pre></td></tr></table></figure>
-<h2 id="What’s_Next?">What’s Next?</h2><p>我们已经为我们的旅途开了个好头！！到目前为止我们已经用Babel 和 webpack命令行工具构建了我们的项目，然后我们用gulp(和相关插件)自动化构建打包我们的项目。<a href="https://github.com/ifandelse/legoQuotes/releases/tag/v1.0.0" target="_blank" rel="external">这篇文章的代码</a>包含了<em>example/</em>文件夹，在其中有浏览器端和node端的示例。在下一篇文章中，我们将用 ESLint 和 JSCS 来检查我们的代码，用 mocha 和 chai 来书写测试，用 Karma 来跑这些测试，用 istanbul 来计量测试的覆盖面。同时，你可以看另一篇非常棒的文章—<a href="https://www.smashingmagazine.com/2012/10/designing-javascript-apis-usability/" target="_blank" rel="external">Designing Better JavaScript APIs</a>，它可以帮助你写出更好的模块代码。</p>
+<p>##What’s Next?</p>
+<p>我们已经为我们的旅途开了个好头！！到目前为止我们已经用Babel 和 webpack命令行工具构建了我们的项目，然后我们用gulp(和相关插件)自动化构建打包我们的项目。<a href="https://github.com/ifandelse/legoQuotes/releases/tag/v1.0.0" target="_blank" rel="external">这篇文章的代码</a>包含了<em>example/</em>文件夹，在其中有浏览器端和node端的示例。在下一篇文章中，我们将用 ESLint 和 JSCS 来检查我们的代码，用 mocha 和 chai 来书写测试，用 Karma 来跑这些测试，用 istanbul 来计量测试的覆盖面。同时，你可以看另一篇非常棒的文章–<a href="https://www.smashingmagazine.com/2012/10/designing-javascript-apis-usability/" target="_blank" rel="external">Designing Better JavaScript APIs</a>，它可以帮助你写出更好的模块代码。</p>
 <p>译自<a href="https://www.smashingmagazine.com/2016/02/writing-next-generation-reusable-javascript-modules/" target="_blank" rel="external">Writing Next Generation Reusable JavaScript Modules in ECMAScript 6</a></p>
-</div><div class="tags"><a href="/blog/tags/ES6-JavaScript/">ES6, JavaScript</a></div><div class="post-nav"><a href="/blog/2016/02/08/2016-2-8/" class="pre"><i class="icon-previous">马上开始写 react &amp; ES6 --- 基于gulp 和 Babel 的脚手架</i></a><a href="/blog/2016/02/03/2016-2-3-md/" class="next">(译)响应式图片— srcset 和 sizes 属性<i class="icon-next"></i></a></div><div id="disqus_thread"><script>var disqus_shortname = 'mrdreamxyzblog';
-var disqus_identifier = '2016/02/04/2016-2-4/';
-var disqus_title = '(译)用ES6构建新一代可复用 JS 模块';
-var disqus_url = 'http://mrdream24.github.io/blog/2016/02/04/2016-2-4/';
-(function() {
-  var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
-  dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
-  (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
-})();</script><script id="dsq-count-scr" src="//mrdreamxyzblog.disqus.com/count.js" async></script></div></div></div></div><div class="pure-u-1-4"><div id="sidebar"><div class="widget"><form action="//www.baidu.com/baidu" method="get" accept-charset="utf-8" target="_blank" class="search-form"><input type="search" name="word" maxlength="20" placeholder="Search" class="search-form-input"/><input type="hidden" name="si" value="http://mrdream24.github.io/blog"/><input name="tn" type="hidden" value="bds"/><input name="cl" type="hidden" value="3"/><input name="ct" type="hidden" value="2097152"/><input name="s" type="hidden" value="on"/></form></div><div class="widget"><div class="widget-title">分类</div><ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/blog/categories/日记/">日记</a></li><li class="category-list-item"><a class="category-list-link" href="/blog/categories/随笔/">随笔</a></li></ul></div><div class="widget"><div class="widget-title">标签</div><div class="tagcloud"><a href="/blog/tags/播客/" style="font-size: 15px;">播客</a> <a href="/blog/tags/面试/" style="font-size: 15px;">面试</a> <a href="/blog/tags/JavaScript/" style="font-size: 15px;">JavaScript</a> <a href="/blog/tags/技术/" style="font-size: 15px;">技术</a> <a href="/blog/tags/react-ES6-gulp/" style="font-size: 15px;">react ES6 gulp</a> <a href="/blog/tags/ES6-JavaScript/" style="font-size: 15px;">ES6, JavaScript</a> <a href="/blog/tags/JavaScript-DOM/" style="font-size: 15px;">JavaScript DOM</a> <a href="/blog/tags/JavaScript-ES6/" style="font-size: 15px;">JavaScript ES6</a> <a href="/blog/tags/我的诗/" style="font-size: 15px;">我的诗</a> <a href="/blog/tags/数码-生活/" style="font-size: 15px;">数码 生活</a> <a href="/blog/tags/生活/" style="font-size: 15px;">生活</a> <a href="/blog/tags/存旧/" style="font-size: 15px;">存旧</a> <a href="/blog/tags/日记/" style="font-size: 15px;">日记</a></div></div><div class="widget"><div class="widget-title">最新文章</div><ul class="post-list"><li class="post-list-item"><a class="post-list-link" href="/blog/2016/03/30/nvhaixinhua/">nvhaixinhua</a></li><li class="post-list-item"><a class="post-list-link" href="/blog/2016/02/23/javascript-promise-api/">JavaScript Promise API</a></li><li class="post-list-item"><a class="post-list-link" href="/blog/2016/02/18/2016-2-18/">（译）基于 Promise 的JavaScript 电池新 API</a></li><li class="post-list-item"><a class="post-list-link" href="/blog/2016/02/15/2016-2-15/">重读 JavaScript DOM 编程艺术（一）--DOM 的增删改查</a></li><li class="post-list-item"><a class="post-list-link" href="/blog/2016/02/08/2016-2-8/">马上开始写 react & ES6 --- 基于gulp 和 Babel 的脚手架</a></li><li class="post-list-item"><a class="post-list-link" href="/blog/2016/02/04/2016-2-4/">(译)用ES6构建新一代可复用 JS 模块</a></li><li class="post-list-item"><a class="post-list-link" href="/blog/2016/02/03/2016-2-3-md/">(译)响应式图片— srcset 和 sizes 属性</a></li><li class="post-list-item"><a class="post-list-link" href="/blog/2016/01/12/2016-1-12/">面试题答疑</a></li><li class="post-list-item"><a class="post-list-link" href="/blog/2015/11/06/boke2/">瞎扯淡第二期稿子</a></li><li class="post-list-item"><a class="post-list-link" href="/blog/2015/09/08/让我死去/">让我死</a></li></ul></div><div class="widget"><div class="widget-title">最近评论</div><script type="text/javascript" src="//mrdreamxyzblog.disqus.com/recent_comments_widget.js?num_items=5&amp;hide_avatars=1&amp;avatar_size=32&amp;excerpt_length=20&amp;hide_mods=1"></script></div><div class="widget"><div class="widget-title">友情链接</div><ul></ul><a href="http://usepanda.com/app/" title="panda" target="_blank">panda</a><ul></ul><a href="https://github.com/mrdream24" title="我的Github" target="_blank">我的Github</a><ul></ul><a href="http://gold.xitu.io/" title="稀土掘金" target="_blank">稀土掘金</a></div></div></div></div><div id="footer">© <a href="/blog/." rel="nofollow">MrDream.</a> Powered by<a rel="nofollow" target="_blank" href="https://hexo.io"> Hexo.</a><a rel="nofollow" target="_blank" href="https://github.com/tufu9441/maupassant-hexo"> Theme</a> by<a rel="nofollow" target="_blank" href="https://github.com/pagecho"> Cho.</a></div><a id="rocket" href="#top" class="show"></a><script type="text/javascript" src="/blog/js/jquery.min.js?v=0.1.0"></script><script type="text/javascript" src="/blog/js/totop.js?v=0.1.0"></script><script type="text/javascript" src="/blog/js/fancybox.pack.js?v=0.1.0"></script><script type="text/javascript" src="/blog/js/jquery.fancybox.js?v=0.1.0"></script><link rel="stylesheet" type="text/css" href="/blog/css/jquery.fancybox.css?v=0.1.0"><script type="text/javascript" src="/blog/js/codeblock-resizer.js?v=0.1.0"></script><script type="text/javascript" src="/blog/js/smartresize.js?v=0.1.0"></script></div></body></html>
+
+      
+    </div>
+    
+    <div>
+      
+        
+      
+    </div>
+
+    <div>
+      
+        
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/blog/tags/ES6-JavaScript/" rel="tag">#ES6, JavaScript</a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/blog/2016/02/03/2016-2-3-md/" rel="next" title="(译)响应式图片— srcset 和 sizes 属性">
+                <i class="fa fa-chevron-left"></i> (译)响应式图片— srcset 和 sizes 属性
+              </a>
+            
+          </div>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/blog/2016/02/08/2016-2-8/" rel="prev" title="马上开始写 react & ES6 --- 基于gulp 和 Babel 的脚手架">
+                马上开始写 react & ES6 --- 基于gulp 和 Babel 的脚手架 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div id="disqus_thread">
+        <noscript>
+          Please enable JavaScript to view the
+          <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a>
+        </noscript>
+      </div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目錄
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            本站概覽
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel ">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/blog/images/default_avatar.jpg"
+               alt="MrDream" />
+          <p class="site-author-name" itemprop="name">MrDream</p>
+          <p class="site-description motion-element" itemprop="description"></p>
+        </div>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/blog/archives/">
+              <span class="site-state-item-count">23</span>
+              <span class="site-state-item-name">文章</span>
+            </a>
+          </div>
+
+          
+            <div class="site-state-item site-state-categories">
+              
+                <span class="site-state-item-count">2</span>
+                <span class="site-state-item-name">分類</span>
+              
+            </div>
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/blog/tags">
+                <span class="site-state-item-count">13</span>
+                <span class="site-state-item-name">標籤</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+        
+        
+
+        
+        
+
+      </section>
+
+      
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+            
+              
+            
+            
+              <p class="post-toc-empty">此文章未包含目錄</p>
+            
+          </div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2016</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">MrDream</span>
+</div>
+
+<div class="powered-by">
+  由 <a class="theme-link" href="http://hexo.io">Hexo</a> 強力驅動
+</div>
+
+<div class="theme-info">
+  主題 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Muse
+  </a>
+</div>
+
+        
+
+        
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+  <script type="text/javascript" src="/blog/vendors/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/blog/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/blog/vendors/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/blog/vendors/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/blog/vendors/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/blog/vendors/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/blog/js/src/utils.js?v=5.0.1"></script>
+
+  <script type="text/javascript" src="/blog/js/src/motion.js?v=5.0.1"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/blog/js/src/scrollspy.js?v=5.0.1"></script>
+<script type="text/javascript" src="/blog/js/src/post-details.js?v=5.0.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/blog/js/src/bootstrap.js?v=5.0.1"></script>
+
+
+
+  
+
+
+
+  
+
+    <script type="text/javascript">
+      var disqus_shortname = 'mrdreamxyzblog';
+      var disqus_identifier = '2016/02/04/2016-2-4/';
+      var disqus_title = '(译)用ES6构建新一代可复用 JS 模块';
+      var disqus_url = 'http://mrdream24.github.io/blog/blog/2016/02/04/2016-2-4/';
+
+      function run_disqus_script(disqus_script){
+        var dsq = document.createElement('script');
+        dsq.type = 'text/javascript';
+        dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/' + disqus_script;
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+      }
+
+      run_disqus_script('count.js');
+      
+        run_disqus_script('embed.js');
+      
+    </script>
+  
+
+
+
+  
+  
+  
+
+  
+
+  
+
+</body>
+</html>

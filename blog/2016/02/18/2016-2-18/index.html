@@ -1,4 +1,299 @@
-<!DOCTYPE html><html lang="zh-CN"><head><meta http-equiv="content-type" content="text/html; charset=utf-8"><meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport"><meta content="yes" name="apple-mobile-web-app-capable"><meta content="black-translucent" name="apple-mobile-web-app-status-bar-style"><meta content="telephone=no" name="format-detection"><meta name="description"><title>（译）基于 Promise 的JavaScript 电池新 API | MrDream</title><link rel="stylesheet" type="text/css" href="/blog/css/normalize.css?v=0.1.0"><link rel="stylesheet" type="text/css" href="/blog/css/pure-min.css?v=0.1.0"><link rel="stylesheet" type="text/css" href="/blog/css/grids-responsive-min.css?v=0.1.0"><link rel="stylesheet" type="text/css" href="/blog/css/style.css?v=0.1.0"><link rel="Shortcut Icon" type="image/x-icon" href="/blog/favicon.ico"><link rel="apple-touch-icon" href="/blog/apple-touch-icon.png"><link rel="apple-touch-icon-precomposed" href="/blog/apple-touch-icon.png"></head><body><div class="body_container"><div id="header"><div class="site-name"><h1 class="hidden">（译）基于 Promise 的JavaScript 电池新 API</h1><a id="logo" href="/blog/.">MrDream</a><p class="description">我的琴声呜咽，泪水全无</p></div><div id="nav-menu"><a href="/blog/." class="current"><i class="icon-home"> 首页</i></a><a href="/blog/archives/"><i class="icon-archive"> 归档</i></a><a href="/blog/../cv/"><i class="icon-about"> 关于</i></a></div></div><div id="layout" class="pure-g"><div class="pure-u-1 pure-u-md-3-4"><div class="content_container"><div class="post post-page"><h1 class="post-title">（译）基于 Promise 的JavaScript 电池新 API</h1><div class="post-meta">2016-02-18</div><span data-disqus-identifier="2016/02/18/2016-2-18/" class="disqus-comment-count"></span><div class="post-content"><p>翻译自<a href="https://davidwalsh.name/javascript-battery-api" target="_blank" rel="external">JavaScript Battery API: Promises</a></p>
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next muse use-motion">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+  <link href="/blog/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css"/>
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+<link href="/blog/vendors/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css" />
+
+<link href="/blog/css/main.css?v=5.0.1" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="JavaScript," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/blog/favicon.ico?v=5.0.1" />
+
+
+
+
+
+
+<meta name="description" content="翻译自JavaScript Battery API: Promises
+
+在 Mozilla 工作使我有很多时间来看新的 API，其中就有Battery API。在这个API刚刚出来的时候，我写过一篇关于这个API的文章。如今这个API已经修改，基于promise API实现了Battery API，而Google Chrome是现在唯一实现这个API的浏览器。让我们来看看如何使用这个API！
+我">
+<meta property="og:type" content="article">
+<meta property="og:title" content="（译）基于 Promise 的JavaScript 电池新 API">
+<meta property="og:url" content="http://mrdream24.github.io/blog/2016/02/18/2016-2-18/index.html">
+<meta property="og:site_name" content="MrDream">
+<meta property="og:description" content="翻译自JavaScript Battery API: Promises
+
+在 Mozilla 工作使我有很多时间来看新的 API，其中就有Battery API。在这个API刚刚出来的时候，我写过一篇关于这个API的文章。如今这个API已经修改，基于promise API实现了Battery API，而Google Chrome是现在唯一实现这个API的浏览器。让我们来看看如何使用这个API！
+我">
+<meta property="og:updated_time" content="2016-02-18T05:30:57.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="（译）基于 Promise 的JavaScript 电池新 API">
+<meta name="twitter:description" content="翻译自JavaScript Battery API: Promises
+
+在 Mozilla 工作使我有很多时间来看新的 API，其中就有Battery API。在这个API刚刚出来的时候，我写过一篇关于这个API的文章。如今这个API已经修改，基于promise API实现了Battery API，而Google Chrome是现在唯一实现这个API的浏览器。让我们来看看如何使用这个API！
+我">
+
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    scheme: 'Muse',
+    sidebar: {"position":"left","display":"post"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: 0,
+      author: '博主'
+    }
+  };
+</script>
+
+  <title> （译）基于 Promise 的JavaScript 电池新 API | MrDream </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-tw">
+
+  
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/blog/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">MrDream</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle">我的琴声呜咽，我的泪水全无</p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/blog/." rel="section">
+            
+              <i class="menu-item-icon fa fa-home fa-fw"></i> <br />
+            
+            首頁
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/blog/../cv/" rel="section">
+            
+              <i class="menu-item-icon fa fa-user fa-fw"></i> <br />
+            
+            關於
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/blog/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-archive fa-fw"></i> <br />
+            
+            歸檔
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/blog/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-tags fa-fw"></i> <br />
+            
+            標籤
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                （译）基于 Promise 的JavaScript 电池新 API
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">發表於</span>
+            <time itemprop="dateCreated" datetime="2016-02-18T13:10:09+08:00" content="2016-02-18">
+              2016-02-18
+            </time>
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/blog/2016/02/18/2016-2-18/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2016/02/18/2016-2-18/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>翻译自<a href="https://davidwalsh.name/javascript-battery-api" target="_blank" rel="external">JavaScript Battery API: Promises</a></p>
 <hr>
 <p>在 Mozilla 工作使我有很多时间来看新的 API，其中就有<a href="https://www.w3.org/TR/battery-status/" target="_blank" rel="external">Battery API</a>。在这个API刚刚出来的时候，我写过一篇关于这个API的<a href="https://davidwalsh.name/battery-api" target="_blank" rel="external">文章</a>。如今这个API已经修改，基于promise API实现了Battery API，而Google Chrome是现在唯一实现这个API的浏览器。让我们来看看如何使用这个API！</p>
 <p>我们将要使用的这个方法仍然绑定在<code>navigator</code>对象上，但是如今这个方法叫做<code>getBattery</code>：</p>
@@ -6,12 +301,314 @@
 <p><code>getBattery()</code>方法返回一个<em>promise</em>对象，给回调函数<code>than</code>一个名叫<code>BatteryManager</code>的对象，就像下面：</p>
 <figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// result:</span></span><br><span class="line">BatteryManagery &#123;</span><br><span class="line">	charging: <span class="literal">false</span>,</span><br><span class="line">	chargingTime: <span class="literal">Infinity</span>,</span><br><span class="line">	dischargingTime: <span class="number">8940</span>,</span><br><span class="line">	level: <span class="number">0.59</span>,</span><br><span class="line">	onchargingchange: <span class="literal">null</span>,</span><br><span class="line">	onchargingtimechange: <span class="literal">null</span>,</span><br><span class="line">	ondischargingtimechange: <span class="literal">null</span>,</span><br><span class="line">	onlevelchange: <span class="literal">null</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <p>这个新API在实现上和之前不同，但是给出了与之前类似的结果。老的API在MAC设备上有一些问题，而且并没有改进。各个浏览器都有自己的专有前缀确实令人难过，但我们慢慢习惯和接受了一点，但是如果各个浏览器方法名完全不一样那确实是太糟糕了。所以我希望各个浏览器赶紧升级和改进，让我们又可以使用统一的，browser-prefixed (开玩笑，哈哈) API 。</p>
-</div><div class="tags"><a href="/blog/tags/JavaScript/">JavaScript</a></div><div class="post-nav"><a href="/blog/2016/02/23/javascript-promise-api/" class="pre"><i class="icon-previous">JavaScript Promise API</i></a><a href="/blog/2016/02/15/2016-2-15/" class="next">重读 JavaScript DOM 编程艺术（一）--DOM 的增删改查<i class="icon-next"></i></a></div><div id="disqus_thread"><script>var disqus_shortname = 'mrdreamxyzblog';
-var disqus_identifier = '2016/02/18/2016-2-18/';
-var disqus_title = '（译）基于 Promise 的JavaScript 电池新 API';
-var disqus_url = 'http://mrdream24.github.io/blog/2016/02/18/2016-2-18/';
-(function() {
-  var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
-  dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
-  (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
-})();</script><script id="dsq-count-scr" src="//mrdreamxyzblog.disqus.com/count.js" async></script></div></div></div></div><div class="pure-u-1-4"><div id="sidebar"><div class="widget"><form action="//www.baidu.com/baidu" method="get" accept-charset="utf-8" target="_blank" class="search-form"><input type="search" name="word" maxlength="20" placeholder="Search" class="search-form-input"/><input type="hidden" name="si" value="http://mrdream24.github.io/blog"/><input name="tn" type="hidden" value="bds"/><input name="cl" type="hidden" value="3"/><input name="ct" type="hidden" value="2097152"/><input name="s" type="hidden" value="on"/></form></div><div class="widget"><div class="widget-title">分类</div><ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/blog/categories/日记/">日记</a></li><li class="category-list-item"><a class="category-list-link" href="/blog/categories/随笔/">随笔</a></li></ul></div><div class="widget"><div class="widget-title">标签</div><div class="tagcloud"><a href="/blog/tags/播客/" style="font-size: 15px;">播客</a> <a href="/blog/tags/面试/" style="font-size: 15px;">面试</a> <a href="/blog/tags/JavaScript/" style="font-size: 15px;">JavaScript</a> <a href="/blog/tags/技术/" style="font-size: 15px;">技术</a> <a href="/blog/tags/react-ES6-gulp/" style="font-size: 15px;">react ES6 gulp</a> <a href="/blog/tags/ES6-JavaScript/" style="font-size: 15px;">ES6, JavaScript</a> <a href="/blog/tags/JavaScript-DOM/" style="font-size: 15px;">JavaScript DOM</a> <a href="/blog/tags/JavaScript-ES6/" style="font-size: 15px;">JavaScript ES6</a> <a href="/blog/tags/我的诗/" style="font-size: 15px;">我的诗</a> <a href="/blog/tags/数码-生活/" style="font-size: 15px;">数码 生活</a> <a href="/blog/tags/生活/" style="font-size: 15px;">生活</a> <a href="/blog/tags/存旧/" style="font-size: 15px;">存旧</a> <a href="/blog/tags/日记/" style="font-size: 15px;">日记</a></div></div><div class="widget"><div class="widget-title">最新文章</div><ul class="post-list"><li class="post-list-item"><a class="post-list-link" href="/blog/2016/03/30/nvhaixinhua/">nvhaixinhua</a></li><li class="post-list-item"><a class="post-list-link" href="/blog/2016/02/23/javascript-promise-api/">JavaScript Promise API</a></li><li class="post-list-item"><a class="post-list-link" href="/blog/2016/02/18/2016-2-18/">（译）基于 Promise 的JavaScript 电池新 API</a></li><li class="post-list-item"><a class="post-list-link" href="/blog/2016/02/15/2016-2-15/">重读 JavaScript DOM 编程艺术（一）--DOM 的增删改查</a></li><li class="post-list-item"><a class="post-list-link" href="/blog/2016/02/08/2016-2-8/">马上开始写 react & ES6 --- 基于gulp 和 Babel 的脚手架</a></li><li class="post-list-item"><a class="post-list-link" href="/blog/2016/02/04/2016-2-4/">(译)用ES6构建新一代可复用 JS 模块</a></li><li class="post-list-item"><a class="post-list-link" href="/blog/2016/02/03/2016-2-3-md/">(译)响应式图片— srcset 和 sizes 属性</a></li><li class="post-list-item"><a class="post-list-link" href="/blog/2016/01/12/2016-1-12/">面试题答疑</a></li><li class="post-list-item"><a class="post-list-link" href="/blog/2015/11/06/boke2/">瞎扯淡第二期稿子</a></li><li class="post-list-item"><a class="post-list-link" href="/blog/2015/09/08/让我死去/">让我死</a></li></ul></div><div class="widget"><div class="widget-title">最近评论</div><script type="text/javascript" src="//mrdreamxyzblog.disqus.com/recent_comments_widget.js?num_items=5&amp;hide_avatars=1&amp;avatar_size=32&amp;excerpt_length=20&amp;hide_mods=1"></script></div><div class="widget"><div class="widget-title">友情链接</div><ul></ul><a href="http://usepanda.com/app/" title="panda" target="_blank">panda</a><ul></ul><a href="https://github.com/mrdream24" title="我的Github" target="_blank">我的Github</a><ul></ul><a href="http://gold.xitu.io/" title="稀土掘金" target="_blank">稀土掘金</a></div></div></div></div><div id="footer">© <a href="/blog/." rel="nofollow">MrDream.</a> Powered by<a rel="nofollow" target="_blank" href="https://hexo.io"> Hexo.</a><a rel="nofollow" target="_blank" href="https://github.com/tufu9441/maupassant-hexo"> Theme</a> by<a rel="nofollow" target="_blank" href="https://github.com/pagecho"> Cho.</a></div><a id="rocket" href="#top" class="show"></a><script type="text/javascript" src="/blog/js/jquery.min.js?v=0.1.0"></script><script type="text/javascript" src="/blog/js/totop.js?v=0.1.0"></script><script type="text/javascript" src="/blog/js/fancybox.pack.js?v=0.1.0"></script><script type="text/javascript" src="/blog/js/jquery.fancybox.js?v=0.1.0"></script><link rel="stylesheet" type="text/css" href="/blog/css/jquery.fancybox.css?v=0.1.0"><script type="text/javascript" src="/blog/js/codeblock-resizer.js?v=0.1.0"></script><script type="text/javascript" src="/blog/js/smartresize.js?v=0.1.0"></script></div></body></html>
+
+      
+    </div>
+    
+    <div>
+      
+        
+      
+    </div>
+
+    <div>
+      
+        
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/blog/tags/JavaScript/" rel="tag">#JavaScript</a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/blog/2016/02/15/2016-2-15/" rel="next" title="重读 JavaScript DOM 编程艺术（一）--DOM 的增删改查">
+                <i class="fa fa-chevron-left"></i> 重读 JavaScript DOM 编程艺术（一）--DOM 的增删改查
+              </a>
+            
+          </div>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/blog/2016/02/23/javascript-promise-api/" rel="prev" title="JavaScript Promise API">
+                JavaScript Promise API <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div id="disqus_thread">
+        <noscript>
+          Please enable JavaScript to view the
+          <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a>
+        </noscript>
+      </div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目錄
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            本站概覽
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel ">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/blog/images/default_avatar.jpg"
+               alt="MrDream" />
+          <p class="site-author-name" itemprop="name">MrDream</p>
+          <p class="site-description motion-element" itemprop="description"></p>
+        </div>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/blog/archives/">
+              <span class="site-state-item-count">23</span>
+              <span class="site-state-item-name">文章</span>
+            </a>
+          </div>
+
+          
+            <div class="site-state-item site-state-categories">
+              
+                <span class="site-state-item-count">2</span>
+                <span class="site-state-item-name">分類</span>
+              
+            </div>
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/blog/tags">
+                <span class="site-state-item-count">13</span>
+                <span class="site-state-item-name">標籤</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+        
+        
+
+        
+        
+
+      </section>
+
+      
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+            
+              
+            
+            
+              <p class="post-toc-empty">此文章未包含目錄</p>
+            
+          </div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2016</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">MrDream</span>
+</div>
+
+<div class="powered-by">
+  由 <a class="theme-link" href="http://hexo.io">Hexo</a> 強力驅動
+</div>
+
+<div class="theme-info">
+  主題 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Muse
+  </a>
+</div>
+
+        
+
+        
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+  <script type="text/javascript" src="/blog/vendors/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/blog/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/blog/vendors/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/blog/vendors/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/blog/vendors/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/blog/vendors/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/blog/js/src/utils.js?v=5.0.1"></script>
+
+  <script type="text/javascript" src="/blog/js/src/motion.js?v=5.0.1"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/blog/js/src/scrollspy.js?v=5.0.1"></script>
+<script type="text/javascript" src="/blog/js/src/post-details.js?v=5.0.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/blog/js/src/bootstrap.js?v=5.0.1"></script>
+
+
+
+  
+
+
+
+  
+
+    <script type="text/javascript">
+      var disqus_shortname = 'mrdreamxyzblog';
+      var disqus_identifier = '2016/02/18/2016-2-18/';
+      var disqus_title = '（译）基于 Promise 的JavaScript 电池新 API';
+      var disqus_url = 'http://mrdream24.github.io/blog/blog/2016/02/18/2016-2-18/';
+
+      function run_disqus_script(disqus_script){
+        var dsq = document.createElement('script');
+        dsq.type = 'text/javascript';
+        dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/' + disqus_script;
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+      }
+
+      run_disqus_script('count.js');
+      
+        run_disqus_script('embed.js');
+      
+    </script>
+  
+
+
+
+  
+  
+  
+
+  
+
+  
+
+</body>
+</html>
