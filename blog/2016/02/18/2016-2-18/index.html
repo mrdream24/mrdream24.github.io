@@ -82,23 +82,20 @@
 
 <meta name="description" content="翻译自JavaScript Battery API: Promises
 
-在 Mozilla 工作使我有很多时间来看新的 API，其中就有Battery API。在这个API刚刚出来的时候，我写过一篇关于这个API的文章。如今这个API已经修改，基于promise API实现了Battery API，而Google Chrome是现在唯一实现这个API的浏览器。让我们来看看如何使用这个API！
-我">
+在 Mozilla 工作使我有很多时间来看新的 API，其中就有Battery API。在这个API刚刚出来的时候，我写过一篇关于这个API的文章。如今这个API已经修改，基于promise API实现了Battery API，而Google Chrome是现在唯一实现这个API的浏览器。让我们来看看如何使用这个API！">
 <meta property="og:type" content="article">
 <meta property="og:title" content="（译）基于 Promise 的JavaScript 电池新 API">
 <meta property="og:url" content="http://mrdream24.github.io/blog/2016/02/18/2016-2-18/index.html">
 <meta property="og:site_name" content="MrDream">
 <meta property="og:description" content="翻译自JavaScript Battery API: Promises
 
-在 Mozilla 工作使我有很多时间来看新的 API，其中就有Battery API。在这个API刚刚出来的时候，我写过一篇关于这个API的文章。如今这个API已经修改，基于promise API实现了Battery API，而Google Chrome是现在唯一实现这个API的浏览器。让我们来看看如何使用这个API！
-我">
-<meta property="og:updated_time" content="2016-02-18T05:30:57.000Z">
+在 Mozilla 工作使我有很多时间来看新的 API，其中就有Battery API。在这个API刚刚出来的时候，我写过一篇关于这个API的文章。如今这个API已经修改，基于promise API实现了Battery API，而Google Chrome是现在唯一实现这个API的浏览器。让我们来看看如何使用这个API！">
+<meta property="og:updated_time" content="2016-06-01T14:43:22.762Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="（译）基于 Promise 的JavaScript 电池新 API">
 <meta name="twitter:description" content="翻译自JavaScript Battery API: Promises
 
-在 Mozilla 工作使我有很多时间来看新的 API，其中就有Battery API。在这个API刚刚出来的时候，我写过一篇关于这个API的文章。如今这个API已经修改，基于promise API实现了Battery API，而Google Chrome是现在唯一实现这个API的浏览器。让我们来看看如何使用这个API！
-我">
+在 Mozilla 工作使我有很多时间来看新的 API，其中就有Battery API。在这个API刚刚出来的时候，我写过一篇关于这个API的文章。如今这个API已经修改，基于promise API实现了Battery API，而Google Chrome是现在唯一实现这个API的浏览器。让我们来看看如何使用这个API！">
 
 
 
@@ -296,6 +293,7 @@
         <p>翻译自<a href="https://davidwalsh.name/javascript-battery-api" target="_blank" rel="external">JavaScript Battery API: Promises</a></p>
 <hr>
 <p>在 Mozilla 工作使我有很多时间来看新的 API，其中就有<a href="https://www.w3.org/TR/battery-status/" target="_blank" rel="external">Battery API</a>。在这个API刚刚出来的时候，我写过一篇关于这个API的<a href="https://davidwalsh.name/battery-api" target="_blank" rel="external">文章</a>。如今这个API已经修改，基于promise API实现了Battery API，而Google Chrome是现在唯一实现这个API的浏览器。让我们来看看如何使用这个API！</p>
+<a id="more"></a>
 <p>我们将要使用的这个方法仍然绑定在<code>navigator</code>对象上，但是如今这个方法叫做<code>getBattery</code>：</p>
 <figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">navigator.getBattery().then(<span class="function"><span class="keyword">function</span>(<span class="params">result</span>) </span>&#123;&#125;);</span><br></pre></td></tr></table></figure>
 <p><code>getBattery()</code>方法返回一个<em>promise</em>对象，给回调函数<code>than</code>一个名叫<code>BatteryManager</code>的对象，就像下面：</p>

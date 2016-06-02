@@ -80,19 +80,16 @@
 
 
 
-<meta name="description" content="距离上一次写博客又过去了差不多两个月，有一个笑话是程序员花了两天的时间各种搞，终于搭起了自己的个人博客，然后再也没更新过。。。我现在就变成了这个笑话。因为更新不频繁，所以每次更新都要百度一下hexo的指令，所以索性在这里记录一下，下一次直接看这篇东西就好了。
-准备首先hexo是要求node环境的，我的电脑是已经安装了node，所以直接跳过这一步。GitHub方面我也是准备好的，所以万事俱备，只欠“">
+<meta name="description" content="距离上一次写博客又过去了差不多两个月，有一个笑话是程序员花了两天的时间各种搞，终于搭起了自己的个人博客，然后再也没更新过。。。我现在就变成了这个笑话。因为更新不频繁，所以每次更新都要百度一下hexo的指令，所以索性在这里记录一下，下一次直接看这篇东西就好了。">
 <meta property="og:type" content="article">
 <meta property="og:title" content="记录博客发布流程">
 <meta property="og:url" content="http://mrdream24.github.io/blog/2015/03/20/第四篇/index.html">
 <meta property="og:site_name" content="MrDream">
-<meta property="og:description" content="距离上一次写博客又过去了差不多两个月，有一个笑话是程序员花了两天的时间各种搞，终于搭起了自己的个人博客，然后再也没更新过。。。我现在就变成了这个笑话。因为更新不频繁，所以每次更新都要百度一下hexo的指令，所以索性在这里记录一下，下一次直接看这篇东西就好了。
-准备首先hexo是要求node环境的，我的电脑是已经安装了node，所以直接跳过这一步。GitHub方面我也是准备好的，所以万事俱备，只欠“">
-<meta property="og:updated_time" content="2015-03-20T11:09:06.000Z">
+<meta property="og:description" content="距离上一次写博客又过去了差不多两个月，有一个笑话是程序员花了两天的时间各种搞，终于搭起了自己的个人博客，然后再也没更新过。。。我现在就变成了这个笑话。因为更新不频繁，所以每次更新都要百度一下hexo的指令，所以索性在这里记录一下，下一次直接看这篇东西就好了。">
+<meta property="og:updated_time" content="2016-06-01T14:42:47.771Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="记录博客发布流程">
-<meta name="twitter:description" content="距离上一次写博客又过去了差不多两个月，有一个笑话是程序员花了两天的时间各种搞，终于搭起了自己的个人博客，然后再也没更新过。。。我现在就变成了这个笑话。因为更新不频繁，所以每次更新都要百度一下hexo的指令，所以索性在这里记录一下，下一次直接看这篇东西就好了。
-准备首先hexo是要求node环境的，我的电脑是已经安装了node，所以直接跳过这一步。GitHub方面我也是准备好的，所以万事俱备，只欠“">
+<meta name="twitter:description" content="距离上一次写博客又过去了差不多两个月，有一个笑话是程序员花了两天的时间各种搞，终于搭起了自己的个人博客，然后再也没更新过。。。我现在就变成了这个笑话。因为更新不频繁，所以每次更新都要百度一下hexo的指令，所以索性在这里记录一下，下一次直接看这篇东西就好了。">
 
 
 
@@ -288,6 +285,7 @@
 
       
         <p>距离上一次写博客又过去了差不多两个月，有一个笑话是程序员花了两天的时间各种搞，终于搭起了自己的个人博客，然后再也没更新过。。。我现在就变成了这个笑话。因为更新不频繁，所以每次更新都要百度一下hexo的指令，所以索性在这里记录一下，下一次直接看这篇东西就好了。</p>
+<a id="more"></a>
 <h1 id="准备"><a href="#准备" class="headerlink" title="准备"></a>准备</h1><p>首先hexo是要求node环境的，我的电脑是已经安装了node，所以直接跳过这一步。GitHub方面我也是准备好的，所以万事俱备，只欠“hexo”。</p>
 <h1 id="Hexo安装与配置"><a href="#Hexo安装与配置" class="headerlink" title="Hexo安装与配置"></a>Hexo安装与配置</h1><p><code>npm install hexo -g  #-g表示全局安装, npm默认为当前项目安装</code><br>Hexo使用命令：<br><code>hexo init &lt;folder&gt;  #执行init命令初始化hexo到你指定的目录</code><br><code>hexo generate       #自动根据当前目录下文件,生成静态网页</code><br><code>hexo server         #运行本地服务</code><br>浏览器输入<a href="http://localhost:4000就可以看到效果。" target="_blank" rel="external">http://localhost:4000就可以看到效果。</a></p>
 <h1 id="添加新文章"><a href="#添加新文章" class="headerlink" title="添加新文章"></a>添加新文章</h1><p><code>hexo new &quot;postName&quot;  #新建博文,其中postName是博文题目</code><br>博文会自动生成在博客目录下<code>source/_posts\postName.md</code><br><code>#文件自动生成格式:</code><br><code>title: &quot;It Starts with iGaze: Visual Attention Driven Networkingwith Smart Glasses&quot;  #博文题目</code><br><code>date: 2014-11-21 11:25:38      #生成时间</code><br><code>tags: Paper                    #标签, 多个标签使用格式[Paper1, Paper2, Paper3,...]</code><br><code>---</code><br>如果不想博文在首页全部显示, 并能出现<code>阅读全文</code>按钮效果, 需要在你想在首页显示的部分下添加<code>&lt;!--more--&gt;</code></p>
