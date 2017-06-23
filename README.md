@@ -1,6 +1,6 @@
 ## MrDream的个人网站
 
-<img src='https://user-gold-cdn.xitu.io/2017/6/23/bb88d105f368dcfef6d451ae4adfebad'/>
+<img src='https://user-gold-cdn.xitu.io/2017/6/23/8ebe512010110bbb022be1608a49d999' width='200px'/>
 
 - 微博：[MrDream24](http://weibo.com/117879051)
 - Instagram: [mrdream24](https://www.instagram.com/mrdream24/)
