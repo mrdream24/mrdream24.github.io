@@ -1,5 +1,6 @@
 ---
 title: Nintendo Switch 首发入手记
+date: '2017-8-18'
 ---
 在三月份 Nintendo Switch 首发的时候，经历一番周折入手了。
 ![](https://user-gold-cdn.xitu.io/2017/8/11/9b7c062ce8634d91b254114abbba2f00)
