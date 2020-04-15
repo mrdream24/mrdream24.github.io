@@ -2,7 +2,7 @@
 
 <img src='https://user-gold-cdn.xitu.io/2017/6/23/8ebe512010110bbb022be1608a49d999' width='200px'/>
 
-- 个人网站：[mrdream.xyz](http://mrdream.xyz)
+- 个人网站：[mrdream24.github.io](http://mrdream24.github.io)
 - 微博：[MrDream24](http://weibo.com/117879051)
 - Instagram: [mrdream24](https://www.instagram.com/mrdream24/)
 - 知乎：[孟祥辉](https://www.zhihu.com/people/mrdream24/)
