@@ -1,325 +1,316 @@
 <!DOCTYPE html>
-<html>
+<html lang="zh">
 <head>
-	<meta charset="utf-8"/>
-	<title>MrDream</title>
-	<meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport">
-	<link rel="shortcut icon" href="img/favicon.ico">
-	<link rel="stylesheet" type="text/css" href="css/font/minoteFont.css">
-	<link rel="stylesheet" type="text/css" href="css/reset.css">
-	<style type="text/css">
-		body{
-			font-family: "Segoe UI", Candara, "Bitstream Vera Sans", "DejaVu Sans", "Bitstream Vera Sans", "Trebuchet MS", Verdana, "Verdana Ref", sans-serif;
-			background: #003973;
-		    background: -moz-linear-gradient(left, #00B5E1 0%, #32D1AC 100%);
-		    background: -webkit-linear-gradient(left, #00B5E1 0%, #32D1AC 100%);
-		    background: linear-gradient(to right, #00B5E1 0%, #32D1AC 100%);
-		    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#003973', endColorstr='#e5e5be',GradientType=0 );
-		}
-		ul{
-			list-style-type:none;
-		}
-		a{
-			text-decoration:none;
-		}
-		#toggle {
-			width: 28px;
-			height: 30px;
-			margin: 10px auto;
-			position:absolute;
-			right:50px;
-			top:26px;
-			z-index:999;
-			cursor:pointer;
-		}
-			
-		#toggle div {
-			width: 100%;
-			height: 5px;
-			background: white;
-			margin: 4px auto;
-			transition: all 0.3s;
-			backface-visibility: hidden;
-		}
-			
-		#toggle.on .one {
-			transform: rotate(45deg) translate(5px, 5px);
-		}
-			
-		#toggle.on .two {
-			opacity: 0;
-		}
-			
-		#toggle.on .three {
-			transform: rotate(-45deg) translate(7px, -8px);
-		}
-		.avatar img{
-			width:34px;
-			height:34px;
-			border-radius:50%;
-			position:absolute;
-			left:50px;
-			top:26px;
-			border: 1px solid #000;
-			z-index:999;
-		}
-		.menu{
-			width:100%;
-			height:300px;
-			background-color: RGBA(60, 60, 62, 0.9);
-			position:absolute;
-			top:0;
-			padding:80px 50px 0;
-			box-sizing: border-box;
-			transform: translateY(-100%);
-		    -webkit-transition: -webkit-transform 0.41s cubic-bezier(0.29, 0.37, 0.45, 0.94) 0.1s;
-       		transition: transform 0.41s cubic-bezier(0.29, 0.37, 0.45, 0.94) 0.1s;
-		}
-		.menu.active{
-			transform: translateY(0);
-		    -webkit-transition: -webkit-transform 0.41s cubic-bezier(0.29, 0.37, 0.45, 0.94) 0.1s;
-    		transition: transform 0.41s cubic-bezier(0.29, 0.37, 0.45, 0.94) 0.1s;
-		}
-		.menu li{
-			text-align:center;
-			line-height:40px;
-			opacity:0;
-			transform: translateY(-100%);
-			-webkit-transition: all 0.41s cubic-bezier(0.29, 0.37, 0.45, 0.94) 0.3s;
-    		transition: all 0.41s cubic-bezier(0.29, 0.37, 0.45, 0.94) 0.3s;
-		}
-		.menu.active li{
-			opacity:1;
-			transform: translateY(0);
-		    -webkit-transition: all 0.41s cubic-bezier(0.29, 0.37, 0.45, 0.94) 0.3s;
-    		transition: all 0.41s cubic-bezier(0.29, 0.37, 0.45, 0.94) 0.3s;
-		}
-		.menu li a{
-			color:#fff;
-			-webkit-font-smoothing: antialiased;
-			font-size: 17px;
-			font-weight:bold;
-		}
-		h1{
-			font-size:60px;
-			text-align:center;
-			line-height:60px;
-			color:#FAFAFA;
-			margin-top:100px;
-			letter-spacing: 15px;
-		}
-		p.sub{
-			font-size:20px;
-			text-align:center;
-			line-height:50px;
-			color: #fff;
-			margin-top:20px;
-			font-weight:lighter;
-			letter-spacing: 3px;
-		}
-		.codingDesktop{
-			background: url(img/coding-welcome.png) center no-repeat;
-			background-size:100% 100%;
-			width:970px;
-			height:350px;
-			position:absolute;
-			bottom:0;
-			left:50%;
-			margin-left: -485px;
-			padding:90px 140px;
-			box-sizing: border-box;
-		}
-		@keyframes typing {
-		    from { width: 100% }
-		    to { width:0 }
-		}
+    <meta charset="utf-8">
+    <title>mrdream的简历</title>
 
-		@keyframes blink-caret {
-		    from{ border-left: #666 solid .1em }
-		    to{ border-left: transparent solid .1em }
-		}
-		@keyframes blink-caret-perma {
-		    from, to{ border-left: #666 solid .1em }
-		    50%{ border-left: transparent solid .1em }
-		}
+    <meta name="viewport" content="width=device-width">
+    <link href="./css/font/SourceSansPro.css" rel="stylesheet" type="text/css">
+    <link href="./css/cv.css" rel="stylesheet">
+    <link href="./css/font/style.css" rel="stylesheet">
 
-		@-webkit-keyframes typing {
-		    from { width: 100% }
-		    to { width:0 }
-		}
+    <style type="text/css" media="print">
+        * {margin:0;padding:0;}
+        body {background: none; margin: 0;}
+        .main {padding: 0;}
+        .wrap {
+            background: #fff;
+            box-shadow: none;
+            padding: 0in;
+        }
 
-		@-webkit-keyframes blink-caret {
-		    from{ border-left: #666 solid .1em }
-		    to{ border-left: transparent solid .1em }
-		}
-		@-webkit-keyframes blink-caret-perma {
-		    from, to{ border-left: #666 solid .1em }
-		    50%{ border-left: transparent solid .1em }
-		}
+        .experience .icon,
+        .other-items .icon,
+        .main-items .icon {
+            background: #fff;
+        }
 
-		@-moz-keyframes typing {
-		    from { width: 100% }
-		    to { width:0 }
-		}
+        header {
+            padding-left: 30px;
+        }
+        .icon-profile {
+            display: none;
+        }
+        .vcard {
+            margin-left: 0;
+        }
+        .vcard,
+        .vcard a {
+            color: #888;
+        }
 
-		@-moz-keyframes blink-caret {
-		    from{ border-left: #666 solid .1em }
-		    to{ border-left: transparent solid .1em }
-		}
-		@-moz-keyframes blink-caret-perma {
-		    from, to{ border-left: #666 solid .1em }
-		    50%{ border-left: transparent solid .1em }
-		}
-		.codingDesktop div{
-			font-family: monospace;
-			font-weight:normal;
-		    position: absolute; 
-			left:14%;
-		    font-size:20px;
-			color:#666;
-		}
-		.codingDesktop div span{
-			position:absolute;
-		    top:-2px;
-		    right:-1px;
-
-		    background: #FEFEFE; /* same as background */
-		    border-left: .1em #666 solid;
-		    
-		    -moz-box-sizing: border-box;
-		    box-sizing: border-box;
-		}
-		div.line1 { 
-			top:20%;
-			color:#3a7dda;
-		}
-		div.line2 { 
-			top:27%;
-			color:#3a7dda;
-		}
-		div.line3 { 
-			top:34%;
-			color:#40dac5;
-		}
-		div.line4 { 
-			top:41%;
-			color: #ffbc3e;
-		}
-		div.line4 p{
-			color:#666;
-			display:inline;
-		}
-		div.line1 span {   
-			animation: typing 2s steps(15, end), blink-caret 1s step-end;
-			animation-fill-mode: forwards;
-		    -webkit-animation: typing 2s steps(15, end), blink-caret 1s step-end;
-			-webkit-animation-fill-mode: forwards;
-		    -moz-animation: typing 2s steps(15, end), blink-caret 1s step-end;
-			-moz-animation-fill-mode: forwards;	
-		}
-		div.line2 span {
-		    width:100%;
-		    border-left: .1em #FEFEFE solid;
-			
-			animation: typing 1s steps(6, end), blink-caret 1s step-end;
-			animation-delay:2s;
-			animation-fill-mode: forwards;
-		    -webkit-animation: typing 1s steps(6, end), blink-caret 1s step-end;
-			-webkit-animation-delay:2s;
-			-webkit-animation-fill-mode: forwards;
-		    -moz-animation: typing 1s steps(6, end), blink-caret 1s step-end;
-			-moz-animation-delay:2s;
-			-moz-animation-fill-mode: forwards;
-		}
-		div.line3 span {
-		    width:100%;
-		    border-left: .1em #FEFEFE solid;
-		    
-			animation: typing 1s steps(7, end), blink-caret 1s step-end;
-			animation-delay:3s;
-			animation-fill-mode: forwards;
-		    -webkit-animation: typing 1s steps(7, end), blink-caret 1s step-end;
-			-webkit-animation-delay:3s;
-			-webkit-animation-fill-mode: forwards;
-		    -moz-animation: typing 1s steps(7, end), blink-caret 1s step-end;
-			-moz-animation-delay:3s;
-			-moz-animation-fill-mode: forwards;
-		}
-		div.line4 span {
-		    width:100%;
-		    border-left: .1em #FEFEFE solid;
-		    
-			animation: typing 4.5s steps(30, end), blink-caret-perma 1s step-end infinite;
-			animation-delay:4s;
-			animation-fill-mode: forwards;
-		    -webkit-animation: typing 4.5s steps(30, end), blink-caret-perma 1s step-end infinite;
-			-webkit-animation-delay:4s;
-			-webkit-animation-fill-mode: forwards;
-		    -moz-animation: typing 4.5s steps(30, end), blink-caret-perma 1s step-end infinite;
-			-moz-animation-delay:4s;
-			-moz-animation-fill-mode: forwards;
-		}
-	</style>
+        .vcard .tel,
+        .vcard .emailh {
+            margin: 0 30px;
+        }
+        .experience, .education, .skills, .interest {
+            xborder-color: #B4D9E7;
+        }
+        #blur_1 {display: none;}
+    </style>
+    <!--[if lt IE 9]>
+    <script src="/a/js/lib/html5shiv.js"></script>
+    <![endif]-->
 </head>
 <body>
-	<div class="main">
-		<div id="toggle">
-			<div class="one"></div>
-			<div class="two"></div>
-			<div class="three"></div>
-		</div>
-		<div class="avatar">
-			<img src="img/mrdream.jpg">
-		</div>
-		<div class="menu">
-			<ul>
-				<li>
-					<a href="/blog">博客</a>
-				</li>
-				<li>
-					<a href="/my-log/public">琐事杂记</a>
-				</li>
-				<li>
-					<a href="/lab">实验室</a>
-				</li>
-				<li>
-					<a href="/cv">关于我</a>
-				</li>
-			</ul>
-		</div>
-		<h1>MRDREAM</h1>
-		<p class="sub">web developer</p>
-		<div class="codingDesktop">
-			<div class="line1">
-				&lt;!DOCTYPE html&gt;<span>&nbsp;</span>
-			</div>
-			<div class="line2">
-				&lt;html&gt;<span>&nbsp;</span>
-			</div>
-			<div class="line3">
-				 &lt;head&gt;<span>&nbsp;</span>
-			</div>
-			<div class="line4">
-				  &lt;title&gt;<p>Welcome!:)</p>
-				&lt;/title&gt;<span>&nbsp;</span>
-			</div>
-		</div>
-	</div>
-	<iframe frameborder="no" border="0" marginwidth="0" marginheight="0" width=0 height=0 src="http://music.163.com/outchain/player?type=2&id=22842399&auto=1&height=66"></iframe>
-</body>
-<script type="text/javascript" src="http://apps.bdimg.com/libs/jquery/2.1.1/jquery.min.js"></script>
-<script type="text/javascript">
-	$("#toggle").click(function() {
-		$(this).toggleClass("on");
-		$(".menu").toggleClass("active");
-	});
-	
-	  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-	  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-	  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-	  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+<div class="main">
+    <div class="wrap">
 
-	  ga('create', 'UA-75336684-1', 'auto');
-	  ga('send', 'pageview');
+        <div class="main-site">
+            <a>mrdream</a>
+        </div>
+
+        <header>
+            <h1 class="name">孟祥辉</h1>
+            <span class="tagline">Web / Mobile Front-end Engineer</span>
+
+            <span class="icon icon-profile"></span>
+
+
+            <address class="vcard">
+                <a class="url fn hidden">MrDream 孟祥辉</a>
+         <span class="icon icon-location"></span><span class="text">
+              <span class="locality">上海</span>
+         </span>
+    </span>
+    <span class="country-name hidden">China</span>
+  </span>
+                <span class="tel" id="tel"><span class="icon icon-phone"></span> <span class="text">+18630341863</span></span>
+
+                <span class="emailh"><a class="email" href="#mail"><span class="icon icon-envelope"></span><span class="text" id="email">1178790517@qq.com</span></a></span>
+                <a class="url" href="https://juejin.im/user/56a319852e958a0059576864"><span class="icon icon-earth"></span><span class="text">我的掘金</span></a>
+
+
+            </address>
+
+            <ul class="social">
+                <li><a href="http://weibo.com/117879051"><span class="icon icon-sina-weibo"></span><span class="text">@mrdream24</span></a></li>
+                <li><a href="https://www.instagram.com/mrdream24/"><span class="icon icon-instagram"></span><span class="text">@mrdream24</span></a></li>
+                <li><a href="https://github.com/mrdream24"><span class="icon icon-github"></span><span class="text">/mrdream24</span></a></li>
+            </ul>
+
+
+        </header>
+
+        <div class="clearfix">
+
+            <div class="clearfix other-items">
+                <!-- <section class="personal-projects skills">
+                    <h2>
+                        <span class="icon icon-atom"></span><span class="text">个人项目 <small></small></span>
+                    </h2>
+                    <ul>
+                        <li>
+                            <a href="http://mrdream.xyz">mrdream.xyz <br> <div style="padding-left: 25px;background: url(/hn/a/icon/icon-64.png) no-repeat;background-size: 20px 20px;"></div></a>
+                        </li>
+                        <li>
+                            <a href="https://github.com/mrdream24/react-babel-gulp-boilerplate">react-babel-gulp-boilerplate <br> <div style="padding-left: 25px;background: url(/hn/a/icon/icon-64.png) no-repeat;background-size: 20px 20px;"></div></a>
+                        </li>
+                        <li>
+                            <a href="http://mrdream.xyz/buwang">网络书签 <br> <div style="padding-left: 25px;background: url(/hn/a/icon/icon-64.png) no-repeat;background-size: 20px 20px;"></div></a>
+                        </li>
+
+                        <li>
+                            <a href="http://mrdream.xyz/blog/">我的博客 <br> <div style="padding-left: 25px;background: url(/hn/a/icon/icon-64.png) no-repeat;background-size: 20px 20px;"></div></a>
+                        </li>
+
+                    </ul>
+                </section> -->
+
+                <section class="skills">
+                    <h2>
+                        <span class="icon icon-tools"></span><span class="text">Skills</span>
+                    </h2>
+                    <ul>
+                        <li>
+                            React
+                        </li>
+                        <li>
+                            Vue.js
+                        </li>
+                        <li>
+                            HTML5
+                        </li>
+                        <li>
+                            CSS3
+                        </li>
+                        <li>
+                            Javascript
+                        </li>
+                        <li>
+                            Photoshop
+                        </li>
+                        <li>
+                            Webpack
+                        </li>
+                    </ul>
+                </section>
+
+
+                <section class="education">
+                    <h2>
+                        <span class="icon icon-graduate"></span><span class="text">学历</span>
+                    </h2>
+                    <ul>
+                        <li>
+                            <div>大学本科</div>
+                            <time>2010 ~ 2014</time>
+                            <span class="school">燕山大学</span>
+                        </li>
+                    </ul>
+                </section>
+            </div>
+
+            <div class="main-content">
+                <section class="interest">
+                    <h2>
+                        <span class="icon icon-book"></span><span class="text">文章</span>
+                    </h2>
+                    <ul>
+                        <li>
+                            <a href="https://juejin.im/post/58dba0b3a22b9d00647db6c3" target="_blank">改造你的网站，变身 PWA</a>
+                        </li>
+                        <li>
+                            <a href="https://segmentfault.com/a/1190000004419412" target="_blank">[译] 用 ES6 构建新一代可复用 JS 模块</a>
+                        </li>
+                        <li>
+                            <a href="https://segmentfault.com/a/1190000004411869" target="_blank">(译)响应式图片— srcset 和 sizes 属性</a>
+                        </li>
+                        <li>
+                            <a href="https://segmentfault.com/a/1190000004422797" target="_blank">马上开始写 react & ES6 --- 基于gulp 和 Babel 的脚手架</a>
+                        </li>
+                        <br/>
+                        <li>
+                            更多请看我的<a href="https://segmentfault.com/u/mrdream">专栏</a>或者我的<a href="http://mrdream.xyz/blog">博客</a> 
+                        </li>
+                    </ul>
+
+                </section>
+
+                <section class="experience">
+                    <h2>
+                        <span class="icon icon-lab"></span><span class="text">经历</span>
+                    </h2>
+                    <h3>
+                        资深前端工程师
+                    </h3>
+
+                    <p>
+                        <a href="https://www.helloglobal.com/">哈啰出行</a>
+                        <span class="location">(上海)</span>
+                        <time>2019.11 ~ 至今</time>
+                    </p>
+                    <h3>
+                        高级前端工程师
+                    </h3>
+
+                    <p>
+                        <a href="https://www.ele.me/">饿了么</a>
+                        <span class="location">(上海)</span>
+                        <time>2017.5 ~ 2019.10</time>
+                    </p>
+                    <h3>
+                        前端工程师
+                    </h3>
+
+                    <p>
+                        <a href="http://gold.xitu.io/">稀土掘金</a>
+                        <span class="location">(北京)</span>
+                        <time>2016.4 ~ 2017.3</time>
+                    </p>
+                    <h3>
+                        前端工程师
+                    </h3>
+
+                    <p>
+                        <a href="http://bong.cn/">攻壳科技</a>
+                        <span class="location">(杭州)</span>
+                        <time>2014.7 ~ 2016.4</time>
+                    </p>
+                    <ul>
+                        <li>
+                        </li>
+                    </ul>
+
+                </section>
+            </div>
+        </div>
+    </div>
+</div>
+
+<canvas id="blur_1" width="680" height="348"></canvas>
+<script type="text/javascript">
+    /**
+     * Light layer on top of a canvas element to represent an image displayed
+     * within.  Pass in a canvas element and an Image object and you'll see the
+     * image within the canvas element.  Use the provided methods (e.g. blur) to
+     * manipulate it.
+     *
+     * @constructor
+     * @param {HTMLElement} element HTML canvas element.
+     * @param {Image} image Image object.
+     */
+    var CanvasImage = function(element, image) {
+        this.image = image;
+        this.element = element;
+        this.element.width = this.image.width;
+        this.element.height = this.image.height;
+        this.context = this.element.getContext("2d");
+        this.context.drawImage(this.image, 0, 0);
+    };
+    CanvasImage.prototype = {
+        /**
+         * Runs a blur filter over the image.
+         *
+         * @param {int} strength Strength of the blur.
+         */
+        blur: function (strength) {
+            this.context.globalAlpha = 0.5; // Higher alpha made it more smooth
+            // Add blur layers by strength to x and y
+            // 2 made it a bit faster without noticeable quality loss
+            for (var y = -strength; y <= strength; y += 2) {
+                for (var x = -strength; x <= strength; x += 2) {
+                    // Apply layers
+                    this.context.drawImage(this.element, x, y);
+                    // Add an extra layer, prevents it from rendering lines
+                    // on top of the images (does makes it slower though)
+                    if (x>=0 && y>=0) {
+                        this.context.drawImage(this.element, -(x-1), -(y-1));
+                    }
+                }
+            }
+            this.context.globalAlpha = 1.0;
+        }
+    };
+
+    /**
+     * Initialise an image on the page and blur it.
+     */
+    window.onload = function() {
+        var url = './img/cv/bg{number}.jpg?2'.replace('{number}', parseInt(Math.random() * 6, 10)),
+                image,
+                canvasImage;
+    
+
+        image = new Image();
+        image.onload = function () {
+            canvasImage = new CanvasImage(document.getElementById('blur_1'), this);
+//    try{console.time('blur_1');}catch(err){}
+            canvasImage.blur(3);
+//    try{console.timeEnd('blur_1');}catch(err){}
+            canvasImage.element.setAttribute('data-image', url);
+        };
+        image.src = url;
+    };
+    
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-75336684-1', 'auto');
+  ga('send', 'pageview');
+
 </script>
-</html>
+
+</body></html>
