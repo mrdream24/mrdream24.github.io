@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>去留 · Android 照片回顾与清理 App</title>
+    <meta name="description" content="去留是一款 Android 照片回顾与清理 App，用分组回顾、上滑删除、回到那天和确认清单，帮你认真看完相册再释放空间。">
+    <meta property="og:title" content="去留 · Android 照片回顾与清理 App">
+    <meta property="og:description" content="像翻卡片一样回顾照片和视频，先标记，再确认删除。">
+    <meta property="og:type" content="website">
+    <meta property="og:image" content="./img/quliu-icon.png">
+    <link rel="icon" type="image/png" href="./img/quliu-icon.png">
+    <link href="./css/quliu.css" rel="stylesheet">
+</head>
+<body>
+    <main class="page">
+        <section class="hero" id="top" aria-labelledby="hero-title">
+            <nav class="eyebrow" aria-label="页面导航">
+                <a class="brand" href="#top" aria-label="去留首页">
+                    <img src="./img/quliu-icon.png" alt="" width="34" height="34">
+                    <span>去留</span>
+                </a>
+                <div class="nav-links">
+                    <a href="#workflow">工作流</a>
+                    <a href="#features">功能</a>
+                    <a href="#privacy">权限</a>
+                    <a href="#download">下载</a>
+                </div>
+            </nav>
+
+            <div class="hero-copy">
+                <p class="product-type">Android 照片回顾与清理 App</p>
+                <h1 id="hero-title">删照片之前，先认真看一遍。</h1>
+                <p class="tagline">去留把相册整理变成一组一组的回顾：左右切换，上滑标记删除，最后再确认。</p>
+                <div class="hero-actions" aria-label="主要操作">
+                    <a class="btn-ghost" href="#workflow">看工作流</a>
+                    <a class="btn-primary" href="./app-debug.apk" download="quliu-app-debug.apk">下载 APK</a>
+                </div>
+                <ul class="proof-row" aria-label="产品事实">
+                    <li><span>5-50</span>每组照片数量可调</li>
+                    <li><span>4 类</span>照片、截屏、自拍、实况</li>
+                    <li><span>3 栏</span>照片、视频、统计</li>
+                </ul>
+            </div>
+
+            <div class="hero-surface" aria-label="去留界面示意">
+                <div class="phone-shell">
+                    <div class="phone-top">
+                        <span class="glass-pill">照片 128</span>
+                        <span class="glass-dot"></span>
+                    </div>
+                    <div class="photo-stack" aria-hidden="true">
+                        <div class="photo-card card-back"></div>
+                        <div class="photo-card card-mid"></div>
+                        <div class="photo-card card-front">
+                            <span class="badge">实况</span>
+                            <div class="photo-glow"></div>
+                        </div>
+                    </div>
+                    <div class="review-meta">
+                        <span>2 小时前</span>
+                        <span>未知地点</span>
+                    </div>
+                    <div class="delete-capsule">
+                        <span class="trash-icon">⌫</span>
+                        <span>上滑删除</span>
+                    </div>
+                    <div class="bottom-tabs">
+                        <span class="active">照片</span>
+                        <span>视频</span>
+                        <span>统计</span>
+                    </div>
+                </div>
+                <p class="surface-note">界面示意，依据 ComeandGo 当前代码绘制；不是商店截图。</p>
+            </div>
+        </section>
+
+        <section class="gallery" id="workflow" aria-labelledby="workflow-title">
+            <div class="section-head">
+                <p class="section-num">01 · Workflow</p>
+                <h2 id="workflow-title">从相册到清理，不跳过确认。</h2>
+                <p>去留的核心不是“快速删”，而是把每一次删除都放进可回看的流程里。</p>
+            </div>
+
+            <div class="workflow-grid">
+                <article class="workflow-card">
+                    <span class="step">01</span>
+                    <h3>按类别抽一组</h3>
+                    <p>从照片、截屏、自拍、实况里选择入口。默认每组 15 张，也可以在设置里调到 5-50 张。</p>
+                </article>
+                <article class="workflow-card">
+                    <span class="step">02</span>
+                    <h3>像翻卡片一样回顾</h3>
+                    <p>左右滑动切换前后照片，点按进入全屏，收藏、分享和照片详情都留在回顾场景里。</p>
+                </article>
+                <article class="workflow-card">
+                    <span class="step">03</span>
+                    <h3>上滑只是加入清单</h3>
+                    <p>上滑触发“上滑删除 / 松手删除”状态，但真正删除前会进入“回顾完毕”的确认网格。</p>
+                </article>
+            </div>
+        </section>
+
+        <section class="feature-band" id="features" aria-labelledby="features-title">
+            <div class="section-head compact">
+                <p class="section-num">02 · Features</p>
+                <h2 id="features-title">为手机相册做的手势和记忆。</h2>
+            </div>
+
+            <div class="feature-list">
+                <article>
+                    <h3>回到那天</h3>
+                    <p>双指捏合可以进入当天照片视图，两排横向网格展开同一天的照片；在这里也能继续标记待删除项。</p>
+                </article>
+                <article>
+                    <h3>实况与视频都能看</h3>
+                    <p>长按实况照片播放 Live Photo，视频页使用竖向刷视频体验，支持播放暂停、收藏、分享和删除。</p>
+                </article>
+                <article>
+                    <h3>统计不靠感觉</h3>
+                    <p>统计页分开记录照片、截屏、视频的查看数、删除数和释放空间，清理进度有据可看。</p>
+                </article>
+                <article>
+                    <h3>液态玻璃控件</h3>
+                    <p>底部菜单、分类筛选、确认按钮使用 Haze 模糊、高光和按压反馈，让操作有明确的触感。</p>
+                </article>
+            </div>
+        </section>
+
+        <section class="showcase" aria-labelledby="showcase-title">
+            <div>
+                <p class="section-num">03 · Product Surface</p>
+                <h2 id="showcase-title">主界面围绕三件事：看、选、确认。</h2>
+                <p>页面文案来自当前 `ComeandGo` 工程：Home、Review、BackToDay、Summary、Video 和 Stats 屏。没有把尚未实现的云同步、AI 识别或自动清理写进卖点。</p>
+            </div>
+            <div class="mini-screens" aria-label="界面状态示意">
+                <div class="mini-screen">
+                    <span>回顾</span>
+                    <strong>左右切换</strong>
+                    <em>照片详情 · 收藏 · 分享</em>
+                </div>
+                <div class="mini-screen danger">
+                    <span>确认</span>
+                    <strong>请确认需要删除的照片</strong>
+                    <em>取消、再来一组，或确认删除</em>
+                </div>
+                <div class="mini-screen stats">
+                    <span>统计</span>
+                    <strong>腾出空间</strong>
+                    <em>照片 · 截屏 · 视频</em>
+                </div>
+            </div>
+        </section>
+
+        <section class="privacy" id="privacy" aria-labelledby="privacy-title">
+            <div class="section-head compact">
+                <p class="section-num">04 · Permissions</p>
+                <h2 id="privacy-title">需要媒体权限，但删除交给系统确认。</h2>
+            </div>
+            <div class="privacy-grid">
+                <article>
+                    <h3>读取相册</h3>
+                    <p>App 请求图片、视频和媒体位置信息权限，用于加载照片、视频、拍摄时间、地点和 EXIF 信息。</p>
+                </article>
+                <article>
+                    <h3>系统删除授权</h3>
+                    <p>Android 11 及以上通过 MediaStore 删除请求弹出系统确认；确认后才会真正删除媒体文件。</p>
+                </article>
+                <article>
+                    <h3>本地记录</h3>
+                    <p>已浏览、已删除数量和每组照片数量保存在本机设置与统计中，可在设置里重置浏览记录。</p>
+                </article>
+            </div>
+        </section>
+
+        <section class="download" id="download" aria-labelledby="download-title">
+            <div>
+                <p class="section-num">05 · Download</p>
+                <h2 id="download-title">下载当前 Android 试用包。</h2>
+                <p>文件名 app-debug.apk，大小约 23.3 MB。下载后在 Android 手机上打开 APK，按系统提示允许安装来自浏览器或文件管理器的应用。</p>
+            </div>
+            <a class="btn-primary" href="./app-debug.apk" download="quliu-app-debug.apk">下载 APK</a>
+        </section>
+
+        <footer class="footer">
+            <div class="footer-brand">
+                <img src="./img/quliu-icon.png" alt="" width="28" height="28">
+                <span>去留</span>
+            </div>
+            <p>把不再需要的照片送走，把值得留下的时刻看清楚。</p>
+            <nav aria-label="页脚链接">
+                <a href="#top">回到顶部</a>
+                <span>·</span>
+                <a href="mailto:1178790517@qq.com">联系</a>
+            </nav>
+        </footer>
+    </main>
+</body>
+</html>
