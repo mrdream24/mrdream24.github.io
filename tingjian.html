@@ -1,0 +1,385 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="theme-color" content="#f5f0e6">
+    <title>听见 · 转动旋钮，听见世界</title>
+    <meta name="description" content="听见是一款原生 Android 全球网络电台。转动旋钮切换城市声音，在真实海岸线上随机漫游，并通过后台、通知栏与锁屏持续收听。">
+    <meta property="og:title" content="听见 · 全球网络电台">
+    <meta property="og:description" content="一只旋钮，一个世界。把远方的此刻，调到耳边。">
+    <meta property="og:type" content="website">
+    <meta property="og:image" content="./img/tingjian/home.png">
+    <meta name="twitter:card" content="summary_large_image">
+    <link rel="icon" type="image/svg+xml" href="./img/tingjian/icon.svg">
+    <link rel="stylesheet" href="./css/tingjian.css">
+</head>
+<body>
+    <a class="skip-link" href="#main">跳到主要内容</a>
+
+    <header class="site-header" data-header>
+        <a class="brand" href="#top" aria-label="听见首页">
+            <img src="./img/tingjian/icon.svg" alt="" width="38" height="38">
+            <span>听见</span>
+        </a>
+        <nav class="nav-links" aria-label="页面导航">
+            <a href="#tuning">调谐</a>
+            <a href="#roaming">漫游</a>
+            <a href="#details">收听体验</a>
+        </nav>
+        <a class="nav-download" href="./tingjian-app-debug.apk" download="tingjian-app-debug.apk">下载体验版</a>
+    </header>
+
+    <main id="main">
+        <section class="hero" id="top" aria-labelledby="hero-title">
+            <div class="hero-copy reveal">
+                <p class="eyebrow"><span></span>原生 Android 全球网络电台</p>
+                <h1 id="hero-title">转动旋钮，<br><em>听见世界。</em></h1>
+                <p class="hero-lede">从上海的晚高峰，到巴黎的清晨。选一座城市，或让指针替你决定下一段远方。</p>
+                <div class="hero-actions">
+                    <a class="button button-primary" href="./tingjian-app-debug.apk" download="tingjian-app-debug.apk">
+                        <span>下载 Android 体验版</span>
+                        <svg aria-hidden="true" viewBox="0 0 20 20"><path d="M10 3v9m0 0 3.5-3.5M10 12 6.5 8.5M4 16h12"/></svg>
+                    </a>
+                    <a class="button button-secondary" href="#tuning">先听听它的故事</a>
+                </div>
+                <ul class="hero-facts" aria-label="应用信息">
+                    <li><b>45 个</b><span>内置精选电台</span></li>
+                    <li><b>全球目录</b><span>动态扩展声音</span></li>
+                    <li><b>Android 8+</b><span>系统要求</span></li>
+                </ul>
+            </div>
+
+            <div class="hero-visual reveal" data-parallax aria-label="听见 App 真实首页界面">
+                <div class="visual-caption"><span>REAL APP SURFACE</span><span>当前应用真实界面</span></div>
+                <div class="signal-orbit orbit-a" aria-hidden="true"></div>
+                <div class="signal-orbit orbit-b" aria-hidden="true"></div>
+                <div class="phone-glow" aria-hidden="true"></div>
+                <div class="phone-frame" data-phone>
+                    <div class="phone-speaker" aria-hidden="true"></div>
+                    <img src="./img/tingjian/home.png" alt="听见 App 首页，展示今日推荐、城市电波、分类筛选与热门电台" width="1200" height="2608">
+                </div>
+                <div class="signal-note note-live"><i></i><b>LIVE</b><span>远方正在发生</span></div>
+                <div class="signal-note note-local"><b>45</b><span>精选作为可靠底座</span></div>
+            </div>
+        </section>
+
+        <section class="statement reveal" aria-label="产品理念">
+            <p class="section-index">00 · WHY RADIO</p>
+            <blockquote>世界不只是一张地图。<br>它也由此刻的新闻、音乐与人声组成。<em>旋钮一转，距离就有了声音。</em></blockquote>
+        </section>
+
+        <section class="section tuning" id="tuning" aria-labelledby="tuning-title">
+            <div class="section-heading reveal">
+                <p class="section-index">01 · TUNE THE WORLD</p>
+                <h2 id="tuning-title">不是选择一行文字，<br>是亲手调到那个此刻。</h2>
+                <p>左右滑动换台，轻触展开完整控制；也可以转动页面里的旋钮，感受电台在城市之间切换。</p>
+            </div>
+
+            <div class="receiver reveal" data-receiver>
+                <div class="receiver-topline"><span>WORLD RECEIVER / ONLINE</span><span class="receiver-status"><i></i> SIGNAL READY</span></div>
+                <div class="receiver-display" aria-live="polite">
+                    <div class="station-copy">
+                        <p class="station-kicker">正在调谐</p>
+                        <h3 data-station-name>上海动感101</h3>
+                        <p data-station-meta>上海 · 中国 · 流行</p>
+                    </div>
+                    <div class="frequency"><strong data-frequency>101.7</strong><span>网络</span></div>
+                </div>
+                <div class="receiver-scale" aria-hidden="true">
+                    <span>88</span><i></i><i></i><i></i><b data-needle></b><i></i><i></i><i></i><span>108</span>
+                </div>
+                <div class="receiver-controls">
+                    <button class="receiver-key" type="button" data-prev aria-label="上一个电台">←<span>PREV</span></button>
+                    <button class="dial" type="button" data-dial aria-label="转动调谐旋钮切换电台">
+                        <span class="dial-face"><i></i></span>
+                        <small>转动调谐</small>
+                    </button>
+                    <button class="receiver-key" type="button" data-next aria-label="下一个电台">→<span>NEXT</span></button>
+                </div>
+                <p class="receiver-footnote">页面交互演示 · 电台名称与频率来自应用内置目录</p>
+            </div>
+        </section>
+
+        <section class="roaming-section" id="roaming" aria-labelledby="roaming-title">
+            <div class="roaming-panel reveal" data-roamer>
+                <div class="roaming-copy">
+                    <p class="section-index light">02 · GLOBAL ROAMING</p>
+                    <h2 id="roaming-title">把下一站，<br>交给地球。</h2>
+                    <p>应用用 Natural Earth 真实海岸线绘制地球，并按电台经纬度落点。随机漫游会在全球声音坐标间快速转动，停下后立即播放。</p>
+                    <div class="roaming-place" aria-live="polite">
+                        <span data-roam-label>此刻，巴黎</span>
+                        <b data-roam-station>FIP · 独立音乐</b>
+                        <small data-roam-coord>48.86° N · 2.35° E</small>
+                    </div>
+                    <button class="roam-button" type="button" data-roam-button><span>开始一次随机漫游</span><i>↗</i></button>
+                </div>
+                <div class="globe-stage" aria-label="全球电台坐标视觉结构示意">
+                    <div class="globe-halo"></div>
+                    <svg class="globe" viewBox="0 0 560 560" role="img" aria-labelledby="globe-title globe-desc">
+                        <title id="globe-title">世界电台漫游</title>
+                        <desc id="globe-desc">依据应用真实经纬度漫游功能制作的视觉结构示意</desc>
+                        <defs>
+                            <clipPath id="world-clip"><circle cx="280" cy="280" r="215"/></clipPath>
+                            <radialGradient id="world-shade" cx="36%" cy="30%" r="72%"><stop offset="0" stop-color="#2a261f"/><stop offset=".7" stop-color="#0d0c0a"/><stop offset="1" stop-color="#050504"/></radialGradient>
+                        </defs>
+                        <circle cx="280" cy="280" r="215" fill="url(#world-shade)" stroke="#d5b278" stroke-opacity=".42" stroke-width="1.5"/>
+                        <g clip-path="url(#world-clip)" fill="none" stroke="#d5b278" stroke-opacity=".18">
+                            <ellipse cx="280" cy="280" rx="135" ry="215"/><ellipse cx="280" cy="280" rx="52" ry="215"/>
+                            <ellipse cx="280" cy="280" rx="215" ry="142"/><ellipse cx="280" cy="280" rx="215" ry="61"/>
+                        </g>
+                        <g class="coastlines" clip-path="url(#world-clip)" fill="none" stroke="#f4e8d0" stroke-opacity=".62" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M91 200c33-43 72-69 114-71l35 19-4 29-28 17-5 37-27 19-10 39-33 11-25-30-23-18z"/>
+                            <path d="M201 307l28 16 19 43-4 59-31 74-22-31 6-53-20-43z"/>
+                            <path d="M282 147l36-26 79 4 58 29 37 42-13 35-48 5-30 29-42-3-18-35-42-7-26-31z"/>
+                            <path d="M330 279l52 5 25 39-13 53-28 52-34-19-19-55z"/>
+                            <path d="M442 363l43 13 19 32-24 24-48-15-13-31z"/>
+                            <path d="M298 127l13-38 37-6 18 27-28 18z"/>
+                        </g>
+                        <g class="station-points" fill="#d5b278">
+                            <circle cx="423" cy="224" r="4"/><circle cx="405" cy="240" r="3"/><circle cx="252" cy="190" r="3"/><circle cx="230" cy="176" r="3"/><circle cx="121" cy="220" r="3"/><circle cx="103" cy="245" r="3"/>
+                        </g>
+                        <g class="active-point" data-active-point transform="translate(252 190)">
+                            <circle r="22" fill="none" stroke="#ff6a2a" stroke-width="2"/><circle r="7" fill="#ff6a2a"/><circle r="3" fill="#fff4e2"/>
+                        </g>
+                    </svg>
+                    <div class="globe-readout"><span>COORDINATE LOCK</span><b data-globe-city>PARIS / FRANCE</b></div>
+                    <p>视觉结构示意 · 实际应用使用 Natural Earth 海岸线数据</p>
+                </div>
+            </div>
+        </section>
+
+        <section class="section details" id="details" aria-labelledby="details-title">
+            <div class="section-heading compact reveal">
+                <p class="section-index">03 · LISTENING, CONTINUED</p>
+                <h2 id="details-title">离开这一页，<br>声音也不必停。</h2>
+            </div>
+            <div class="feature-rows reveal">
+                <article>
+                    <div class="feature-name"><span>01</span><h3>一屏完成收听</h3><small>少一点界面，多一点声音</small></div>
+                    <p>首页同时容纳今日推荐、横向换台、城市声场、类型筛选与热门电台。常用动作不需要在多层页面间来回寻找。</p>
+                </article>
+                <article>
+                    <div class="feature-name"><span>02</span><h3>完整播放控制</h3><small>一切都在伸手可及的地方</small></div>
+                    <p>半屏控制面板集合上下台、播放、音量、收藏、睡眠定时与相似电台；播放失败时也有重试和换台路径。</p>
+                </article>
+                <article>
+                    <div class="feature-name"><span>03</span><h3>后台仍在播放</h3><small>屏幕熄灭，远方仍然清晰</small></div>
+                    <p>基于 Media3 的后台播放、通知栏与锁屏控制，让一次收听自然延续到通勤、阅读和入睡。</p>
+                </article>
+                <article>
+                    <div class="feature-name"><span>04</span><h3>记得你的声音</h3><small>收藏远方，也记住来时的路</small></div>
+                    <p>收藏与最近播放由 Room 保存在本机，主题、默认地区、上次电台和启动自动播放由 DataStore 记住。</p>
+                </article>
+                <article>
+                    <div class="feature-name"><span>05</span><h3>可靠目录</h3><small>先确认信号，再把它交到耳边</small></div>
+                    <p>全球目录会筛掉非 HTTPS、最近检测失败、格式不支持或码率异常的条目；网络目录不可用时，自动回到国内精选。</p>
+                </article>
+            </div>
+        </section>
+
+        <section class="system-section" aria-labelledby="system-title">
+            <div class="system-panel reveal">
+                <div class="system-copy">
+                    <p class="section-index light">04 · YOUR RECEIVER</p>
+                    <h2 id="system-title">它会记住电台，<br>不会要求你留下身份。</h2>
+                    <p>听见没有账号体系。收藏、最近播放和接收器设置保存在设备本地；联网只发生在搜索目录与播放公开网络流时。</p>
+                    <ul class="system-points">
+                        <li><span>01</span>无需注册账户</li>
+                        <li><span>02</span>收藏与设置本地持久化</li>
+                        <li><span>03</span>浅色、深色与跟随系统</li>
+                        <li><span>04</span>15 / 30 / 45 / 60 分钟睡眠定时</li>
+                    </ul>
+                </div>
+                <div class="system-card" aria-label="播放控制面板示意">
+                    <div class="system-card-top"><span>NOW PLAYING</span><i></i></div>
+                    <div class="mini-station"><b>FIP</b><span>巴黎 · 法国 · 独立音乐</span><small>105.1 网络</small></div>
+                    <div class="mini-wave" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div>
+                    <div class="mini-controls" aria-hidden="true"><span>↶</span><b>▶</b><span>↷</span></div>
+                    <div class="mini-actions"><span>音量</span><span>睡眠定时</span><span>相似电台</span></div>
+                    <p>控制面板视觉结构示意</p>
+                </div>
+            </div>
+        </section>
+
+        <section class="section faq-section" aria-labelledby="faq-title">
+            <div class="section-heading compact reveal">
+                <p class="section-index">05 · QUESTIONS</p>
+                <h2 id="faq-title">开始收听之前。</h2>
+            </div>
+            <div class="faq reveal">
+                <details open>
+                    <summary>听见和普通电台列表有什么不同？<span>＋</span></summary>
+                    <p>它把选台做成一台可调谐的世界收音机：可横向换台、按城市与国家探索，也能在真实地理坐标间随机漫游。</p>
+                </details>
+                <details>
+                    <summary>没有网络还能使用吗？<span>＋</span></summary>
+                    <p>网络电台播放需要联网。全球目录不可用时，应用仍会显示并尝试播放内置精选，但音频流本身同样依赖网络。</p>
+                </details>
+                <details>
+                    <summary>为什么有些频率标为“网络”？<span>＋</span></summary>
+                    <p>听见播放的是公开网络流。部分 FM 数字用于保留收音机的视觉与调谐感，并不代表手机正在接收本地广播信号。</p>
+                </details>
+                <details>
+                    <summary>支持哪些后台控制？<span>＋</span></summary>
+                    <p>支持后台持续播放、通知栏与锁屏控制；Android 13 及以上可能会询问通知权限。</p>
+                </details>
+                <details>
+                    <summary>收藏和收听记录会上传吗？<span>＋</span></summary>
+                    <p>当前代码将收藏、最近播放和设置保存在本机数据库与 DataStore 中，没有账户云同步。</p>
+                </details>
+            </div>
+        </section>
+
+        <section class="download reveal" id="download" aria-labelledby="download-title">
+            <div class="download-signal" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i></div>
+            <div class="download-copy">
+                <p class="section-index light">06 · DOWNLOAD</p>
+                <h2 id="download-title">今晚，想先去<br>哪一座城市？</h2>
+                <p>当前提供 Android 调试体验包。下载后在手机上打开，并按系统提示允许安装。</p>
+                <div class="package-meta"><span>Version 1.0.0</span><span>16.3 MB</span><span>Android 8.0+</span></div>
+            </div>
+            <a class="download-button" href="./tingjian-app-debug.apk" download="tingjian-app-debug.apk">
+                <span><small>DOWNLOAD PREVIEW</small>听见 for Android</span>
+                <b>↓</b>
+            </a>
+        </section>
+    </main>
+
+    <footer class="footer">
+        <div class="footer-brand">
+            <img src="./img/tingjian/icon.svg" alt="" width="56" height="56">
+            <div><b>听见</b><span>World Dial</span></div>
+        </div>
+        <p>一只旋钮，一个世界。<br>远方不必等到抵达以后。</p>
+        <nav aria-label="页脚链接"><a href="#top">回到顶部</a><span>·</span><a href="mailto:hello@worlddial.app">联系作者</a></nav>
+    </footer>
+
+    <script>
+        (function () {
+            var header = document.querySelector('[data-header]');
+            var reveals = document.querySelectorAll('.reveal');
+            var reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+            function syncHeader() {
+                if (header) header.classList.toggle('is-scrolled', window.scrollY > 24);
+            }
+            syncHeader();
+            window.addEventListener('scroll', syncHeader, { passive: true });
+
+            if (!('IntersectionObserver' in window) || reducedMotion) {
+                reveals.forEach(function (item) { item.classList.add('is-visible'); });
+            } else {
+                var observer = new IntersectionObserver(function (entries) {
+                    entries.forEach(function (entry) {
+                        if (entry.isIntersecting) {
+                            entry.target.classList.add('is-visible');
+                            observer.unobserve(entry.target);
+                        }
+                    });
+                }, { threshold: 0.1, rootMargin: '0px 0px -48px' });
+                reveals.forEach(function (item) { observer.observe(item); });
+            }
+
+            var parallax = document.querySelector('[data-parallax]');
+            var phone = document.querySelector('[data-phone]');
+            if (parallax && phone && !reducedMotion && window.matchMedia('(pointer: fine)').matches) {
+                parallax.addEventListener('pointermove', function (event) {
+                    var box = parallax.getBoundingClientRect();
+                    var x = (event.clientX - box.left) / box.width - 0.5;
+                    var y = (event.clientY - box.top) / box.height - 0.5;
+                    phone.style.setProperty('--tilt-x', (-y * 3.2).toFixed(2) + 'deg');
+                    phone.style.setProperty('--tilt-y', (x * 4.2).toFixed(2) + 'deg');
+                });
+                parallax.addEventListener('pointerleave', function () {
+                    phone.style.setProperty('--tilt-x', '0deg');
+                    phone.style.setProperty('--tilt-y', '0deg');
+                });
+            }
+
+            var receiver = document.querySelector('[data-receiver]');
+            if (receiver) {
+                var stations = [
+                    { name: '上海动感101', meta: '上海 · 中国 · 流行', frequency: '101.7' },
+                    { name: 'FIP', meta: '巴黎 · 法国 · 独立音乐', frequency: '105.1' },
+                    { name: 'NTS Radio 1', meta: '伦敦 · 英国 · 实验音乐', frequency: '98.9' },
+                    { name: 'RÚV Rás 2', meta: '雷克雅未克 · 冰岛 · 流行文化', frequency: '99.9' },
+                    { name: '北京音乐广播', meta: '北京 · 中国 · 流行', frequency: '97.4' }
+                ];
+                var stationIndex = 0;
+                var angle = 0;
+                var switching = false;
+                var name = receiver.querySelector('[data-station-name]');
+                var meta = receiver.querySelector('[data-station-meta]');
+                var frequency = receiver.querySelector('[data-frequency]');
+                var dial = receiver.querySelector('[data-dial]');
+                var needle = receiver.querySelector('[data-needle]');
+
+                function tune(direction) {
+                    if (switching) return;
+                    switching = true;
+                    stationIndex = (stationIndex + direction + stations.length) % stations.length;
+                    angle += direction * 56;
+                    receiver.classList.add('is-tuning');
+                    dial.style.setProperty('--dial-angle', angle + 'deg');
+                    needle.style.setProperty('--needle-x', (stationIndex * 18 - 36) + 'px');
+                    window.setTimeout(function () {
+                        var station = stations[stationIndex];
+                        name.textContent = station.name;
+                        meta.textContent = station.meta;
+                        frequency.textContent = station.frequency;
+                        receiver.classList.remove('is-tuning');
+                        switching = false;
+                    }, reducedMotion ? 0 : 260);
+                }
+                receiver.querySelector('[data-prev]').addEventListener('click', function () { tune(-1); });
+                receiver.querySelector('[data-next]').addEventListener('click', function () { tune(1); });
+                dial.addEventListener('click', function () { tune(1); });
+            }
+
+            var roamer = document.querySelector('[data-roamer]');
+            if (roamer) {
+                var stops = [
+                    { place: '此刻，巴黎', station: 'FIP · 独立音乐', coord: '48.86° N · 2.35° E', city: 'PARIS / FRANCE', x: 252, y: 190 },
+                    { place: '此刻，伦敦', station: 'NTS Radio 1 · 实验音乐', coord: '51.51° N · 0.13° W', city: 'LONDON / UNITED KINGDOM', x: 230, y: 176 },
+                    { place: '此刻，上海', station: '上海动感101 · 流行', coord: '31.23° N · 121.47° E', city: 'SHANGHAI / CHINA', x: 423, y: 224 },
+                    { place: '此刻，纽约', station: 'WFMU Freeform · 自由音乐', coord: '40.71° N · 74.01° W', city: 'NEW YORK / USA', x: 121, y: 220 },
+                    { place: '此刻，雷克雅未克', station: 'RÚV Rás 2 · 流行文化', coord: '64.15° N · 21.94° W', city: 'REYKJAVÍK / ICELAND', x: 202, y: 129 }
+                ];
+                var roamIndex = 0;
+                var roamButton = roamer.querySelector('[data-roam-button]');
+                var roamLabel = roamer.querySelector('[data-roam-label]');
+                var roamStation = roamer.querySelector('[data-roam-station]');
+                var roamCoord = roamer.querySelector('[data-roam-coord]');
+                var globeCity = roamer.querySelector('[data-globe-city]');
+                var point = roamer.querySelector('[data-active-point]');
+
+                function setStop(stop) {
+                    roamLabel.textContent = stop.place;
+                    roamStation.textContent = stop.station;
+                    roamCoord.textContent = stop.coord;
+                    globeCity.textContent = stop.city;
+                    point.setAttribute('transform', 'translate(' + stop.x + ' ' + stop.y + ')');
+                }
+                roamButton.addEventListener('click', function () {
+                    if (roamer.classList.contains('is-roaming')) return;
+                    roamer.classList.add('is-roaming');
+                    roamButton.querySelector('span').textContent = '漫游中…';
+                    var turns = reducedMotion ? 1 : 8;
+                    var turn = 0;
+                    var timer = window.setInterval(function () {
+                        roamIndex = (roamIndex + 1) % stops.length;
+                        setStop(stops[roamIndex]);
+                        turn += 1;
+                        if (turn >= turns) {
+                            window.clearInterval(timer);
+                            roamer.classList.remove('is-roaming');
+                            roamButton.querySelector('span').textContent = '再去一座城市';
+                        }
+                    }, reducedMotion ? 20 : 120);
+                });
+            }
+        })();
+    </script>
+</body>
+</html>

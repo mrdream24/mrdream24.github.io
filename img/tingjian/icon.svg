@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 108 108" role="img" aria-labelledby="title">
+  <title id="title">听见 App 图标</title>
+  <rect width="108" height="108" rx="24" fill="#0b0906"/>
+  <circle cx="54" cy="54" r="28" fill="none" stroke="#d5b278" stroke-width="3"/>
+  <path d="M31 54h46M54 26c-10 10-10 46 0 56M54 26c10 10 10 46 0 56" fill="none" stroke="#d5b278" stroke-width="2"/>
+  <path d="M51 20h6v18h-6zM49 51h10v10H49z" fill="#ff6a2a"/>
+</svg>
