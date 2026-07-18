@@ -1,316 +1,86 @@
-<!DOCTYPE html>
-<html lang="zh">
+<!doctype html>
+<html lang="zh-CN">
 <head>
-    <meta charset="utf-8">
-    <title>mrdream的简历</title>
-
-    <meta name="viewport" content="width=device-width">
-    <link href="./css/font/SourceSansPro.css" rel="stylesheet" type="text/css">
-    <link href="./css/cv.css" rel="stylesheet">
-    <link href="./css/font/style.css" rel="stylesheet">
-
-    <style type="text/css" media="print">
-        * {margin:0;padding:0;}
-        body {background: none; margin: 0;}
-        .main {padding: 0;}
-        .wrap {
-            background: #fff;
-            box-shadow: none;
-            padding: 0in;
-        }
-
-        .experience .icon,
-        .other-items .icon,
-        .main-items .icon {
-            background: #fff;
-        }
-
-        header {
-            padding-left: 30px;
-        }
-        .icon-profile {
-            display: none;
-        }
-        .vcard {
-            margin-left: 0;
-        }
-        .vcard,
-        .vcard a {
-            color: #888;
-        }
-
-        .vcard .tel,
-        .vcard .emailh {
-            margin: 0 30px;
-        }
-        .experience, .education, .skills, .interest {
-            xborder-color: #B4D9E7;
-        }
-        #blur_1 {display: none;}
-    </style>
-    <!--[if lt IE 9]>
-    <script src="/a/js/lib/html5shiv.js"></script>
-    <![endif]-->
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="孟祥辉的个人网站：前端工程师与独立产品创作者，展示最近的 vibecoding 项目。">
+  <title>孟祥辉 · Engineer & Maker</title>
+  <link rel="stylesheet" href="./css/portfolio.css">
 </head>
 <body>
-<div class="main">
-    <div class="wrap">
+  <header class="site-header">
+    <a class="brand" href="#top" aria-label="返回首页">MENG<span>·</span>XH</a>
+    <nav aria-label="主导航">
+      <a href="#projects">作品</a>
+      <a href="./resume.html">简历</a>
+      <a href="https://github.com/mrdream24" target="_blank" rel="noreferrer">GitHub ↗</a>
+    </nav>
+  </header>
 
-        <div class="main-site">
-            <a>mrdream</a>
+  <main id="top">
+    <section class="hero">
+      <p class="eyebrow">FRONT-END ENGINEER · INDEPENDENT MAKER</p>
+      <h1>把想法做成<br><span>可以被使用的产品。</span></h1>
+      <div class="hero-bottom">
+        <p>你好，我是孟祥辉。长期从事 Web 与移动端研发，也在用 AI 重新探索一个人完成产品设计、开发与发布的可能。</p>
+        <a class="text-link" href="#projects">查看最近作品 <span>↓</span></a>
+      </div>
+    </section>
+
+    <section class="projects" id="projects" aria-labelledby="projects-title">
+      <div class="section-head">
+        <div><p class="eyebrow">RECENT VIBECODING PROJECTS</p><h2 id="projects-title">最近完成的三个产品</h2></div>
+        <p>从日常真实需求出发，独立完成产品判断、交互设计、Android 开发与介绍页面。</p>
+      </div>
+
+      <article class="project project-quliu">
+        <a class="project-visual" href="./quliu.html" aria-label="查看去留项目">
+          <img src="./img/quliu-icon.png" alt="去留应用图标" width="160" height="160">
+          <div class="project-wordmark">去留<small>COME &amp; GO</small></div>
+        </a>
+        <div class="project-copy">
+          <p class="project-no">01 / 2026</p>
+          <h3>去留 · 重看，而不是囤积</h3>
+          <p>一款本地优先的照片与视频整理工具。通过逐组回顾、今日往年与明确的二次确认，把清理相册变成一次有节奏的重新观看。</p>
+          <ul><li>Android / Jetpack Compose</li><li>本地优先</li><li>照片叙事</li></ul>
+          <a class="project-link" href="./quliu.html">打开项目页 <span>↗</span></a>
         </div>
+      </article>
 
-        <header>
-            <h1 class="name">孟祥辉</h1>
-            <span class="tagline">Web / Mobile Front-end Engineer</span>
-
-            <span class="icon icon-profile"></span>
-
-
-            <address class="vcard">
-                <a class="url fn hidden">MrDream 孟祥辉</a>
-         <span class="icon icon-location"></span><span class="text">
-              <span class="locality">上海</span>
-         </span>
-    </span>
-    <span class="country-name hidden">China</span>
-  </span>
-                <span class="tel" id="tel"><span class="icon icon-phone"></span> <span class="text">+18630341863</span></span>
-
-                <span class="emailh"><a class="email" href="#mail"><span class="icon icon-envelope"></span><span class="text" id="email">1178790517@qq.com</span></a></span>
-                <a class="url" href="https://juejin.im/user/56a319852e958a0059576864"><span class="icon icon-earth"></span><span class="text">我的掘金</span></a>
-
-
-            </address>
-
-            <ul class="social">
-                <li><a href="http://weibo.com/117879051"><span class="icon icon-sina-weibo"></span><span class="text">@mrdream24</span></a></li>
-                <li><a href="https://www.instagram.com/mrdream24/"><span class="icon icon-instagram"></span><span class="text">@mrdream24</span></a></li>
-                <li><a href="https://github.com/mrdream24"><span class="icon icon-github"></span><span class="text">/mrdream24</span></a></li>
-            </ul>
-
-
-        </header>
-
-        <div class="clearfix">
-
-            <div class="clearfix other-items">
-                <!-- <section class="personal-projects skills">
-                    <h2>
-                        <span class="icon icon-atom"></span><span class="text">个人项目 <small></small></span>
-                    </h2>
-                    <ul>
-                        <li>
-                            <a href="http://mrdream.xyz">mrdream.xyz <br> <div style="padding-left: 25px;background: url(/hn/a/icon/icon-64.png) no-repeat;background-size: 20px 20px;"></div></a>
-                        </li>
-                        <li>
-                            <a href="https://github.com/mrdream24/react-babel-gulp-boilerplate">react-babel-gulp-boilerplate <br> <div style="padding-left: 25px;background: url(/hn/a/icon/icon-64.png) no-repeat;background-size: 20px 20px;"></div></a>
-                        </li>
-                        <li>
-                            <a href="http://mrdream.xyz/buwang">网络书签 <br> <div style="padding-left: 25px;background: url(/hn/a/icon/icon-64.png) no-repeat;background-size: 20px 20px;"></div></a>
-                        </li>
-
-                        <li>
-                            <a href="http://mrdream.xyz/blog/">我的博客 <br> <div style="padding-left: 25px;background: url(/hn/a/icon/icon-64.png) no-repeat;background-size: 20px 20px;"></div></a>
-                        </li>
-
-                    </ul>
-                </section> -->
-
-                <section class="skills">
-                    <h2>
-                        <span class="icon icon-tools"></span><span class="text">Skills</span>
-                    </h2>
-                    <ul>
-                        <li>
-                            React
-                        </li>
-                        <li>
-                            Vue.js
-                        </li>
-                        <li>
-                            HTML5
-                        </li>
-                        <li>
-                            CSS3
-                        </li>
-                        <li>
-                            Javascript
-                        </li>
-                        <li>
-                            Photoshop
-                        </li>
-                        <li>
-                            Webpack
-                        </li>
-                    </ul>
-                </section>
-
-
-                <section class="education">
-                    <h2>
-                        <span class="icon icon-graduate"></span><span class="text">学历</span>
-                    </h2>
-                    <ul>
-                        <li>
-                            <div>大学本科</div>
-                            <time>2010 ~ 2014</time>
-                            <span class="school">燕山大学</span>
-                        </li>
-                    </ul>
-                </section>
-            </div>
-
-            <div class="main-content">
-                <section class="interest">
-                    <h2>
-                        <span class="icon icon-book"></span><span class="text">文章</span>
-                    </h2>
-                    <ul>
-                        <li>
-                            <a href="https://juejin.im/post/58dba0b3a22b9d00647db6c3" target="_blank">改造你的网站，变身 PWA</a>
-                        </li>
-                        <li>
-                            <a href="https://segmentfault.com/a/1190000004419412" target="_blank">[译] 用 ES6 构建新一代可复用 JS 模块</a>
-                        </li>
-                        <li>
-                            <a href="https://segmentfault.com/a/1190000004411869" target="_blank">(译)响应式图片— srcset 和 sizes 属性</a>
-                        </li>
-                        <li>
-                            <a href="https://segmentfault.com/a/1190000004422797" target="_blank">马上开始写 react & ES6 --- 基于gulp 和 Babel 的脚手架</a>
-                        </li>
-                        <br/>
-                        <li>
-                            更多请看我的<a href="https://segmentfault.com/u/mrdream">专栏</a>或者我的<a href="http://mrdream.xyz/blog">博客</a> 
-                        </li>
-                    </ul>
-
-                </section>
-
-                <section class="experience">
-                    <h2>
-                        <span class="icon icon-lab"></span><span class="text">经历</span>
-                    </h2>
-                    <h3>
-                        资深前端工程师
-                    </h3>
-
-                    <p>
-                        <a href="https://www.helloglobal.com/">哈啰出行</a>
-                        <span class="location">(上海)</span>
-                        <time>2019.11 ~ 至今</time>
-                    </p>
-                    <h3>
-                        高级前端工程师
-                    </h3>
-
-                    <p>
-                        <a href="https://www.ele.me/">饿了么</a>
-                        <span class="location">(上海)</span>
-                        <time>2017.5 ~ 2019.10</time>
-                    </p>
-                    <h3>
-                        前端工程师
-                    </h3>
-
-                    <p>
-                        <a href="http://gold.xitu.io/">稀土掘金</a>
-                        <span class="location">(北京)</span>
-                        <time>2016.4 ~ 2017.3</time>
-                    </p>
-                    <h3>
-                        前端工程师
-                    </h3>
-
-                    <p>
-                        <a href="http://bong.cn/">攻壳科技</a>
-                        <span class="location">(杭州)</span>
-                        <time>2014.7 ~ 2016.4</time>
-                    </p>
-                    <ul>
-                        <li>
-                        </li>
-                    </ul>
-
-                </section>
-            </div>
+      <article class="project project-sufei">
+        <a class="project-visual" href="./sufei.html" aria-label="查看素扉项目">
+          <img class="phone-shot" src="./img/sufei/home.png" alt="素扉诗词应用首页" loading="lazy">
+        </a>
+        <div class="project-copy">
+          <p class="project-no">02 / 2026</p>
+          <h3>素扉 · 在手机里留一页诗</h3>
+          <p>为古典诗词设计的安静阅读空间。以竖排阅读、诗人探索、收藏、朗读与桌面小组件，让文字回到更从容的节奏里。</p>
+          <ul><li>Android / Compose</li><li>竖排排版</li><li>诗词阅读</li></ul>
+          <a class="project-link" href="./sufei.html">打开项目页 <span>↗</span></a>
         </div>
-    </div>
-</div>
+      </article>
 
-<canvas id="blur_1" width="680" height="348"></canvas>
-<script type="text/javascript">
-    /**
-     * Light layer on top of a canvas element to represent an image displayed
-     * within.  Pass in a canvas element and an Image object and you'll see the
-     * image within the canvas element.  Use the provided methods (e.g. blur) to
-     * manipulate it.
-     *
-     * @constructor
-     * @param {HTMLElement} element HTML canvas element.
-     * @param {Image} image Image object.
-     */
-    var CanvasImage = function(element, image) {
-        this.image = image;
-        this.element = element;
-        this.element.width = this.image.width;
-        this.element.height = this.image.height;
-        this.context = this.element.getContext("2d");
-        this.context.drawImage(this.image, 0, 0);
-    };
-    CanvasImage.prototype = {
-        /**
-         * Runs a blur filter over the image.
-         *
-         * @param {int} strength Strength of the blur.
-         */
-        blur: function (strength) {
-            this.context.globalAlpha = 0.5; // Higher alpha made it more smooth
-            // Add blur layers by strength to x and y
-            // 2 made it a bit faster without noticeable quality loss
-            for (var y = -strength; y <= strength; y += 2) {
-                for (var x = -strength; x <= strength; x += 2) {
-                    // Apply layers
-                    this.context.drawImage(this.element, x, y);
-                    // Add an extra layer, prevents it from rendering lines
-                    // on top of the images (does makes it slower though)
-                    if (x>=0 && y>=0) {
-                        this.context.drawImage(this.element, -(x-1), -(y-1));
-                    }
-                }
-            }
-            this.context.globalAlpha = 1.0;
-        }
-    };
+      <article class="project project-tingjian">
+        <a class="project-visual" href="./tingjian.html" aria-label="查看听见项目">
+          <img class="phone-shot" src="./img/tingjian/home.png" alt="听见世界电台应用首页" loading="lazy">
+        </a>
+        <div class="project-copy">
+          <p class="project-no">03 / 2026</p>
+          <h3>听见 · 把下一站交给地球</h3>
+          <p>一台可以旋转与漫游的世界收音机。通过真实地理坐标探索全球网络电台，也能把收藏、最近播放和睡眠定时留在本地。</p>
+          <ul><li>Android / Media3</li><li>全球电台</li><li>真实地理数据</li></ul>
+          <a class="project-link" href="./tingjian.html">打开项目页 <span>↗</span></a>
+        </div>
+      </article>
+    </section>
 
-    /**
-     * Initialise an image on the page and blur it.
-     */
-    window.onload = function() {
-        var url = './img/cv/bg{number}.jpg?2'.replace('{number}', parseInt(Math.random() * 6, 10)),
-                image,
-                canvasImage;
-    
+    <section class="about">
+      <p class="eyebrow">ABOUT</p>
+      <h2>十余年前，我从前端开始构建数字产品。现在，我仍然在写代码，只是离一个完整产品更近了。</h2>
+      <div><p>工作经历覆盖哈啰出行、饿了么、稀土掘金与攻壳科技。关注交互体验、工程质量，以及技术怎样真正进入人的日常。</p><a class="button" href="./resume.html">查看完整简历</a></div>
+    </section>
+  </main>
 
-        image = new Image();
-        image.onload = function () {
-            canvasImage = new CanvasImage(document.getElementById('blur_1'), this);
-//    try{console.time('blur_1');}catch(err){}
-            canvasImage.blur(3);
-//    try{console.timeEnd('blur_1');}catch(err){}
-            canvasImage.element.setAttribute('data-image', url);
-        };
-        image.src = url;
-    };
-    
-  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
-
-  ga('create', 'UA-75336684-1', 'auto');
-  ga('send', 'pageview');
-
-</script>
-
-</body></html>
+  <footer><p>孟祥辉 · Shanghai</p><p><a href="mailto:1178790517@qq.com">Email</a><a href="https://github.com/mrdream24">GitHub</a><a href="https://www.instagram.com/mrdream24/">Instagram</a></p></footer>
+</body>
+</html>

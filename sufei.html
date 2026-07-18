@@ -1,0 +1,76 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+  <meta name="theme-color" content="#f2eee5">
+  <meta name="description" content="卷舒，一款基于开源项目 SuFei 改进、为手机阅读古诗词重新设计的 Android 应用。每日三遇、万卷寻诗、朗诵留声，诗词与个人数据均保存在本地。">
+  <meta name="keywords" content="卷舒,SuFei,古诗词,Android,离线阅读">
+  <meta property="og:title" content="卷舒 · 古诗词阅读">
+  <meta property="og:description" content="少、慢、静、留白。一款为手机阅读古诗词设计的 Android 应用。">
+  <meta property="og:image" content="img/sufei/home.png">
+  <title>卷舒 — 少、慢、静、留白</title>
+  <link rel="icon" href="img/sufei/icon.webp">
+  <style>
+    :root{--paper:#f2eee5;--paper-deep:#e8e0d2;--ink:#24231f;--muted:#777268;--line:rgba(45,42,35,.14);--seal:#a33b32;--serif:"Songti SC","Noto Serif CJK SC","Source Han Serif SC",SimSun,serif;--sans:system-ui,-apple-system,"PingFang SC","Microsoft YaHei",sans-serif}
+    *{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;color:var(--ink);background:var(--paper);font-family:var(--serif);font-synthesis:none}a{color:inherit}img{max-width:100%;display:block}.shell{width:min(1180px,calc(100% - 48px));margin:auto}.eyebrow{font-family:var(--sans);font-size:11px;letter-spacing:.28em;text-transform:uppercase;color:var(--seal)}
+    .nav{position:fixed;z-index:20;top:0;left:0;right:0;background:rgba(242,238,229,.83);backdrop-filter:blur(18px);border-bottom:1px solid transparent}.nav.scrolled{border-color:var(--line)}.nav-inner{height:72px;display:flex;align-items:center;justify-content:space-between}.brand{display:flex;align-items:center;gap:11px;text-decoration:none}.brand img{width:36px;height:36px;border-radius:10px}.brand strong{font-size:18px;font-weight:500;letter-spacing:.12em}.nav-links{display:flex;align-items:center;gap:28px;font-family:var(--sans);font-size:13px}.nav-links a{text-decoration:none;color:var(--muted)}.nav-links .download-small{color:#fff;background:var(--ink);padding:10px 16px;border-radius:999px}
+    .hero{min-height:100svh;padding:138px 0 70px;display:grid;grid-template-columns:1fr .88fr;align-items:center;gap:7vw;overflow:hidden}.hero-copy{position:relative;z-index:2}.hero h1{font-size:clamp(58px,8vw,112px);line-height:.92;letter-spacing:.08em;font-weight:400;margin:22px 0 30px}.hero h1 small{display:block;margin-top:20px;font-family:var(--sans);font-size:clamp(14px,1.5vw,19px);line-height:1.6;letter-spacing:.24em;color:var(--muted)}.lead{font-size:clamp(19px,2vw,26px);line-height:1.8;max-width:650px;margin:0 0 34px}.actions{display:flex;gap:14px;flex-wrap:wrap}.btn{display:inline-flex;align-items:center;gap:10px;padding:15px 22px;border:1px solid var(--ink);border-radius:999px;text-decoration:none;font-family:var(--sans);font-size:14px}.btn.primary{background:var(--ink);color:#fff}.btn svg{width:18px}.meta{display:flex;gap:22px;margin-top:20px;font-family:var(--sans);font-size:12px;color:var(--muted)}
+    .hero-visual{position:relative;height:min(720px,74svh)}.sun{position:absolute;width:420px;aspect-ratio:1;border-radius:50%;background:rgba(163,59,50,.065);top:5%;right:-7%}.phone{position:absolute;width:min(330px,68%);left:4%;top:0;border:8px solid #191916;border-radius:44px;background:#191916;box-shadow:0 35px 85px rgba(58,48,31,.22);transform:rotate(-2deg);overflow:hidden}.phone img{border-radius:35px}.phone-secondary{left:auto;right:-2%;top:17%;width:min(270px,56%);transform:rotate(5deg);z-index:-1;opacity:.96}.vertical-poem{position:absolute;right:1%;bottom:0;writing-mode:vertical-rl;font-size:16px;line-height:2.2;letter-spacing:.24em;color:rgba(36,35,31,.48)}
+    .manifesto{padding:130px 0;border-top:1px solid var(--line);display:grid;grid-template-columns:.7fr 1.3fr;gap:9vw}.manifesto h2{font-weight:400;font-size:clamp(36px,5vw,72px);line-height:1.2;margin:14px 0}.manifesto blockquote{margin:0;font-size:clamp(26px,3.4vw,48px);line-height:1.65}.manifesto p{font-size:17px;line-height:2;color:var(--muted);max-width:670px}
+    .features{padding:80px 0 150px}.section-head{display:flex;justify-content:space-between;align-items:end;margin-bottom:64px}.section-head h2{font-size:clamp(38px,5vw,68px);font-weight:400;margin:12px 0 0}.section-head p{max-width:430px;line-height:1.8;color:var(--muted)}.feature-grid{border-top:1px solid var(--line)}.feature{display:grid;grid-template-columns:82px minmax(220px,.68fr) 1fr;align-items:start;gap:30px;padding:38px 0;border-bottom:1px solid var(--line)}.feature-no{font-family:var(--sans);font-size:11px;color:var(--seal);letter-spacing:.2em;padding-top:9px}.feature h3{font-weight:400;font-size:clamp(25px,3vw,36px);margin:0}.feature p{color:var(--muted);line-height:1.9;margin:4px 0 0;max-width:620px}.feature strong{font-weight:400;color:var(--ink)}
+    .gallery{padding:130px 0 150px;background:#1d1c19;color:#f2eee5;overflow:hidden}.gallery .section-head p{color:rgba(242,238,229,.58)}.shot-track{width:min(1180px,calc(100% - 48px));margin:auto;display:grid;grid-template-columns:repeat(12,1fr);gap:72px 28px;align-items:start}.shot{margin:0;grid-column:span 3}.shot.wide{grid-column:span 4}.shot.offset{margin-top:110px}.shot img{border-radius:28px;box-shadow:0 24px 65px rgba(0,0,0,.32)}.shot figcaption{font-family:var(--sans);font-size:12px;letter-spacing:.16em;margin-top:18px;color:rgba(242,238,229,.55)}.shot-note{grid-column:span 4;align-self:center;padding:30px}.shot-note blockquote{font-size:clamp(25px,3vw,40px);line-height:1.6;margin:0 0 20px}.shot-note p{color:rgba(242,238,229,.55);line-height:1.8}
+    .privacy{padding:130px 0;display:grid;grid-template-columns:1fr 1fr;gap:10vw;align-items:center}.privacy h2{font-size:clamp(40px,5vw,70px);line-height:1.18;font-weight:400;margin:16px 0 24px}.privacy p{font-size:18px;line-height:2;color:var(--muted)}.privacy-list{border-top:1px solid var(--line)}.privacy-item{display:grid;grid-template-columns:42px 1fr;gap:20px;padding:25px 0;border-bottom:1px solid var(--line)}.privacy-item span{color:var(--seal);font-family:var(--sans);font-size:12px}.privacy-item h3{font-weight:400;margin:0 0 8px;font-size:20px}.privacy-item p{font-size:14px;line-height:1.7;margin:0}
+    .download{padding:110px 0 120px;background:var(--paper-deep)}.download-card{border:1px solid var(--line);padding:clamp(34px,6vw,82px);display:grid;grid-template-columns:1fr auto;gap:60px;align-items:center;background:rgba(255,255,255,.24)}.download h2{font-size:clamp(42px,6vw,78px);font-weight:400;margin:14px 0 20px}.download p{font-family:var(--sans);color:var(--muted);line-height:1.8}.apk{min-width:270px}.apk .btn{justify-content:center;width:100%;padding:18px 24px}.apk small{display:block;margin-top:14px;text-align:center;font-family:var(--sans);color:var(--muted);line-height:1.7}.footer{padding:30px 0;font-family:var(--sans);font-size:12px;color:var(--muted)}.footer .shell{display:flex;justify-content:space-between;gap:20px}.footer a{text-decoration:none}
+    .reveal{opacity:0;transform:translateY(24px);transition:opacity .8s ease,transform .8s ease}.reveal.in{opacity:1;transform:none}
+    @media(max-width:850px){.shell{width:min(100% - 32px,1180px)}.nav-links a:not(.download-small){display:none}.hero{grid-template-columns:1fr;padding-top:120px}.hero-copy{text-align:center}.lead{margin-left:auto;margin-right:auto}.actions,.meta{justify-content:center}.hero-visual{height:650px;margin-top:34px}.phone{left:16%;width:300px}.phone-secondary{left:auto;right:10%;width:245px}.vertical-poem{right:4%}.manifesto,.privacy{grid-template-columns:1fr;gap:40px}.feature{grid-template-columns:55px 1fr}.feature p{grid-column:2}.download-card{grid-template-columns:1fr}.apk{min-width:0}.section-head{display:block}.section-head p{margin-top:18px}.gallery{padding-top:90px}.shot-track{width:min(100% - 32px,1180px);grid-template-columns:repeat(6,1fr)}.shot,.shot.wide{grid-column:span 3}.shot-note{grid-column:span 3}.shot.offset{margin-top:70px}}
+    @media(max-width:560px){.nav-inner{height:64px}.hero{padding-top:104px}.hero h1{font-size:62px}.hero h1 small{font-size:12px}.lead{font-size:18px}.hero-visual{height:550px}.phone{left:4%;width:245px}.phone-secondary{right:0;width:205px}.vertical-poem{display:none}.manifesto,.features,.privacy{padding:88px 0}.feature{grid-template-columns:44px 1fr;gap:14px;padding:27px 0}.feature p{grid-column:1/-1;padding-left:58px}.shot-track{display:flex;gap:18px;overflow-x:auto;scroll-snap-type:x mandatory;width:100%;padding:0 24px 26px;scrollbar-width:none}.shot,.shot.wide{flex:0 0 76vw;scroll-snap-align:center}.shot.offset{margin-top:0}.shot-note{display:none}.download{padding:70px 0}.download-card{padding:34px 24px}.footer .shell{display:block;line-height:2}.meta{gap:12px;flex-direction:column}.btn{width:100%;justify-content:center}}
+    @media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}.reveal{opacity:1;transform:none;transition:none}.phone{transform:none;left:12%}}
+  </style>
+</head>
+<body>
+  <header class="nav" id="nav"><div class="shell nav-inner"><a class="brand" href="#top"><img src="img/sufei/icon.webp" alt="卷舒图标"><strong>卷舒</strong></a><nav class="nav-links" aria-label="页面导航"><a href="#experience">体验</a><a href="#gallery">界面</a><a href="#privacy">隐私</a><a class="download-small" href="sufei-v1.6.1.apk" download="juanshu-v1.6.1.apk">下载 1.6.1</a></nav></div></header>
+
+  <main id="top">
+    <section class="shell hero">
+      <div class="hero-copy reveal"><div class="eyebrow">Juan Shu · Android</div><h1>卷舒<small>少、慢、静、留白</small></h1><p class="lead">一款基于开源项目 SuFei 改进、为手机阅读古诗词重新设计的 Android 应用。每天三次相遇，让一首诗拥有进入、展开、停留与回味。</p><div class="actions"><a class="btn primary" href="sufei-v1.6.1.apk" download="juanshu-v1.6.1.apk"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M12 3v12m0 0 5-5m-5 5-5-5M5 20h14"/></svg>下载卷舒最新版</a><a class="btn" href="https://github.com/mrdream24/SuFei" target="_blank" rel="noreferrer">查看源代码 ↗</a></div><div class="meta"><span>卷舒 v1.6.1 · 约 94.9 MB</span><span>Android 6.0 及以上</span><span>MIT 开源</span></div></div>
+      <div class="hero-visual reveal"><div class="sun"></div><div class="phone"><img src="img/sufei/home.png" alt="卷舒偶遇首页，展示今日三遇"></div><div class="phone phone-secondary"><img src="img/sufei/dark-mode.png" alt="卷舒夜间模式"></div><div class="vertical-poem">诗缘已收，明日再会。</div></div>
+    </section>
+
+    <section class="shell manifesto reveal"><div><div class="eyebrow">Reading, not scrolling</div><h2>不是信息流，<br>是一次相逢。</h2></div><div><blockquote>“仪式感来自节奏，<br>而不是元素堆叠。”</blockquote><p>暖宣纸、低饱和墨色与克制的朱砂红，构成安静的阅读空间。功能在需要时出现，让注意力留给诗本身。</p></div></section>
+
+    <section class="shell features" id="experience"><div class="section-head reveal"><div><div class="eyebrow">Five ways in</div><h2>一日三遇，万卷可寻</h2></div><p>五个入口，各有节奏：偶遇负责相逢，万卷负责探索，枕边收好喜欢，留声保存自己的朗诵，设置只保留真正影响阅读的选择。</p></div><div class="feature-grid">
+      <article class="feature reveal"><span class="feature-no">01</span><h3>偶遇 · 每天只见三首</h3><p>上滑展卷，一次只呈现一首。三遇结束后留下<strong>“今日三遇”</strong>，当天仍可逐首回看，明日重新相逢。</p></article>
+      <article class="feature reveal"><span class="feature-no">02</span><h3>万卷 · 从四卷开始</h3><p>每日轮换题材、诗人、朝代与词牌四卷，每卷精选 20 篇；也能寻卷搜索标题、正文和诗人，继续进入诗人作品与生平。</p></article>
+      <article class="feature reveal"><span class="feature-no">03</span><h3>阅读 · 功能藏在诗后</h3><p>正文优先占据屏幕，点按后才出现解读、系统朗诵、个人留声与收藏。长诗自然滚动，不被一屏截断。</p></article>
+      <article class="feature reveal"><span class="feature-no">04</span><h3>枕边 · 喜欢按日收好</h3><p>收藏以日期整理，不制造无尽列表；需要时可以搜索，再次进入完整诗篇。</p></article>
+      <article class="feature reveal"><span class="feature-no">05</span><h3>留声 · 读给未来的自己</h3><p>为任意诗词录下朗诵，试听确认后保存；可播放、重录或删除，所有声音只留在设备本地。</p></article>
+      <article class="feature reveal"><span class="feature-no">06</span><h3>外观 · 让字真正适合诗</h3><p>内置多套中文诗词字体，支持简繁字形、浅色、深色与跟随系统；所选字体直接应用到真实阅读页面。</p></article>
+    </div></section>
+
+    <section class="gallery" id="gallery"><div class="shell section-head reveal"><div><div class="eyebrow">Inside Juan Shu</div><h2>十个片刻，一条阅读路径</h2></div><p>全部使用 7 月 18 日从当前版本重新截取的真实界面。桌面以长卷式编排呈现，手机可横向滑动浏览。</p></div><div class="shot-track" aria-label="应用截图">
+      <figure class="shot wide"><img loading="lazy" src="img/sufei/home.png" alt="今日三遇完成页"><figcaption>01 / 今日三遇</figcaption></figure>
+      <figure class="shot wide offset"><img loading="lazy" src="img/sufei/explore.png" alt="万卷与今日四卷"><figcaption>02 / 万卷之中，自有相逢</figcaption></figure>
+      <aside class="shot-note"><blockquote>从相逢，<br>到主动寻卷。</blockquote><p>不是一个无尽信息流，而是两种彼此补充的阅读方式。</p></aside>
+      <figure class="shot"><img loading="lazy" src="img/sufei/daily-volume.png" alt="今日开卷作品列表"><figcaption>03 / 今日开卷 · 每卷 20 篇</figcaption></figure>
+      <figure class="shot offset"><img loading="lazy" src="img/sufei/search-result.png" alt="寻卷搜索结果"><figcaption>04 / 寻卷 · 诗人与正文</figcaption></figure>
+      <figure class="shot"><img loading="lazy" src="img/sufei/poet-detail.png" alt="诗人李白详情"><figcaption>05 / 沿诗抵达诗人</figcaption></figure>
+      <figure class="shot offset"><img loading="lazy" src="img/sufei/poem-detail.png" alt="沉浸诗词阅读页"><figcaption>06 / 正文之后，功能才出现</figcaption></figure>
+      <figure class="shot"><img loading="lazy" src="img/sufei/collection.png" alt="枕边收藏页"><figcaption>07 / 枕边 · 按日收藏</figcaption></figure>
+      <figure class="shot offset"><img loading="lazy" src="img/sufei/recordings.png" alt="个人朗诵留声页"><figcaption>08 / 留声 · 播放与管理</figcaption></figure>
+      <figure class="shot"><img loading="lazy" src="img/sufei/settings.png" alt="阅读字体与外观设置"><figcaption>09 / 字形、字体与明暗</figcaption></figure>
+      <figure class="shot offset"><img loading="lazy" src="img/sufei/dark-mode.png" alt="夜间模式今日三遇"><figcaption>10 / 深墨夜读</figcaption></figure>
+    </div></section>
+
+    <section class="shell privacy" id="privacy"><div class="reveal"><div class="eyebrow">Local first</div><h2>诗在本地，<br>你的痕迹也是。</h2><p>内置诗词数据可离线浏览。收藏、每日三遇状态、外观偏好和个人录音均保存在你的设备上。</p></div><div class="privacy-list reveal"><div class="privacy-item"><span>01</span><div><h3>离线诗库</h3><p>无需联网也能阅读、搜索与分类寻诗。</p></div></div><div class="privacy-item"><span>02</span><div><h3>本地收藏与状态</h3><p>阅读进度、收藏和设置不依赖云端账户。</p></div></div><div class="privacy-item"><span>03</span><div><h3>麦克风按需使用</h3><p>仅在你主动录制个人朗诵时请求麦克风权限。</p></div></div></div></section>
+
+    <section class="download" id="download"><div class="shell download-card reveal"><div><div class="eyebrow">Download</div><h2>今日，遇见一首诗</h2><p>卷舒 Android 版 · 最新版本 1.6.1<br>基于开源项目 SuFei 深度改进</p></div><div class="apk"><a class="btn primary" href="sufei-v1.6.1.apk" download="juanshu-v1.6.1.apk">下载卷舒 1.6.1 · 94.9 MB</a><small>这是卷舒当前最新安装包<br>适用于 Android 6.0 及以上</small></div></div></section>
+  </main>
+
+  <footer class="footer"><div class="shell"><span>© 2026 卷舒 · 基于 SuFei 改进 · MIT License</span><span><a href="https://github.com/mrdream24/SuFei/releases" target="_blank" rel="noreferrer">GitHub Releases ↗</a></span></div></footer>
+  <script>
+    const nav=document.querySelector('#nav');addEventListener('scroll',()=>nav.classList.toggle('scrolled',scrollY>12),{passive:true});
+    const items=document.querySelectorAll('.reveal');if(matchMedia('(prefers-reduced-motion: reduce)').matches){items.forEach(x=>x.classList.add('in'))}else{const io=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target)}}),{threshold:.12});items.forEach(x=>io.observe(x))}
+  </script>
+</body>
+</html>
