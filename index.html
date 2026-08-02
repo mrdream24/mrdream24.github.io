@@ -3,16 +3,17 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="description" content="孟祥辉的个人网站：前端工程师、独立产品创作者与文学阅读者。">
-  <title>孟祥辉 · Engineer & Maker</title>
-  <link rel="stylesheet" href="./css/portfolio.css">
+  <meta name="description" content="孟祥辉的个人网站：工程师、独立产品创作者与长期文学阅读者。">
+  <title>孟祥辉 · Engineer, Maker & Reader</title>
+  <link rel="stylesheet" href="./css/home-v2.css">
 </head>
 <body>
   <header class="site-header">
-    <a class="brand" href="#top" aria-label="返回首页">MENG<span>·</span>XH</a>
+    <a class="brand" href="#top" aria-label="返回首页"><span>MENG</span><i>24</i></a>
     <nav aria-label="主导航">
-      <a href="#projects">作品</a>
-      <a href="./literature.html">文学阅读</a>
+      <a href="#about">关于</a>
+      <a href="#projects">个人项目</a>
+      <a href="#reading">新作阅读池</a>
       <a href="./resume.html">简历</a>
       <a href="https://github.com/mrdream24" target="_blank" rel="noreferrer">GitHub ↗</a>
     </nav>
@@ -20,83 +21,137 @@
 
   <main id="top">
     <section class="hero">
-      <p class="eyebrow">FRONT-END ENGINEER · INDEPENDENT MAKER</p>
-      <h1>把想法做成<br><span>可以被使用的产品。</span></h1>
-      <div class="hero-bottom">
-        <p>你好，我是孟祥辉。长期从事 Web 与移动端研发，也在用 AI 重新探索一个人完成产品设计、开发与发布的可能。</p>
-        <a class="text-link" href="#projects">查看最近作品 <span>↓</span></a>
+      <div class="hero-kicker">
+        <p class="eyebrow">ENGINEER · MAKER · READER</p>
+        <span>Shanghai / 2026</span>
       </div>
+      <h1>在代码与文学之间，<br><span>寻找更完整的生活结构。</span></h1>
+      <div class="hero-bottom">
+        <p>我是孟祥辉。白天构建复杂系统，业余把真实需求做成独立产品，也用长期阅读理解小说、时间与人。比起追逐新鲜感，我更愿意把一件事做深、做久，并让它最终成为可以被使用、被反复进入的东西。</p>
+        <a class="round-link" href="#about" aria-label="向下阅读">↓</a>
+      </div>
+    </section>
+
+    <section class="portrait" id="about">
+      <div class="portrait-index">01</div>
+      <div class="portrait-title">
+        <p class="eyebrow">A PERSONAL PORTRAIT</p>
+        <h2>一个偏执于结构、细节与长期性的实践者。</h2>
+      </div>
+      <div class="portrait-grid">
+        <article>
+          <span>构建</span>
+          <h3>把模糊想法变成清晰产品</h3>
+          <p>从前端工程出发，逐渐把产品判断、交互设计、移动端实现和发布串成完整闭环。技术对我而言不是炫技，而是把复杂问题变得可理解、可操作。</p>
+        </article>
+        <article>
+          <span>阅读</span>
+          <h3>把阅读当作长期研究</h3>
+          <p>我关心的不只是“下一本读什么”，而是作品在文学史中的位置、小说形式如何演变，以及一个作家如何与时代发生关系。阅读因此成为持续修订的知识系统。</p>
+        </article>
+        <article>
+          <span>审美</span>
+          <h3>反复删减，直到重点出现</h3>
+          <p>我偏爱克制但不乏味的设计：少一些装饰，多一些节奏、材质与留白。无论产品还是文字，我都希望它有明确气质，经得起长时间观看。</p>
+        </article>
+      </div>
+      <blockquote>“我想做的，不是更多页面，而是更少却更完整的入口。”</blockquote>
     </section>
 
     <section class="projects" id="projects" aria-labelledby="projects-title">
+      <div class="section-rail"><span>02</span><b>PERSONAL PROJECTS</b></div>
       <div class="section-head">
-        <div><p class="eyebrow">RECENT VIBECODING PROJECTS</p><h2 id="projects-title">最近完成的四个产品</h2></div>
-        <p>从日常真实需求出发，独立完成产品判断、交互设计、Android 开发与介绍页面，也把长期文学阅读整理成可持续维护的个人知识工具。</p>
+        <div>
+          <p class="eyebrow">SELECTED INDEPENDENT WORK</p>
+          <h2 id="projects-title">个人项目</h2>
+        </div>
+        <p>这些产品都从具体生活经验出发：整理照片、阅读诗词、漫游电台。它们不是概念练习，而是我真正想长期使用并持续维护的工具。</p>
       </div>
 
-      <article class="project project-quliu">
-        <a class="project-visual" href="./quliu.html" aria-label="查看去留项目">
-          <img src="./img/quliu-icon.png" alt="去留应用图标" width="160" height="160">
-          <div class="project-wordmark">去留<small>COME &amp; GO</small></div>
-        </a>
-        <div class="project-copy">
-          <p class="project-no">01 / 2026</p>
-          <h3>去留 · 重看，而不是囤积</h3>
-          <p>一款本地优先的照片与视频整理工具。通过逐组回顾、今日往年与明确的二次确认，把清理相册变成一次有节奏的重新观看。</p>
-          <ul><li>Android / Jetpack Compose</li><li>本地优先</li><li>照片叙事</li></ul>
-          <a class="project-link" href="./quliu.html">打开项目页 <span>↗</span></a>
-        </div>
-      </article>
+      <div class="project-list">
+        <article class="project project-quliu">
+          <a class="project-visual" href="./quliu.html" aria-label="查看去留项目">
+            <img src="./img/quliu-icon.png" alt="去留应用图标" width="156" height="156">
+            <div class="project-wordmark">去留<small>COME &amp; GO</small></div>
+          </a>
+          <div class="project-copy">
+            <p class="project-no">01 / MEMORY</p>
+            <h3>去留</h3>
+            <h4>重看，而不是囤积</h4>
+            <p>一款本地优先的照片与视频整理工具。通过逐组回顾、今日往年与明确的二次确认，把清理相册变成一次有节奏的重新观看。</p>
+            <div class="tags"><span>Android</span><span>Jetpack Compose</span><span>Local-first</span></div>
+            <a class="project-link" href="./quliu.html">打开项目页 <span>↗</span></a>
+          </div>
+        </article>
 
-      <article class="project project-sufei">
-        <a class="project-visual" href="./sufei.html" aria-label="查看素扉项目">
-          <img class="phone-shot" src="./img/sufei/home.png" alt="素扉诗词应用首页" loading="lazy">
-        </a>
-        <div class="project-copy">
-          <p class="project-no">02 / 2026</p>
-          <h3>素扉 · 在手机里留一页诗</h3>
-          <p>为古典诗词设计的安静阅读空间。以竖排阅读、诗人探索、收藏、朗读与桌面小组件，让文字回到更从容的节奏里。</p>
-          <ul><li>Android / Compose</li><li>竖排排版</li><li>诗词阅读</li></ul>
-          <a class="project-link" href="./sufei.html">打开项目页 <span>↗</span></a>
-        </div>
-      </article>
+        <article class="project project-sufei">
+          <a class="project-visual" href="./sufei.html" aria-label="查看素扉项目">
+            <img class="phone-shot" src="./img/sufei/home.png" alt="素扉诗词应用首页" loading="lazy">
+          </a>
+          <div class="project-copy">
+            <p class="project-no">02 / POETRY</p>
+            <h3>素扉</h3>
+            <h4>在手机里留一页诗</h4>
+            <p>为古典诗词设计的安静阅读空间。以竖排阅读、诗人探索、收藏、朗读与桌面小组件，让文字回到更从容的节奏里。</p>
+            <div class="tags"><span>Android</span><span>Vertical Type</span><span>Poetry</span></div>
+            <a class="project-link" href="./sufei.html">打开项目页 <span>↗</span></a>
+          </div>
+        </article>
 
-      <article class="project project-tingjian">
-        <a class="project-visual" href="./tingjian.html" aria-label="查看听见项目">
-          <img class="phone-shot" src="./img/tingjian/home.png" alt="听见世界电台应用首页" loading="lazy">
-        </a>
-        <div class="project-copy">
-          <p class="project-no">03 / 2026</p>
-          <h3>听见 · 把下一站交给地球</h3>
-          <p>一台可以旋转与漫游的世界收音机。通过真实地理坐标探索全球网络电台，也能把收藏、最近播放和睡眠定时留在本地。</p>
-          <ul><li>Android / Media3</li><li>全球电台</li><li>真实地理数据</li></ul>
-          <a class="project-link" href="./tingjian.html">打开项目页 <span>↗</span></a>
-        </div>
-      </article>
-
-      <article class="project project-literature">
-        <a class="project-visual" href="./literature.html" aria-label="打开世界文学与中国文学阅读池" style="background:#2f392f;color:#f4efe3;flex-direction:column;gap:22px;text-align:center;padding:48px">
-          <span style="font:500 clamp(56px,8vw,96px)/1 'Songti SC','STSong',serif;letter-spacing:.08em">读</span>
-          <span style="font:500 22px/1.5 'Songti SC','STSong',serif;letter-spacing:.12em">世界文学<br>与中国文学</span>
-          <small style="font:600 10px/1.4 system-ui,sans-serif;letter-spacing:.22em;opacity:.68">LITERATURE READING POOL</small>
-        </a>
-        <div class="project-copy">
-          <p class="project-no">04 / 2026</p>
-          <h3>文学阅读池 · 从作家进入时代</h3>
-          <p>一套面向长期深度阅读的世界文学与中国文学图谱。可以从国家与作家纵向深入，也可以沿文学史阶段横向比较，并持续记录个人阅读进度。</p>
-          <ul><li>世界文学</li><li>中国文学</li><li>双视角阅读</li><li>本地进度</li></ul>
-          <a class="project-link" href="./literature.html">进入阅读池 <span>↗</span></a>
-        </div>
-      </article>
+        <article class="project project-tingjian">
+          <a class="project-visual" href="./tingjian.html" aria-label="查看听见项目">
+            <img class="phone-shot" src="./img/tingjian/home.png" alt="听见世界电台应用首页" loading="lazy">
+          </a>
+          <div class="project-copy">
+            <p class="project-no">03 / RADIO</p>
+            <h3>听见</h3>
+            <h4>把下一站交给地球</h4>
+            <p>一台可以旋转与漫游的世界收音机。通过真实地理坐标探索全球网络电台，也能把收藏、最近播放和睡眠定时留在本地。</p>
+            <div class="tags"><span>Android</span><span>Media3</span><span>Global Radio</span></div>
+            <a class="project-link" href="./tingjian.html">打开项目页 <span>↗</span></a>
+          </div>
+        </article>
+      </div>
     </section>
 
-    <section class="about">
-      <p class="eyebrow">ABOUT</p>
-      <h2>十余年前，我从前端开始构建数字产品。现在，我仍然在写代码，只是离一个完整产品更近了。</h2>
-      <div><p>工作经历覆盖哈啰出行、饿了么、稀土掘金与攻壳科技。关注交互体验、工程质量，以及技术怎样真正进入人的日常。</p><a class="button" href="./resume.html">查看完整简历</a></div>
+    <section class="reading" id="reading" aria-labelledby="reading-title">
+      <div class="section-rail light"><span>03</span><b>READING LAB</b></div>
+      <div class="reading-intro">
+        <div>
+          <p class="eyebrow">A LIVING LITERARY MAP</p>
+          <h2 id="reading-title">新作阅读池</h2>
+        </div>
+        <p>它不是项目列表中的第四个产品，而是另一条长期生长的线索：一座持续修订的私人文学地图，用来安排阅读、记录进度，也用作理解世界小说结构演化的研究入口。</p>
+      </div>
+
+      <a class="reading-card" href="./literature.html">
+        <div class="reading-mark"><span>读</span><small>LITERATURE<br>READING POOL</small></div>
+        <div class="reading-copy">
+          <p>WORLD &amp; CHINESE LITERATURE</p>
+          <h3>从作家进入时代，<br>从时代返回作品。</h3>
+          <div class="reading-features">
+            <span>按国家与作家纵向深入</span>
+            <span>按文学史阶段横向比较</span>
+            <span>记录想读、在读与已读</span>
+          </div>
+        </div>
+        <div class="reading-arrow">↗</div>
+      </a>
+    </section>
+
+    <section class="closing">
+      <p class="eyebrow">CURRENT DIRECTION</p>
+      <h2>继续做小而完整的产品，<br>也继续把阅读变成一件有结构的事。</h2>
+      <div>
+        <p>我仍在软件工程的一线工作，也持续探索 AI 如何帮助个人完成从构想到发布的全过程。对我来说，真正重要的不是“做得更快”，而是一个人是否能够做出更完整、更有判断的作品。</p>
+        <a class="button" href="./resume.html">查看完整简历</a>
+      </div>
     </section>
   </main>
 
-  <footer><p>孟祥辉 · Shanghai</p><p><a href="mailto:1178790517@qq.com">Email</a><a href="https://github.com/mrdream24">GitHub</a><a href="https://www.instagram.com/mrdream24/">Instagram</a></p></footer>
+  <footer>
+    <p>孟祥辉 · Shanghai</p>
+    <p><a href="mailto:1178790517@qq.com">Email</a><a href="https://github.com/mrdream24">GitHub</a><a href="https://www.instagram.com/mrdream24/">Instagram</a></p>
+  </footer>
 </body>
 </html>
