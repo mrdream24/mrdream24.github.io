@@ -1,10 +1,25 @@
-## MrDream的个人网站
+# 孟祥辉的个人网站
 
-<img src='https://user-gold-cdn.xitu.io/2017/6/23/8ebe512010110bbb022be1608a49d999' width='200px'/>
+这是我的个人主页，也是几个长期项目的公开入口。
 
-- 个人网站：[mrdream24.github.io](https://mrdream24.github.io)
-- 微博：[MrDream24](http://weibo.com/117879051)
-- Instagram: [mrdream24](https://www.instagram.com/mrdream24/)
+我是一名前端与移动端工程师，也是一名独立产品创作者和长期文学阅读者。工作之外，我持续尝试把生活中的真实需求做成小而完整的产品，并把阅读从零散书单整理成可持续维护的文学地图。
+
+## 个人项目
+
+- **去留**：本地优先的照片与视频整理工具，让清理相册变成一次重新观看。
+- **素扉**：为古典诗词设计的安静阅读空间，强调竖排、留白与阅读节奏。
+- **听见**：以真实地理坐标探索全球网络电台的 Android 应用。
+
+## 新作阅读池
+
+- **世界文学与中国文学阅读池**：按国家、作家与文学史阶段组织经典作品，支持记录想读、在读与已读状态。
+
+## 关于我
+
+我关心工程质量，也关心一个产品是否真正进入人的日常；我喜欢结构清楚、重点明确、经得起反复使用的东西。文学阅读则是另一条长期线索：从陀思妥耶夫斯基、乔伊斯、伍尔夫、普鲁斯特，到卡尔维诺、昆德拉、马尔克斯，我更关注作品之间的谱系、形式演变与时代关系，而不只是完成一本又一本书。
+
+- 网站：[mrdream24.github.io](https://mrdream24.github.io)
+- GitHub：[mrdream24](https://github.com/mrdream24)
+- Instagram：[mrdream24](https://www.instagram.com/mrdream24/)
 - 知乎：[孟祥辉](https://www.zhihu.com/people/mrdream24/)
-- 掘金：[MrDream24](https://juejin.im/user/56a319852e958a0059576864)
 - 邮箱：1178790517@qq.com
