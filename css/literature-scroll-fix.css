@@ -1,10 +1,57 @@
-/* Keep the three explorer columns constrained to the viewport and let each body scroll independently. */
+/* Application-shell scrolling: the browser page stays fixed while each view owns its scroll area. */
+html,
+body{
+  width:100%;
+  height:100%;
+  min-height:0;
+  overflow:hidden;
+}
+
+body{
+  display:flex;
+  flex-direction:column;
+}
+
+.topbar,
+.sync-banner{
+  flex:0 0 auto;
+}
+
+.topbar{
+  position:relative;
+  top:auto;
+}
+
+.sync-banner{
+  width:calc(100% - 32px);
+  margin:12px auto;
+}
+
+.dashboard,
+.workspace,
+.shelf-page{
+  flex:1 1 auto;
+  min-height:0;
+  max-height:none;
+}
+
+.dashboard,
+.shelf-page{
+  width:100%;
+  overflow-y:auto;
+  overflow-x:hidden;
+  overscroll-behavior:contain;
+  -webkit-overflow-scrolling:touch;
+  scrollbar-gutter:stable;
+}
+
 .workspace{
-  height:calc(100dvh - 68px);
+  height:auto;
   min-height:0;
   align-items:stretch;
   overflow:hidden;
 }
+
 .column{
   min-width:0;
   min-height:0;
@@ -13,11 +60,13 @@
   flex-direction:column;
   overflow:hidden;
 }
+
 .column-head{
   flex:0 0 78px;
   height:auto;
   min-height:78px;
 }
+
 .column-scroll,
 .detail-scroll{
   flex:1 1 auto;
@@ -29,28 +78,53 @@
   -webkit-overflow-scrolling:touch;
   scrollbar-gutter:stable;
 }
-.detail-column{min-height:0;overflow:hidden}
 
-@supports not (height:100dvh){
-  .workspace{height:calc(100vh - 68px)}
+.detail-column{
+  min-height:0;
+  overflow:hidden;
 }
 
 @media(max-width:1000px){
-  .workspace{
-    height:auto;
-    min-height:calc(100dvh - 120px);
-    overflow:visible;
+  .topbar{
+    position:relative;
   }
-  .column{
+
+  .sync-banner{
+    margin:8px auto;
+  }
+
+  .workspace{
+    display:block;
     height:auto;
     min-height:0;
-    overflow:visible;
+    overflow:hidden;
   }
+
+  .column{
+    display:none;
+    height:100%;
+    min-height:0;
+    overflow:hidden;
+  }
+
+  .column.mobile-active{
+    display:flex;
+  }
+
+  .column-head{
+    position:relative;
+    top:auto;
+    flex:0 0 auto;
+    min-height:78px;
+  }
+
   .column-scroll,
   .detail-scroll{
+    flex:1 1 auto;
     min-height:0;
     height:auto;
-    overflow:visible;
-    scrollbar-gutter:auto;
+    overflow-y:auto;
+    overflow-x:hidden;
+    scrollbar-gutter:stable;
   }
 }
