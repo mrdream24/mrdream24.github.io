@@ -1,0 +1,1 @@
+(function(){if(typeof periodOf!=='function')return;const basePeriodOf=periodOf;periodOf=function(name){return window.literaturePeriodOverrides?.[name]||basePeriodOf(name)}})();
