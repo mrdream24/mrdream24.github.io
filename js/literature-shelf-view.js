@@ -1,5 +1,6 @@
 function shelfElement(selector){return document.querySelector(selector)}
 function hasShelfAtlasDom(){return ['#shelfDoneCount','#shelfReadingCount','#shelfCountryCount','#shelfPeriodCount','#shelfAuthorCount','#shelfInsight','#shelfMapView','#shelfStatusView','#shelfRegionList','#shelfRegionDetail'].every(selector=>shelfElement(selector))}
+window.selectShelfRegion=function(key){selectedShelfRegion=key;renderShelf()};
 function statusGroup(title,key,items,description){
   if(!items.length)return '';
   return `<section class="status-zone ${key}"><div class="zone-heading"><div><p>${description}</p><h2>${title}</h2></div><span>${items.length}</span></div><div class="${key==='reading'?'reading-desk':'cover-gallery'}">${items.map((x,i)=>`<button class="shelf-volume ${key}" data-open="${x.id}" style="--index:${i}">${shelfCoverMarkup(x,key==='reading'?'large':'')}<span><strong>《${x.work[0]}》</strong><small>${x.author.name} · ${shelfPeriodTitle(x.author.name)}</small></span></button>`).join('')}</div></section>`
