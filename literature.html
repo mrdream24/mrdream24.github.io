@@ -13,21 +13,7 @@
 <link rel="stylesheet" href="./css/literature-curation.css">
 </head>
 <body>
-<header class="topbar">
-  <a class="home-link" href="./index.html">← 返回首页</a>
-  <div class="brand">世界文学阅读池 <small>READING SYSTEM</small></div>
-  <nav class="primary-tabs" aria-label="阅读池主导航">
-    <button class="primary-tab active" data-page="dashboard">阅读首页</button>
-    <button class="primary-tab" data-page="author">作家维度</button>
-    <button class="primary-tab" data-page="time">时间维度</button>
-    <button class="primary-tab" data-page="shelf">我的书架</button>
-  </nav>
-  <div class="search-wrap"><input id="globalSearch" placeholder="搜索作家或作品"></div>
-  <div class="account">
-    <button id="loginButton" class="account-btn">登录并同步</button>
-    <div id="userPanel" class="user-panel hidden"><span id="userEmail"></span><button id="logoutButton" class="account-btn subtle">退出</button></div>
-  </div>
-</header>
+<header class="topbar"><a class="home-link" href="./index.html">← 返回首页</a><div class="brand">世界文学阅读池 <small>READING SYSTEM</small></div><nav class="primary-tabs" aria-label="阅读池主导航"><button class="primary-tab active" data-page="dashboard">阅读首页</button><button class="primary-tab" data-page="author">作家维度</button><button class="primary-tab" data-page="time">时间维度</button><button class="primary-tab" data-page="shelf">我的书架</button></nav><div class="search-wrap"><input id="globalSearch" placeholder="搜索作家或作品"></div><div class="account"><button id="loginButton" class="account-btn">登录并同步</button><div id="userPanel" class="user-panel hidden"><span id="userEmail"></span><button id="logoutButton" class="account-btn subtle">退出</button></div></div></header>
 <div id="syncBanner" class="sync-banner">访客模式：阅读状态保存在当前浏览器。登录后可同步到云端。</div>
 <dialog id="loginDialog"><form id="loginForm" class="login-card"><h2>登录阅读池</h2><p>输入邮箱，我们会发送一个 Magic Link。点击邮件中的链接后即可返回并同步阅读状态。</p><input id="loginEmail" type="email" required autocomplete="email" placeholder="你的邮箱"><div class="dialog-actions"><button type="button" id="closeLoginDialog" class="account-btn subtle">取消</button><button type="submit" class="account-btn">发送登录链接</button></div><div id="loginMessage" class="login-message"></div></form></dialog>
 <section id="dashboardPage" class="dashboard"><div class="dashboard-hero"><div><p class="eyebrow">WORLD & CHINESE LITERATURE READING SYSTEM</p><h1>不是一张书单，<br><span>而是一座可进入的文学地图。</span></h1></div><p>从国家、作家或文学史阶段进入，只在当前层级展示必要信息。完整阅读池始终存在，但不再要求你沿着一个无限长的页面滚动。</p></div><div class="stats"><div class="stat"><b id="statTotal">0</b><span>收录作品</span></div><div class="stat"><b id="statReading">0</b><span>正在阅读</span></div><div class="stat"><b id="statDone">0</b><span>已经读完</span></div><div class="stat"><b id="statCountries">0</b><span>已进入国家</span></div></div><div class="dashboard-grid"><section class="panel"><div class="panel-head"><h2>正在阅读</h2><button class="panel-link" data-open-page="shelf">进入书架 →</button></div><div id="currentReading" class="current-list"></div></section><section class="panel"><div class="panel-head"><h2>继续探索</h2></div><div class="explore-actions"><button class="action-card" data-action="top"><b>查看核心作家</b><span>从个人关联与文学史坐标开始</span></button><button class="action-card" data-action="nineteenth"><b>进入19世纪</b><span>现实主义与现代小说的形成</span></button><button class="action-card" data-action="calvino"><b>继续卡尔维诺</b><span>寓言、组合叙事与元小说</span></button><button class="action-card" data-action="random"><b>随机一部未读经典</b><span>从阅读池中获得下一次相遇</span></button></div></section></div></section>
@@ -37,6 +23,7 @@
 <script src="./js/literature-data-2.js"></script>
 <script src="./js/literature-data-expanded.js"></script>
 <script src="./js/literature-data-curated.js"></script>
+<script src="./js/literature-prune-premodern.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script src="./js/literature-app.js"></script>
 <script src="./js/literature-curation-ui.js"></script>
