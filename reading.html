@@ -10,8 +10,6 @@
 <body>
 <div class="loading">正在打开文学阅读池……</div>
 <iframe id="pool" src="./literature.html" title="世界文学双视角阅读池"></iframe>
-<script>
-const frame=document.getElementById('pool');frame.addEventListener('load',()=>{const doc=frame.contentDocument;if(!doc)return;doc.title='世界文学双视角阅读池 · 孟祥辉';const home=doc.createElement('a');home.href='./index.html';home.textContent='← 返回首页';home.style.cssText='display:inline-flex;margin-bottom:28px;color:#eadfc9;font:13px/1.2 system-ui,sans-serif;letter-spacing:.04em;text-decoration:none';const hero=doc.querySelector('.hero');if(hero)hero.insertBefore(home,hero.firstChild);const script=doc.createElement('script');script.src='./js/literature-covers.js';script.onload=()=>document.body.classList.add('ready');script.onerror=()=>document.body.classList.add('ready');doc.body.appendChild(script)});
-</script>
+<script>document.getElementById('pool').addEventListener('load',()=>document.body.classList.add('ready'));</script>
 </body>
 </html>
