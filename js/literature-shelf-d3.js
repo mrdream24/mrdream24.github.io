@@ -1,125 +1,106 @@
 (()=>{
-  let lastRender=null;
+  const states=new WeakMap();
   let resizeTimer=null;
   let resizeBound=false;
-  let rendering=false;
 
-  function ensureD3(){return window.d3&&window.d3.select&&window.d3.pack}
-  function levelOf(row){return row.ratio>.65?'core':row.ratio>.3?'deep':row.done||row.reading.length?'entered':'unknown'}
-  function clear(container){d3.select(container).selectAll('*').interrupt();container.replaceChildren()}
-  function dimensions(container){
-    const rect=container.getBoundingClientRect();
-    return {width:Math.max(540,Math.round(rect.width||760)),height:Math.max(430,Math.round(rect.height||520))}
+  const WORLD_GROUPS=[
+    {key:'europe',title:'欧洲文学',match:/英国|法国|德国|德语|俄国|俄罗斯|爱尔兰|意大利|西班牙|葡萄牙|奥地利|瑞士|波兰|捷克|匈牙利|希腊|北欧|挪威|瑞典|丹麦|芬兰|冰岛|荷兰|比利时/},
+    {key:'east-asia',title:'东亚文学',match:/中国|日本|韩国|朝鲜|东亚/},
+    {key:'latin-america',title:'拉丁美洲',match:/拉丁美洲|阿根廷|哥伦比亚|墨西哥|秘鲁|智利|巴西|古巴|乌拉圭/},
+    {key:'north-america',title:'北美文学',match:/美国|加拿大|北美/},
+    {key:'other',title:'世界其他传统',match:/.*/}
+  ];
+
+  function ensureD3(){return window.d3&&d3.select&&d3.pack&&d3.interpolateZoom}
+  function sourceData(){return typeof data!=='undefined'?data:[]}
+  function sourceWorks(){return typeof allWorks!=='undefined'?allWorks:[]}
+  function sourceShelf(){return typeof shelf!=='undefined'?shelf:{}}
+  function workPeriod(author){return typeof periodOf==='function'?periodOf(author):null}
+  function dimensions(container){const r=container.getBoundingClientRect();return{width:Math.max(560,Math.round(r.width||820)),height:Math.max(500,Math.round(r.height||560))}}
+  function groupFor(country){return WORLD_GROUPS.find(group=>group.match.test(country))||WORLD_GROUPS.at(-1)}
+  function statusOf(id){return sourceShelf()[id]||''}
+  function signature(mode,rows){return `${mode}|${rows.map(row=>`${row.key}:${row.done}:${row.reading?.length||0}:${row.total}`).join('|')}|${Object.keys(sourceShelf()).length}`}
+  function levelOf(row){return row.ratio>.65?'core':row.ratio>.3?'deep':row.done||row.reading?.length?'entered':'unknown'}
+  function safeText(value){return String(value??'').replace(/[&<>"']/g,char=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[char]))}
+
+  function ensureChrome(container,title,subtitle){
+    let chrome=container.querySelector('.atlas-chrome');
+    if(!chrome){chrome=document.createElement('div');chrome.className='atlas-chrome';chrome.innerHTML='<div class="atlas-path"><span></span><strong></strong></div><div class="atlas-actions"><button type="button" data-atlas-home>总览</button><span>滚轮缩放 · 拖动浏览</span></div>';container.appendChild(chrome)}
+    chrome.querySelector('.atlas-path span').textContent=title;chrome.querySelector('.atlas-path strong').textContent=subtitle||'';return chrome
   }
-  function bindResize(){
-    if(resizeBound)return;
-    resizeBound=true;
-    window.addEventListener('resize',()=>{
-      clearTimeout(resizeTimer);
-      resizeTimer=setTimeout(()=>{
-        if(!lastRender||rendering||!lastRender.container?.isConnected)return;
-        const next=dimensions(lastRender.container);
-        if(Math.abs(next.width-lastRender.width)<8&&Math.abs(next.height-lastRender.height)<8)return;
-        window.renderShelfVisualization(lastRender.container,lastRender.mode,lastRender.rows,lastRender.selected,{animate:false});
-      },180);
-    },{passive:true});
-  }
-  function selectRegion(key){if(typeof window.selectShelfRegion==='function')window.selectShelfRegion(key)}
-  function tooltip(container){
-    let node=container.querySelector('.d3-atlas-tooltip');
-    if(!node){node=document.createElement('div');node.className='d3-atlas-tooltip';container.appendChild(node)}
-    return node
-  }
-  function showTooltip(node,event,html){
-    node.innerHTML=html;node.classList.add('visible');
-    const rect=node.parentElement.getBoundingClientRect();
-    node.style.left=`${Math.min(rect.width-node.offsetWidth-12,Math.max(12,event.clientX-rect.left+14))}px`;
-    node.style.top=`${Math.min(rect.height-node.offsetHeight-12,Math.max(12,event.clientY-rect.top+14))}px`;
-  }
+  function tooltip(container){let node=container.querySelector('.d3-atlas-tooltip');if(!node){node=document.createElement('div');node.className='d3-atlas-tooltip';container.appendChild(node)}return node}
+  function showTooltip(node,event,html){node.innerHTML=html;node.classList.add('visible');const rect=node.parentElement.getBoundingClientRect();node.style.left=`${Math.min(rect.width-node.offsetWidth-14,Math.max(14,event.clientX-rect.left+16))}px`;node.style.top=`${Math.min(rect.height-node.offsetHeight-14,Math.max(14,event.clientY-rect.top+16))}px`}
   function hideTooltip(node){node.classList.remove('visible')}
+  function selectRegion(key){if(typeof window.selectShelfRegion==='function')window.selectShelfRegion(key)}
 
-  function renderIslands(container,rows,selected,animate){
-    clear(container);
-    const {width,height}=dimensions(container),tip=tooltip(container);
-    const svg=d3.select(container).append('svg').attr('class','d3-atlas-svg d3-islands').attr('viewBox',`0 0 ${width} ${height}`).attr('role','img').attr('aria-label','个人文学世界地图');
-    const defs=svg.append('defs');
-    const glow=defs.append('filter').attr('id','atlas-glow').attr('x','-40%').attr('y','-40%').attr('width','180%').attr('height','180%');
-    glow.append('feGaussianBlur').attr('stdDeviation',7).attr('result','blur');
-    const merge=glow.append('feMerge');merge.append('feMergeNode').attr('in','blur');merge.append('feMergeNode').attr('in','SourceGraphic');
-    const root=d3.hierarchy({children:rows}).sum(d=>Math.max(5,d.total)).sort((a,b)=>b.value-a.value);
-    d3.pack().size([width-36,height-36]).padding(13)(root);
-    const nodes=root.leaves();
-    const g=svg.append('g').attr('transform','translate(18,18)');
-    if(nodes.length>1)g.append('path').attr('class','atlas-current-line').attr('d',d3.line().curve(d3.curveCatmullRom.alpha(.65))(nodes.slice(0,8).map((n,i)=>[n.x+(i%2?8:-8),n.y+(i%3?6:-6)])));
-    const island=g.selectAll('g.island-node').data(nodes,d=>d.data.key).join(enter=>{
-      const group=enter.append('g').attr('class','island-node').attr('tabindex',0).attr('role','button').attr('aria-label',d=>`${d.data.title}文学，已读${d.data.done}部`);
-      group.append('circle').attr('class','island-halo');
-      group.append('circle').attr('class','island-body');
-      group.append('circle').attr('class','island-fill');
-      group.append('text').attr('class','island-title').attr('text-anchor','middle');
-      group.append('text').attr('class','island-meta').attr('text-anchor','middle');
-      return group
-    });
-    island.attr('class',d=>`island-node ${levelOf(d.data)} ${selected===d.data.key?'active':''}`)
-      .attr('transform',d=>`translate(${d.x},${d.y}) scale(${animate?0:1})`)
-      .on('click',(_,d)=>selectRegion(d.data.key))
-      .on('keydown',(event,d)=>{if(event.key==='Enter'||event.key===' '){event.preventDefault();selectRegion(d.data.key)}})
-      .on('pointermove',(event,d)=>showTooltip(tip,event,`<strong>${d.data.title}文学</strong><span>${d.data.done} / ${d.data.total} 已读${d.data.reading.length?` · ${d.data.reading.length} 在读`:''}</span>`))
-      .on('pointerleave',()=>hideTooltip(tip));
-    island.select('.island-halo').attr('r',d=>d.r+10).classed('reading',d=>d.data.reading.length>0);
-    island.select('.island-body').attr('r',d=>d.r);
-    island.select('.island-fill').attr('r',d=>Math.max(0,d.r*Math.sqrt(Math.max(.02,d.data.ratio))));
-    island.select('.island-title').attr('y',d=>d.r>58?-5:0).style('font-size',d=>`${Math.max(11,Math.min(19,d.r/4.8))}px`).text(d=>d.data.title);
-    island.select('.island-meta').attr('y',d=>d.r>58?18:0).style('display',d=>d.r>48?'block':'none').text(d=>`${d.data.done} 已读`);
-    if(animate)island.transition().duration(620).delay((_,i)=>i*24).ease(d3.easeCubicOut).attr('transform',d=>`translate(${d.x},${d.y}) scale(1)`);
-    svg.call(d3.zoom().scaleExtent([.9,2.4]).filter(event=>event.type!=='dblclick').on('zoom',event=>g.attr('transform',`translate(${18+event.transform.x},${18+event.transform.y}) scale(${event.transform.k})`)));
+  function countryHierarchy(rows){
+    const rowMap=new Map(rows.map(row=>[row.key,row]));
+    const grouped=new Map(WORLD_GROUPS.map(group=>[group.key,{name:group.title,key:group.key,type:'tradition',children:[]}]))
+    for(const countryData of sourceData()){
+      const country=countryData.country,row=rowMap.get(country);if(!row)continue;
+      const authors=(countryData.authors||[]).map(author=>{
+        const works=sourceWorks().filter(work=>work.country===country&&work.author.name===author.name).map(work=>({name:work.work[0],key:work.id,type:'work',status:statusOf(work.id),value:1,country,author:author.name}));
+        return{name:author.name,key:`${country}|${author.name}`,type:'author',country,children:works.length?works:[{name:'尚未收录',key:`empty-${country}-${author.name}`,type:'empty',value:.35,country,author:author.name}]}
+      });
+      const group=groupFor(country);grouped.get(group.key).children.push({name:country,key:country,type:'country',country,row,children:authors})
+    }
+    return{name:'世界文学',key:'root',type:'root',children:[...grouped.values()].filter(group=>group.children.length)}
   }
 
-  function renderRiver(container,rows,selected,animate){
-    clear(container);
-    const {width,height}=dimensions(container),tip=tooltip(container),margin={left:64,right:64};
-    const svg=d3.select(container).append('svg').attr('class','d3-atlas-svg d3-river').attr('viewBox',`0 0 ${width} ${height}`).attr('role','img').attr('aria-label','个人文学时间长河');
-    const x=d3.scalePoint().domain(rows.map(d=>d.key)).range([margin.left,width-margin.right]).padding(.55);
-    const yBase=height*.48;
-    const points=rows.map((d,i)=>[x(d.key),yBase+Math.sin(i*.95)*32]);
-    const river=d3.line().curve(d3.curveCatmullRom.alpha(.7));
-    svg.append('path').attr('class','river-shadow').attr('d',river(points));
-    const main=svg.append('path').attr('class','river-main').attr('d',river(points));
-    if(animate){
-      const length=main.node()?.getTotalLength?.()||0;
-      main.attr('stroke-dasharray',length).attr('stroke-dashoffset',length).transition().duration(950).ease(d3.easeCubicInOut).attr('stroke-dashoffset',0);
-    }
-    const eras=svg.selectAll('g.era-node').data(rows,d=>d.key).join('g').attr('class',d=>`era-node ${levelOf(d)} ${selected===d.key?'active':''}`).attr('tabindex',0).attr('role','button')
-      .on('click',(_,d)=>selectRegion(d.key))
-      .on('keydown',(event,d)=>{if(event.key==='Enter'||event.key===' '){event.preventDefault();selectRegion(d.key)}})
-      .on('pointermove',(event,d)=>showTooltip(tip,event,`<strong>${d.title}</strong><span>${d.done} / ${d.total} 已读 · ${d.countries?.size||0} 个传统</span>`))
-      .on('pointerleave',()=>hideTooltip(tip));
-    eras.append('circle').attr('class','era-pulse').attr('r',d=>d.reading.length?24:0);
-    eras.append('circle').attr('class','era-ring').attr('r',d=>14+Math.min(16,d.total/4));
-    eras.append('circle').attr('class','era-core').attr('r',d=>7+Math.min(10,d.done/2));
-    eras.append('text').attr('class','era-index').attr('text-anchor','middle').attr('y',-38).text((_,i)=>String(i+1).padStart(2,'0'));
-    eras.append('text').attr('class','era-title').attr('text-anchor','middle').attr('y',48).text(d=>d.title.split('：')[0]);
-    eras.append('text').attr('class','era-meta').attr('text-anchor','middle').attr('y',68).text(d=>`${d.done} 已读 · ${d.countries?.size||0} 个传统`);
-    eras.attr('opacity',animate?0:1).attr('transform',(d,i)=>`translate(${x(d.key)},${points[i][1]+(animate?18:0)})`);
-    if(animate)eras.transition().duration(560).delay((_,i)=>180+i*65).attr('opacity',1).attr('transform',(d,i)=>`translate(${x(d.key)},${points[i][1]})`);
-    svg.append('g').attr('class','river-axis').selectAll('text').data(rows).join('text').attr('x',d=>x(d.key)).attr('y',height-24).attr('text-anchor','middle').text((_,i)=>i===0?'起点':i===rows.length-1?'当代':'');
+  function renderWorld(container,rows,selected,options={}){
+    const size=dimensions(container),hash=signature('country',rows),previous=states.get(container);
+    if(previous?.mode==='country'&&previous.hash===hash&&previous.width===size.width&&previous.height===size.height){previous.selected=selected;previous.nodes.attr('class',node=>worldNodeClass(node,selected));return}
+    d3.select(container).selectAll('svg').interrupt().remove();container.querySelectorAll('.atlas-chrome,.d3-atlas-tooltip').forEach(node=>node.remove());
+    const chrome=ensureChrome(container,'世界文学宇宙','点击文学传统进入，点击空白返回上一级'),tip=tooltip(container);
+    const svg=d3.select(container).append('svg').attr('class','d3-atlas-svg literary-universe').attr('viewBox',`0 0 ${size.width} ${size.height}`).attr('role','img').attr('aria-label','可缩放的个人文学宇宙');
+    const defs=svg.append('defs'),glow=defs.append('filter').attr('id','literary-glow').attr('x','-50%').attr('y','-50%').attr('width','200%').attr('height','200%');
+    glow.append('feGaussianBlur').attr('stdDeviation',6).attr('result','blur');const merge=glow.append('feMerge');merge.append('feMergeNode').attr('in','blur');merge.append('feMergeNode').attr('in','SourceGraphic');
+    const root=d3.hierarchy(countryHierarchy(rows)).sum(node=>node.value||1).sort((a,b)=>b.value-a.value);d3.pack().size([size.width-40,size.height-40]).padding(5)(root);
+    const scene=svg.append('g').attr('transform','translate(20,20)');scene.append('circle').attr('class','universe-aura').attr('cx',root.x).attr('cy',root.y).attr('r',Math.min(size.width,size.height)*.42);
+    const nodes=scene.selectAll('g.universe-node').data(root.descendants().slice(1),node=>node.data.key).join('g').attr('class',node=>worldNodeClass(node,selected)).attr('tabindex',node=>node.depth<=3?0:null).attr('role',node=>node.depth<=3?'button':null).attr('transform',node=>`translate(${node.x},${node.y})`);
+    nodes.append('circle').attr('class','universe-orbit').attr('r',node=>node.r);
+    nodes.append('circle').attr('class','universe-progress').attr('r',node=>{if(node.data.type==='country')return node.r*Math.sqrt(Math.max(.035,node.data.row?.ratio||0));if(node.data.type==='author'){const works=node.leaves().filter(leaf=>leaf.data.type==='work'),done=works.filter(leaf=>leaf.data.status==='done').length;return node.r*Math.sqrt(Math.max(.025,works.length?done/works.length:0))}return node.data.type==='work'?Math.max(2,node.r*.72):0});
+    nodes.filter(node=>node.data.type==='work'&&node.data.status==='reading').append('circle').attr('class','reading-beacon').attr('r',node=>node.r+5);
+    nodes.append('text').attr('class','universe-label').attr('text-anchor','middle').attr('dy',node=>node.depth===1?'.15em':node.depth===2?'-.1em':'.32em').style('font-size',node=>`${Math.max(8,Math.min(node.depth===1?22:15,node.r/(node.depth===1?4.5:3.8)))}px`).text(node=>node.data.type==='work'||node.data.type==='empty'?'':node.data.name);
+    nodes.filter(node=>node.data.type==='country').append('text').attr('class','universe-count').attr('text-anchor','middle').attr('dy','1.45em').text(node=>`${node.data.row?.done||0} 已读`);
+    let focus=root,view=[root.x,root.y,root.r*2];const byKey=new Map(root.descendants().map(node=>[node.data.key,node]));if(previous?.focusKey&&byKey.has(previous.focusKey))focus=byKey.get(previous.focusKey);
+    function visibleFor(node){if(focus===root)return node.depth<=2;if(node===focus)return true;return node.parent===focus||node.ancestors().includes(focus)&&node.depth<=focus.depth+2}
+    function applyView(next){view=next;const k=Math.min(size.width,size.height)/next[2];nodes.attr('transform',node=>`translate(${(node.x-next[0])*k+size.width/2-20},${(node.y-next[1])*k+size.height/2-20})`).selectAll('circle.universe-orbit,circle.universe-progress,circle.reading-beacon').attr('transform',`scale(${k})`);nodes.selectAll('text').attr('transform',`scale(${Math.min(1.2,Math.max(.62,k))})`)}
+    function zoomTo(target,animate=true){focus=target||root;const targetView=[focus.x,focus.y,Math.max(36,focus.r*2.18)],transition=animate?svg.transition().duration(850).ease(d3.easeCubicInOut):svg.transition().duration(0);transition.tween('zoom',()=>{const interpolate=d3.interpolateZoom(view,targetView);return t=>applyView(interpolate(t))});nodes.transition(transition).style('opacity',node=>visibleFor(node)?1:0).style('pointer-events',node=>visibleFor(node)?'auto':'none');chrome.querySelector('.atlas-path strong').textContent=focus===root?'':focus.ancestors().reverse().slice(1).map(node=>node.data.name).join(' / ');const state=states.get(container);if(state)state.focusKey=focus.data.key}
+    nodes.on('click',(event,node)=>{event.stopPropagation();if(node.data.type==='work'){if(typeof openWork==='function')openWork(node.data.key);return}if(node.data.type==='empty')return;if(node.data.type==='country')selectRegion(node.data.key);zoomTo(node)}).on('keydown',(event,node)=>{if(event.key==='Enter'||event.key===' '){event.preventDefault();event.currentTarget.dispatchEvent(new MouseEvent('click',{bubbles:true}))}}).on('pointermove',(event,node)=>showTooltip(tip,event,worldTooltip(node))).on('pointerleave',()=>hideTooltip(tip));
+    svg.on('click',()=>zoomTo(focus.parent||root));chrome.querySelector('[data-atlas-home]').onclick=()=>zoomTo(root);
+    const panZoom=d3.zoom().scaleExtent([.85,3]).filter(event=>event.type!=='dblclick'&&event.target===svg.node()).on('zoom',event=>scene.attr('transform',`translate(${20+event.transform.x},${20+event.transform.y}) scale(${event.transform.k})`));svg.call(panZoom);
+    applyView(view);nodes.style('opacity',node=>visibleFor(node)?1:0).style('pointer-events',node=>visibleFor(node)?'auto':'none');if(options.animate!==false)nodes.attr('opacity',0).transition().duration(700).delay((_,index)=>Math.min(index*7,280)).attr('opacity',1);
+    states.set(container,{mode:'country',hash,width:size.width,height:size.height,selected,nodes,focusKey:focus.data.key,render:()=>renderWorld(container,rows,selected,{animate:false})})
   }
 
-  window.renderShelfVisualization=function(container,mode,rows,selected,options={}){
-    if(!container||rendering)return;
-    if(!ensureD3()){
-      container.innerHTML='<div class="shelf-empty">可视化引擎加载失败，请刷新页面重试。</div>';
-      return;
-    }
-    rendering=true;
-    try{
-      const size=dimensions(container);
-      const sameView=lastRender&&lastRender.container===container&&lastRender.mode===mode;
-      const animate=options.animate??!sameView;
-      lastRender={container,mode,rows,selected,width:size.width,height:size.height};
-      container.classList.add('d3-atlas-host');
-      if(mode==='country')renderIslands(container,rows,selected,animate);else renderRiver(container,rows,selected,animate);
-      bindResize();
-    }finally{rendering=false}
-  };
+  function worldNodeClass(node,selected){const type=node.data.type,status=node.data.status||'',row=node.data.row;return `universe-node depth-${node.depth} type-${type} ${status?`status-${status}`:''} ${row?levelOf(row):''} ${node.data.key===selected?'selected':''}`}
+  function worldTooltip(node){if(node.data.type==='tradition')return `<strong>${safeText(node.data.name)}</strong><span>${node.children?.length||0} 个文学坐标 · 点击进入</span>`;if(node.data.type==='country')return `<strong>${safeText(node.data.name)}文学</strong><span>${node.data.row?.done||0} / ${node.data.row?.total||0} 已读 · ${node.data.row?.reading?.length||0} 在读</span>`;if(node.data.type==='author'){const works=node.leaves().filter(leaf=>leaf.data.type==='work');return `<strong>${safeText(node.data.name)}</strong><span>${works.filter(leaf=>leaf.data.status==='done').length} / ${works.length} 已读</span>`}return `<strong>《${safeText(node.data.name)}》</strong><span>${safeText(node.data.author)} · ${safeText(node.data.status||'未加入')}</span>`}
+
+  function streamData(rows){
+    const periodIndex=new Map(rows.map((row,index)=>[row.key,index])),groups=WORLD_GROUPS.map(group=>({key:group.key,title:group.title,values:rows.map(()=>({total:0,done:0,reading:0})),works:[]})),groupMap=new Map(groups.map(group=>[group.key,group]));
+    for(const work of sourceWorks()){const period=workPeriod(work.author.name),index=periodIndex.get(period);if(index==null)continue;const group=groupMap.get(groupFor(work.country).key),status=statusOf(work.id);group.values[index].total++;if(status==='done')group.values[index].done++;if(status==='reading')group.values[index].reading++;if(status)group.works.push({...work,period,index,status})}
+    return groups.filter(group=>group.values.some(value=>value.total))
+  }
+
+  function renderRiver(container,rows,selected,options={}){
+    const size=dimensions(container),hash=signature('time',rows),previous=states.get(container);
+    if(previous?.mode==='time'&&previous.hash===hash&&previous.width===size.width&&previous.height===size.height){previous.selected=selected;previous.periodBands.classed('selected',row=>row.key===selected);return}
+    d3.select(container).selectAll('svg').interrupt().remove();container.querySelectorAll('.atlas-chrome,.d3-atlas-tooltip').forEach(node=>node.remove());
+    const chrome=ensureChrome(container,'文学史多支流','不同传统在同一时代并行、交汇与转向'),tip=tooltip(container),svg=d3.select(container).append('svg').attr('class','d3-atlas-svg literary-river-system').attr('viewBox',`0 0 ${size.width} ${size.height}`).attr('role','img').attr('aria-label','个人阅读的多支流文学史');
+    const margin={top:74,right:52,bottom:72,left:112},innerW=size.width-margin.left-margin.right,innerH=size.height-margin.top-margin.bottom,plot=svg.append('g').attr('transform',`translate(${margin.left},${margin.top})`),groups=streamData(rows);
+    const x=d3.scalePoint().domain(rows.map(row=>row.key)).range([0,innerW]).padding(.35),y=d3.scalePoint().domain(groups.map(group=>group.key)).range([24,innerH-24]).padding(.45),widthScale=d3.scaleSqrt().domain([0,d3.max(groups.flatMap(group=>group.values),value=>value.total)||1]).range([5,30]);
+    const periodBands=plot.selectAll('g.period-band').data(rows,row=>row.key).join('g').attr('class',row=>`period-band ${row.key===selected?'selected':''}`).attr('transform',row=>`translate(${x(row.key)},0)`).on('click',(_,row)=>selectRegion(row.key));periodBands.append('line').attr('y1',0).attr('y2',innerH);periodBands.append('text').attr('y',innerH+34).attr('text-anchor','middle').text(row=>row.title.split('：')[0]);
+    const area=d3.area().curve(d3.curveCatmullRom.alpha(.65)).x((value,index)=>x(rows[index].key)).y0(value=>-widthScale(value.total)/2).y1(value=>widthScale(value.total)/2);
+    const lines=plot.selectAll('g.stream').data(groups,group=>group.key).join('g').attr('class','stream').attr('transform',group=>`translate(0,${y(group.key)})`);lines.append('path').attr('class','stream-shadow').attr('d',group=>area(group.values));lines.append('path').attr('class','stream-body').attr('d',group=>area(group.values)).style('opacity',group=>.28+.58*(d3.sum(group.values,value=>value.done)/Math.max(1,d3.sum(group.values,value=>value.total))));lines.append('path').attr('class','stream-spine').attr('d',group=>d3.line().curve(d3.curveCatmullRom.alpha(.65))(group.values.map((_,index)=>[x(rows[index].key),0])));
+    plot.selectAll('text.stream-label').data(groups).join('text').attr('class','stream-label').attr('x',-18).attr('y',group=>y(group.key)+4).attr('text-anchor','end').text(group=>group.title);
+    const symbol=d3.symbol(),workNodes=plot.selectAll('path.work-node').data(groups.flatMap(group=>group.works.map((work,index)=>({...work,group,index}))),work=>work.id).join('path').attr('class',work=>`work-node status-${work.status}`).attr('d',work=>symbol.type(work.status==='done'?d3.symbolCircle:work.status==='reading'?d3.symbolStar:work.status==='paused'?d3.symbolDiamond:d3.symbolTriangle).size(work.status==='reading'?115:70)()).attr('transform',work=>`translate(${x(work.period)+(work.index%3-1)*9},${y(work.group.key)+((work.index%5)-2)*6})`).on('pointermove',(event,work)=>showTooltip(tip,event,`<strong>《${safeText(work.work[0])}》</strong><span>${safeText(work.author.name)} · ${safeText(work.country)} · ${safeText(work.status)}</span>`)).on('pointerleave',()=>hideTooltip(tip)).on('click',(event,work)=>{event.stopPropagation();if(typeof openWork==='function')openWork(work.id)});
+    lines.filter(group=>group.values.some(value=>value.reading)).append('circle').attr('class','stream-reading-pulse').attr('cx',group=>{const index=group.values.findIndex(value=>value.reading);return x(rows[Math.max(0,index)].key)}).attr('r',18);
+    const riverZoom=d3.zoom().scaleExtent([1,3.8]).translateExtent([[0,0],[size.width,size.height]]).filter(event=>event.type!=='dblclick').on('zoom',event=>plot.attr('transform',`translate(${margin.left+event.transform.x},${margin.top}) scale(${event.transform.k},1)`));svg.call(riverZoom);chrome.querySelector('[data-atlas-home]').onclick=()=>svg.transition().duration(600).call(riverZoom.transform,d3.zoomIdentity);
+    if(options.animate!==false){lines.attr('opacity',0).attr('transform',group=>`translate(0,${y(group.key)+16})`).transition().duration(760).delay((_,index)=>index*85).attr('opacity',1).attr('transform',group=>`translate(0,${y(group.key)})`);workNodes.attr('opacity',0).transition().delay((_,index)=>400+Math.min(index*8,500)).duration(420).attr('opacity',1)}
+    states.set(container,{mode:'time',hash,width:size.width,height:size.height,selected,periodBands,render:()=>renderRiver(container,rows,selected,{animate:false})})
+  }
+
+  function bindResize(){if(resizeBound)return;resizeBound=true;window.addEventListener('resize',()=>{clearTimeout(resizeTimer);resizeTimer=setTimeout(()=>{document.querySelectorAll('.d3-atlas-host').forEach(container=>{const state=states.get(container);if(!state)return;const next=dimensions(container);if(Math.abs(next.width-state.width)>10||Math.abs(next.height-state.height)>10)state.render()})},180)},{passive:true})}
+  window.renderShelfVisualization=function(container,mode,rows,selected,options={}){if(!container)return;if(!ensureD3()){container.innerHTML='<div class="shelf-empty">可视化引擎加载失败，请刷新页面重试。</div>';return}container.classList.add('d3-atlas-host');if(mode==='country')renderWorld(container,rows,selected,options);else renderRiver(container,rows,selected,options);bindResize()}
 })();
