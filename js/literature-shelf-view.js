@@ -18,7 +18,7 @@ renderShelf=function(){
   const stats=shelfStats(),countries=countryCoverage(),periodRows=periodCoverage(),strongest=[...countries].sort((a,b)=>b.done-a.done)[0],deepest=[...periodRows].sort((a,b)=>b.ratio-a.ratio)[0];
   shelfElement('#shelfDoneCount').textContent=stats.done.length;shelfElement('#shelfReadingCount').textContent=stats.reading.length;shelfElement('#shelfCountryCount').textContent=`${stats.countries.size} / ${data.length}`;shelfElement('#shelfPeriodCount').textContent=`${stats.periodKeys.size} / ${periods.length}`;shelfElement('#shelfAuthorCount').textContent=stats.completedAuthors;
   shelfElement('#shelfInsight').textContent=strongest&&strongest.done?`你的阅读重心目前位于${strongest.title}文学，文学史上最深入的是${deepest.title.split('：')[0]}。这不是完成率，而是你正在形成的个人文学坐标。`:'阅读版图尚未形成。第一本被读完的书，会让一座岛屿从轮廓中出现。';
-  $$('.shelf-view-tab').forEach(b=>b.classList.toggle('active',b.dataset.shelfView===shelfView));
+  $$('.shelf-view-tab').forEach(b=>{const active=b.dataset.shelfView===shelfView;b.classList.toggle('active',active);b.setAttribute('aria-selected',String(active))});
   shelfElement('#shelfMapView').classList.toggle('hidden',shelfView==='status');shelfElement('#shelfStatusView').classList.toggle('hidden',shelfView!=='status');
   if(shelfView==='status'){renderStatusShelf();return}
   const rows=shelfView==='country'?countries:periodRows;

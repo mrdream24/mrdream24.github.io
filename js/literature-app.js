@@ -91,11 +91,12 @@ function authorWorksStatus(country,author){
   return {done:items.filter(x=>x==='done').length,active:items.filter(Boolean).length,total:items.length}
 }
 function setPage(next){
-  page=next; $$('.primary-tab').forEach(b=>b.classList.toggle('active',b.dataset.page===next));
+  if(next==='author'||next==='time'){mode=next;next='explore'}
+  page=next; $$('[data-page]').forEach(b=>{const active=b.dataset.page===next;b.classList.toggle('active',active);b.setAttribute('aria-selected',String(active))});
   $('#dashboardPage').classList.toggle('hidden',next!=='dashboard');
-  $('#explorerPage').classList.toggle('hidden',!['author','time'].includes(next));
+  $('#explorerPage').classList.toggle('hidden',next!=='explore');
   $('#shelfPage').classList.toggle('hidden',next!=='shelf');
-  if(next==='author'||next==='time'){mode=next; selectedLevel=null;selectedAuthor=null;renderExplorer()}
+  if(next==='explore')renderExplorer();
   if(next==='dashboard')renderDashboard(); if(next==='shelf')renderShelf();
   scrollTo({top:0,behavior:'smooth'})
 }
@@ -104,10 +105,11 @@ function renderDashboard(){
   const done=allWorks.filter(x=>shelf[x.id]==='done');
   const entered=new Set(allWorks.filter(x=>shelf[x.id]).map(x=>x.country));
   $('#statTotal').textContent=allWorks.length;$('#statReading').textContent=readings.length;$('#statDone').textContent=done.length;$('#statCountries').textContent=entered.size;
-  $('#currentReading').innerHTML=readings.length?readings.slice(0,5).map(x=>`<div class="current-item" data-open="${x.id}"><div><div class="item-title">《${x.work[0]}》</div><div class="item-meta">${x.author.name} · ${x.country}</div></div><span class="status-chip">在读</span></div>`).join(''):'<div class="item-meta" style="padding:28px 0">还没有标记“在读”的作品。进入阅读池，为下一部书设置状态。</div>';
+  $('#currentReading').innerHTML=readings.length?readings.slice(0,5).map(x=>`<button type="button" class="current-item" data-open="${x.id}" aria-label="继续阅读《${x.work[0]}》"><span><span class="item-title">《${x.work[0]}》</span><span class="item-meta">${x.author.name} · ${x.country}</span></span><span class="status-chip">在读</span></button>`).join(''):'<div class="item-meta" style="padding:28px 0">还没有标记“在读”的作品。进入阅读池，为下一部书设置状态。</div>';
   $$('[data-open]').forEach(el=>el.onclick=()=>openWork(el.dataset.open))
 }
 function renderExplorer(){
+  $$('.dimension-btn').forEach(b=>{const active=b.dataset.mode===mode;b.classList.toggle('active',active);b.setAttribute('aria-pressed',String(active))});
   $('#levelTitle').textContent=mode==='author'?'国家与传统':'文学史阶段';
   $('#levelSubtitle').textContent=mode==='author'?'选择国家，再进入作家':'选择时代，横向观察各国作家';
   const q=$('#globalSearch').value.trim().toLowerCase();
@@ -148,7 +150,7 @@ function renderDetail(){
   $('#detailContent').innerHTML=`<div class="breadcrumb"><button class="mobile-back" data-back="author">← 作家列表</button><span>${mode==='author'?country:(periods.find(p=>p.key===periodOf(a.name))?.title.split('：')[0])}</span><span>/</span><span>${a.name}</span></div>
   <header class="author-hero"><div class="author-kicker">${country} · ${a.era}</div><h1>${a.name}</h1><p>${a.era}。建议将其作为一个完整的创作世界进入，而不是只读一部孤立的“名著”。以下作品按照推荐度排列，也可切换为原始建议顺序。</p><div class="author-score"><span>作家推荐度</span><span class="stars">${stars(a.rating)}</span><span>${a.works.length} 部代表作</span></div></header>
   <div class="work-toolbar"><h2>代表作品</h2><div class="sort-toggle"><button class="sort-btn ${workSort==='rating'?'active':''}" data-sort="rating">推荐度</button><button class="sort-btn ${workSort==='order'?'active':''}" data-sort="order">建议顺序</button></div></div>
-  <div class="work-list">${works.map(({w,i,id},n)=>`<section class="work-card"><div class="work-no">${String(n+1).padStart(2,'0')}</div><div><div class="work-title">《${w[0]}》</div><div class="work-note">${w[2]}</div><div class="work-rating stars">${stars(w[1])}</div></div><select class="status-select" data-status="${id}"><option value="">未加入</option><option value="want" ${shelf[id]==='want'?'selected':''}>想读</option><option value="reading" ${shelf[id]==='reading'?'selected':''}>在读</option><option value="done" ${shelf[id]==='done'?'selected':''}>已读</option><option value="paused" ${shelf[id]==='paused'?'selected':''}>暂停</option></select></section>`).join('')}</div>`;
+  <div class="work-list">${works.map(({w,i,id},n)=>`<section class="work-card"><div class="work-no">${String(n+1).padStart(2,'0')}</div><div><div class="work-title">《${w[0]}》</div><div class="work-note">${w[2]}</div><div class="work-rating stars">${stars(w[1])}</div></div><select class="status-select" data-status="${id}" aria-label="设置《${w[0]}》的阅读状态"><option value="">加入书架</option><option value="want" ${shelf[id]==='want'?'selected':''}>想读</option><option value="reading" ${shelf[id]==='reading'?'selected':''}>在读</option><option value="done" ${shelf[id]==='done'?'selected':''}>已读</option><option value="paused" ${shelf[id]==='paused'?'selected':''}>暂停</option></select></section>`).join('')}</div>`;
   $$('[data-sort]').forEach(b=>b.onclick=()=>{workSort=b.dataset.sort;renderDetail()});
   $$('[data-status]').forEach(s=>s.onchange=async()=>{const previous=shelf[s.dataset.status]||'';s.disabled=true;try{await persistStatus(s.dataset.status,s.value);renderDetail();renderAuthors($('#globalSearch').value.trim().toLowerCase());renderDashboard()}catch(err){console.error(err);s.value=previous;setSyncBanner('保存失败：'+err.message,'error')}finally{s.disabled=false}});
   $$('[data-back="author"]').forEach(b=>b.onclick=()=>showMobile('author'))
@@ -159,18 +161,21 @@ function renderShelf(){
   $$('[data-open]').forEach(el=>el.onclick=()=>openWork(el.dataset.open))
 }
 function openWork(id){
-  const x=allWorks.find(w=>w.id===id);if(!x)return;mode='author';page='author';selectedLevel=x.country;selectedAuthor=x.country+'|'+x.author.name;setPage('author');selectedLevel=x.country;selectedAuthor=x.country+'|'+x.author.name;renderExplorer();showMobile('detail')
+  const x=allWorks.find(w=>w.id===id);if(!x)return;mode='author';selectedLevel=x.country;selectedAuthor=x.country+'|'+x.author.name;setPage('explore');renderExplorer();showMobile('detail')
 }
 function showMobile(level){
   if(innerWidth>1000)return;$('#levelColumn').classList.toggle('mobile-active',level==='level');$('#authorColumn').classList.toggle('mobile-active',level==='author');$('#detailColumn').classList.toggle('mobile-active',level==='detail')
 }
-$$('.primary-tab').forEach(b=>b.onclick=()=>setPage(b.dataset.page));
+$$('[data-page]').forEach(b=>b.onclick=()=>{setPage(b.dataset.page);if(b.dataset.page==='explore')showMobile('level')});
 $$('[data-open-page]').forEach(b=>b.onclick=()=>setPage(b.dataset.openPage));
+$$('[data-mode]').forEach(b=>b.onclick=()=>{mode=b.dataset.mode;selectedLevel=null;selectedAuthor=null;renderExplorer();showMobile('level')});
+$$('[data-back="level"]').forEach(b=>b.onclick=()=>showMobile('level'));
 $$('.shelf-filter').forEach(b=>b.onclick=()=>{$$('.shelf-filter').forEach(x=>x.classList.remove('active'));b.classList.add('active');shelfFilter=b.dataset.shelf;renderShelf()});
-$('#globalSearch').addEventListener('input',()=>{if(page==='dashboard'&&$('#globalSearch').value.trim())setPage('author');else if(['author','time'].includes(page))renderExplorer()});
+$('#globalSearch').addEventListener('input',()=>{if(page!=='explore'&&$('#globalSearch').value.trim())setPage('explore');else if(page==='explore')renderExplorer()});
 $$('[data-action]').forEach(b=>b.onclick=()=>{
   const a=b.dataset.action;
-  if(a==='top'){setPage('author')}
+  if(a==='resume'){const x=allWorks.find(x=>shelf[x.id]==='reading');if(x)openWork(x.id);else setPage('shelf')}
+  if(a==='top'){mode='author';setPage('explore')}
   if(a==='nineteenth'){setPage('time');selectedLevel='c19';renderExplorer();showMobile('author')}
   if(a==='calvino'){setPage('author');selectedLevel='意大利';selectedAuthor='意大利|伊塔洛·卡尔维诺';renderExplorer();showMobile('detail')}
   if(a==='random'){const pool=allWorks.filter(x=>shelf[x.id]!=='done');const x=pool[Math.floor(Math.random()*pool.length)];if(x)openWork(x.id)}

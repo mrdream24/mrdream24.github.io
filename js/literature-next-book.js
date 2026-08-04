@@ -16,11 +16,11 @@
   }
 
   function ensureUI(){
-    const page=document.querySelector('#shelfPage');if(!page||document.querySelector('#nextBookPromptCard'))return;
-    const overview=page.querySelector('.shelf-overview');
+    const page=document.querySelector('#dashboardPage');if(!page||document.querySelector('#nextBookPromptCard'))return;
+    const hero=page.querySelector('.dashboard-hero');
     const card=document.createElement('section');card.id='nextBookPromptCard';card.className='next-book-prompt-card';
     card.innerHTML='<div><p class="eyebrow">AI READING ADVISOR</p><h2>下一本读什么</h2><p>根据你的已读书目、作家覆盖和文学史分布，生成一段可直接交给 ChatGPT 的推荐提示词。</p></div><button type="button" id="generateNextBookPrompt">生成推荐提示词</button>';
-    overview?.insertAdjacentElement('afterend',card);
+    hero?.insertAdjacentElement('afterend',card);
     const dialog=document.createElement('dialog');dialog.id='nextBookPromptDialog';dialog.className='next-book-prompt-dialog';
     dialog.innerHTML='<div class="next-book-prompt-panel"><header><div><p class="eyebrow">COPY TO CHATGPT</p><h2>下一本书推荐提示词</h2></div><button type="button" data-close-next-book aria-label="关闭">×</button></header><p class="prompt-note">提示词会使用你当前浏览器或云端同步后的最新阅读状态，不会向任何外部服务自动发送数据。</p><textarea id="nextBookPromptText" spellcheck="false"></textarea><footer><button type="button" class="subtle" data-close-next-book>取消</button><button type="button" id="copyNextBookPrompt">复制提示词</button></footer><div id="nextBookCopyStatus" aria-live="polite"></div></div>';
     document.body.appendChild(dialog);
