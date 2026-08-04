@@ -9,6 +9,7 @@
 <link rel="stylesheet" href="./css/literature-scroll-fix.css">
 <link rel="stylesheet" href="./css/literature-shelf.css">
 <link rel="stylesheet" href="./css/literature-shelf-layout-fix.css">
+<link rel="stylesheet" href="./css/literature-shelf-d3.css">
 </head>
 <body>
 <header class="topbar">
@@ -36,53 +37,18 @@
     <div id="loginMessage" class="login-message"></div>
   </form>
 </dialog>
-
 <section id="dashboardPage" class="dashboard">
-  <div class="dashboard-hero">
-    <div><p class="eyebrow">WORLD & CHINESE LITERATURE READING SYSTEM</p><h1>不是一张书单，<br><span>而是一座可进入的文学地图。</span></h1></div>
-    <p>从国家、作家或文学史阶段进入，只在当前层级展示必要信息。完整阅读池始终存在，但不再要求你沿着一个无限长的页面滚动。</p>
-  </div>
-  <div class="stats">
-    <div class="stat"><b id="statTotal">0</b><span>收录作品</span></div>
-    <div class="stat"><b id="statReading">0</b><span>正在阅读</span></div>
-    <div class="stat"><b id="statDone">0</b><span>已经读完</span></div>
-    <div class="stat"><b id="statCountries">0</b><span>已进入国家</span></div>
-  </div>
-  <div class="dashboard-grid">
-    <section class="panel"><div class="panel-head"><h2>正在阅读</h2><button class="panel-link" data-open-page="shelf">进入书架 →</button></div><div id="currentReading" class="current-list"></div></section>
-    <section class="panel"><div class="panel-head"><h2>继续探索</h2></div><div class="explore-actions">
-      <button class="action-card" data-action="top"><b>查看五星作家</b><span>从最重要的文学坐标开始</span></button>
-      <button class="action-card" data-action="nineteenth"><b>进入19世纪</b><span>现实主义与现代小说的形成</span></button>
-      <button class="action-card" data-action="calvino"><b>继续卡尔维诺</b><span>寓言、组合叙事与元小说</span></button>
-      <button class="action-card" data-action="random"><b>随机一部未读经典</b><span>从阅读池中获得下一次相遇</span></button>
-    </div></section>
-  </div>
+  <div class="dashboard-hero"><div><p class="eyebrow">WORLD & CHINESE LITERATURE READING SYSTEM</p><h1>不是一张书单，<br><span>而是一座可进入的文学地图。</span></h1></div><p>从国家、作家或文学史阶段进入，只在当前层级展示必要信息。完整阅读池始终存在，但不再要求你沿着一个无限长的页面滚动。</p></div>
+  <div class="stats"><div class="stat"><b id="statTotal">0</b><span>收录作品</span></div><div class="stat"><b id="statReading">0</b><span>正在阅读</span></div><div class="stat"><b id="statDone">0</b><span>已经读完</span></div><div class="stat"><b id="statCountries">0</b><span>已进入国家</span></div></div>
+  <div class="dashboard-grid"><section class="panel"><div class="panel-head"><h2>正在阅读</h2><button class="panel-link" data-open-page="shelf">进入书架 →</button></div><div id="currentReading" class="current-list"></div></section><section class="panel"><div class="panel-head"><h2>继续探索</h2></div><div class="explore-actions"><button class="action-card" data-action="top"><b>查看五星作家</b><span>从最重要的文学坐标开始</span></button><button class="action-card" data-action="nineteenth"><b>进入19世纪</b><span>现实主义与现代小说的形成</span></button><button class="action-card" data-action="calvino"><b>继续卡尔维诺</b><span>寓言、组合叙事与元小说</span></button><button class="action-card" data-action="random"><b>随机一部未读经典</b><span>从阅读池中获得下一次相遇</span></button></div></section></div>
 </section>
-
-<section id="explorerPage" class="workspace hidden">
-  <aside id="levelColumn" class="column mobile-active">
-    <div class="column-head"><div><h2 id="levelTitle">国家与传统</h2><p id="levelSubtitle">选择一个文学入口</p></div></div>
-    <div id="levelList" class="column-scroll"></div>
-  </aside>
-  <section id="authorColumn" class="column">
-    <div class="column-head"><div><button class="mobile-back" data-back="level">← 返回</button><h2 id="authorListTitle">作家</h2><p id="authorListSubtitle">按推荐度排列</p></div></div>
-    <div id="authorList" class="column-scroll"></div>
-  </section>
-  <article id="detailColumn" class="column detail-column">
-    <div id="detailContent" class="detail-scroll"></div>
-  </article>
-</section>
-
+<section id="explorerPage" class="workspace hidden"><aside id="levelColumn" class="column mobile-active"><div class="column-head"><div><h2 id="levelTitle">国家与传统</h2><p id="levelSubtitle">选择一个文学入口</p></div></div><div id="levelList" class="column-scroll"></div></aside><section id="authorColumn" class="column"><div class="column-head"><div><button class="mobile-back" data-back="level">← 返回</button><h2 id="authorListTitle">作家</h2><p id="authorListSubtitle">按推荐度排列</p></div></div><div id="authorList" class="column-scroll"></div></section><article id="detailColumn" class="column detail-column"><div id="detailContent" class="detail-scroll"></div></article></section>
 <section id="shelfPage" class="shelf-page shelf-atlas hidden">
-  <header class="shelf-atlas-head">
-    <div><p class="eyebrow">MY LITERARY ATLAS</p><h1>我的文学版图</h1><p id="shelfInsight" class="shelf-insight"></p></div>
-    <div class="shelf-view-tabs"><button class="shelf-view-tab active" data-shelf-view="country">世界地图</button><button class="shelf-view-tab" data-shelf-view="time">时间长河</button><button class="shelf-view-tab" data-shelf-view="status">此刻书架</button></div>
-  </header>
+  <header class="shelf-atlas-head"><div><p class="eyebrow">MY LITERARY ATLAS</p><h1>我的文学版图</h1><p id="shelfInsight" class="shelf-insight"></p></div><div class="shelf-view-tabs"><button class="shelf-view-tab active" data-shelf-view="country">世界地图</button><button class="shelf-view-tab" data-shelf-view="time">时间长河</button><button class="shelf-view-tab" data-shelf-view="status">此刻书架</button></div></header>
   <div class="shelf-overview"><div><b id="shelfDoneCount">0</b><span>已读作品</span></div><div><b id="shelfReadingCount">0</b><span>正在阅读</span></div><div><b id="shelfCountryCount">0 / 0</b><span>涉及国家</span></div><div><b id="shelfPeriodCount">0 / 0</b><span>文学阶段</span></div><div><b id="shelfAuthorCount">0</b><span>完成作家</span></div></div>
   <div id="shelfMapView" class="shelf-map-layout"><aside id="shelfRegionList" class="shelf-region-list"></aside><main id="shelfRegionDetail" class="shelf-region-detail"></main></div>
   <div id="shelfStatusView" class="shelf-status-view hidden"><div class="shelf-filters"><button class="shelf-filter active" data-shelf="all">全部</button><button class="shelf-filter" data-shelf="want">想读</button><button class="shelf-filter" data-shelf="reading">在读</button><button class="shelf-filter" data-shelf="done">已读</button><button class="shelf-filter" data-shelf="paused">暂停</button></div><div id="shelfStatusList" class="shelf-status-list"></div></div>
 </section>
-
 <script src="./js/literature-data-1.js"></script>
 <script src="./js/literature-data-2.js"></script>
 <script src="./js/literature-data-expanded.js"></script>
@@ -91,6 +57,8 @@
 <script src="./js/literature-period-overrides.js"></script>
 <script src="./js/literature-shelf-data.js"></script>
 <script src="./js/literature-shelf-region.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/d3@7.9.0/dist/d3.min.js"></script>
+<script src="./js/literature-shelf-d3.js"></script>
 <script src="./js/literature-shelf-view.js"></script>
 <script src="./js/literature-cover-metadata.js"></script>
 <script src="./js/literature-covers.js"></script>
