@@ -1,7 +1,5 @@
 (()=>{
-  const SVG_NS='http://www.w3.org/2000/svg';
   let resizeObserver=null;
-  let lastRender=null;
 
   function ensureD3(){return window.d3&&window.d3.select&&window.d3.pack}
   function levelOf(row){return row.ratio>.65?'core':row.ratio>.3?'deep':row.done||row.reading.length?'entered':'unknown'}
@@ -18,10 +16,7 @@
     });
     resizeObserver.observe(container);
   }
-  function selectRegion(key){
-    window.selectedShelfRegion=key;
-    if(typeof window.renderShelf==='function')window.renderShelf();
-  }
+  function selectRegion(key){if(typeof window.selectShelfRegion==='function')window.selectShelfRegion(key)}
   function tooltip(container){
     let node=container.querySelector('.d3-atlas-tooltip');
     if(!node){node=document.createElement('div');node.className='d3-atlas-tooltip';container.appendChild(node)}
@@ -74,7 +69,7 @@
 
   function renderRiver(container,rows,selected){
     clear(container);
-    const {width,height}=dimensions(container),tip=tooltip(container),margin={left:64,right:64,top:58,bottom:82};
+    const {width,height}=dimensions(container),tip=tooltip(container),margin={left:64,right:64};
     const svg=d3.select(container).append('svg').attr('class','d3-atlas-svg d3-river').attr('viewBox',`0 0 ${width} ${height}`).attr('role','img').attr('aria-label','个人文学时间长河');
     const x=d3.scalePoint().domain(rows.map(d=>d.key)).range([margin.left,width-margin.right]).padding(.55);
     const yBase=height*.48;
@@ -100,7 +95,6 @@
 
   window.renderShelfVisualization=function(container,mode,rows,selected){
     if(!container)return;
-    lastRender={container,mode,rows,selected};
     if(!ensureD3()){
       container.innerHTML='<div class="shelf-empty">可视化引擎加载失败，请刷新页面重试。</div>';
       return;
