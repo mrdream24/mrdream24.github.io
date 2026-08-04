@@ -14,6 +14,7 @@ function shelfCoverMarkup(work,extra=''){
 function shelfOpenButton(work,classes=''){
   return `<button class="${classes}" data-open="${work.id}">${shelfCoverMarkup(work)}<span><strong>《${work.work[0]}》</strong><small>${work.author.name} · ${work.country}</small></span></button>`
 }
+function authorStarPosition(index){return {x:14+(index%4)*24,y:18+(Math.floor(index/4)%3)*31}}
 function renderShelfRegion(region){
   const detail=$('#shelfRegionDetail');
   if(!detail)return;
@@ -24,11 +25,11 @@ function renderShelfRegion(region){
 function renderCountryArchive(region,detail){
   const works=allWorks.filter(x=>x.country===region.key),done=works.filter(x=>shelf[x.id]==='done'),reading=works.filter(x=>shelf[x.id]==='reading'),want=works.filter(x=>shelf[x.id]==='want');
   const authors=region.authors.map(a=>({a,s:authorWorksStatus(region.key,a)})).sort((x,y)=>y.s.done-x.s.done||y.s.active-x.s.active);
-  const entered=authors.filter(x=>x.s.active),unentered=authors.filter(x=>!x.s.active).slice(0,5);
+  const entered=authors.filter(x=>x.s.active),unentered=authors.filter(x=>!x.s.active).slice(0,5),stars=[...entered,...unentered];
   detail.innerHTML=`<header class="archive-head"><div><p class="eyebrow">LITERARY TERRITORY</p><h2>${region.title}文学</h2><p>${region.done?`你已经读完 ${region.done} 部作品，进入 ${region.enteredAuthors} 位作家的创作世界。`:'这片文学区域仍等待第一次进入。'}</p></div><div class="archive-orbit"><b>${Math.round(region.ratio*100)}</b><span>%</span></div></header>
   <div class="archive-counters"><span><b>${done.length}</b>已读</span><span><b>${reading.length}</b>在读</span><span><b>${want.length}</b>想读</span><span><b>${region.completedAuthors}</b>完成作家</span></div>
   ${reading.length?`<section class="archive-section"><div class="archive-title"><h3>正在这片土地上阅读</h3><span>${reading.length} 部</span></div><div class="reading-stage">${reading.slice(0,4).map(x=>shelfOpenButton(x,'reading-volume')).join('')}</div></section>`:''}
-  <section class="archive-section"><div class="archive-title"><h3>作家星座</h3><span>点击进入作家详情</span></div><div class="author-constellation">${entered.map(({a,s},i)=>`<button data-open-author="${encodeURIComponent(region.key+'|'+a.name)}" class="author-star depth-${Math.min(4,Math.ceil(s.done/s.total*4))}" style="--i:${i}"><i></i><strong>${a.name}</strong><span>${s.done}/${s.total}</span></button>`).join('')}${unentered.map(({a},i)=>`<button data-open-author="${encodeURIComponent(region.key+'|'+a.name)}" class="author-star dormant" style="--i:${i+entered.length}"><i></i><strong>${a.name}</strong><span>未进入</span></button>`).join('')}</div></section>
+  <section class="archive-section"><div class="archive-title"><h3>作家星座</h3><span>点击进入作家详情</span></div><div class="author-constellation">${stars.map(({a,s},i)=>{const pos=authorStarPosition(i),dormant=!s.active;return `<button data-open-author="${encodeURIComponent(region.key+'|'+a.name)}" class="author-star ${dormant?'dormant':`depth-${Math.min(4,Math.ceil(s.done/s.total*4))}`}" style="--x:${pos.x}%;--y:${pos.y}%"><i></i><strong>${a.name}</strong><span>${dormant?'未进入':`${s.done}/${s.total}`}</span></button>`}).join('')}</div></section>
   <section class="archive-section"><div class="archive-title"><h3>已读藏书</h3><span>${done.length} 部作品</span></div>${done.length?`<div class="mini-cover-wall">${done.slice(0,14).map(x=>shelfOpenButton(x,'mini-volume')).join('')}</div>`:'<p class="shelf-muted">尚无已读作品。</p>'}</section>`
 }
 function renderPeriodArchive(region,detail){
