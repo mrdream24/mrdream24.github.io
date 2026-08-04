@@ -1,0 +1,3 @@
+.island-shape{transform:none}
+.author-star{left:var(--x);top:var(--y)}
+@media(max-width:720px){.author-star{left:var(--x);top:var(--y)}}
