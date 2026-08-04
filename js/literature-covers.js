@@ -1,6 +1,6 @@
 (()=>{
   const STYLE_ID='literature-cover-style';
-  const CACHE_PREFIX='literatureCover:';
+  const CACHE_PREFIX='literatureCover:v2:';
   const FALLBACK_COLORS=['#315247','#70413d','#3e4f69','#6a5940','#5b4967'];
 
   function installStyle(){
@@ -38,6 +38,28 @@
     return `data:image/svg+xml;charset=UTF-8,${encodeURIComponent(svg)}`;
   }
 
+  async function searchOpenLibrary(title,author){
+    const params=new URLSearchParams({
+      title,
+      author,
+      fields:'cover_i,title,author_name',
+      limit:'10'
+    });
+    let response=await fetch(`https://openlibrary.org/search.json?${params}`);
+    if(!response.ok)throw new Error(`Open Library ${response.status}`);
+    let payload=await response.json();
+    let match=(payload.docs||[]).find(book=>book.cover_i);
+
+    if(!match){
+      const titleOnly=new URLSearchParams({title,fields:'cover_i,title,author_name',limit:'10'});
+      response=await fetch(`https://openlibrary.org/search.json?${titleOnly}`);
+      if(!response.ok)throw new Error(`Open Library ${response.status}`);
+      payload=await response.json();
+      match=(payload.docs||[]).find(book=>book.cover_i);
+    }
+    return match?.cover_i||null;
+  }
+
   async function resolveCover(image,title,author,fallback){
     const cacheKey=CACHE_PREFIX+title+'|'+author;
     const cached=localStorage.getItem(cacheKey);
@@ -45,15 +67,11 @@
       if(cached!=='fallback')image.src=cached;
       return;
     }
+
     try{
-      const query=encodeURIComponent(`intitle:${title} inauthor:${author}`);
-      const response=await fetch(`https://www.googleapis.com/books/v1/volumes?q=${query}&maxResults=5&printType=books`);
-      if(!response.ok)throw new Error('cover request failed');
-      const payload=await response.json();
-      const item=(payload.items||[]).find(entry=>entry.volumeInfo&&entry.volumeInfo.imageLinks);
-      const raw=item&&item.volumeInfo.imageLinks&&(item.volumeInfo.imageLinks.thumbnail||item.volumeInfo.imageLinks.smallThumbnail);
-      if(!raw){localStorage.setItem(cacheKey,'fallback');return;}
-      const url=raw.replace(/^http:/,'https:').replace(/&zoom=1\b/,'&zoom=2');
+      const coverId=await searchOpenLibrary(title,author);
+      if(!coverId){localStorage.setItem(cacheKey,'fallback');return;}
+      const url=`https://covers.openlibrary.org/b/id/${coverId}-M.jpg?default=false`;
       image.onerror=()=>{
         image.onerror=null;
         image.src=fallback;
@@ -62,7 +80,7 @@
       image.src=url;
       localStorage.setItem(cacheKey,url);
     }catch(error){
-      localStorage.setItem(cacheKey,'fallback');
+      console.warn('书籍封面加载失败',title,error);
     }
   }
 
