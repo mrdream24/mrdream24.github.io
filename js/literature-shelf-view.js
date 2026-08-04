@@ -28,3 +28,7 @@ renderShelf=function(){
   renderShelfRegion(rows.find(x=>x.key===selectedShelfRegion))
 };
 $$('.shelf-view-tab').forEach(b=>b.onclick=()=>{shelfView=b.dataset.shelfView;selectedShelfRegion=null;renderShelf()});
+(function loadNextBookAdvisor(){
+  if(!document.querySelector('link[href="./css/literature-next-book.css"]')){const link=document.createElement('link');link.rel='stylesheet';link.href='./css/literature-next-book.css';document.head.appendChild(link)}
+  if(!document.querySelector('script[src="./js/literature-next-book.js"]')){const script=document.createElement('script');script.src='./js/literature-next-book.js';document.body.appendChild(script)}
+})();
