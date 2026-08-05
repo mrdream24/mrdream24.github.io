@@ -1,4 +1,42 @@
 (()=>{
+  const themeLink=document.createElement('link');
+  themeLink.rel='stylesheet';
+  themeLink.href='./css/detective-light.css';
+  document.head.appendChild(themeLink);
+
+  const THEME_KEY='detectiveTheme';
+  const media=window.matchMedia('(prefers-color-scheme: light)');
+  const savedTheme=localStorage.getItem(THEME_KEY);
+  const initialTheme=savedTheme||(media.matches?'light':'dark');
+  document.documentElement.dataset.theme=initialTheme;
+
+  const toggle=document.createElement('button');
+  toggle.type='button';
+  toggle.className='theme-toggle';
+  toggle.setAttribute('aria-label',initialTheme==='light'?'切换到暗色模式':'切换到明亮模式');
+  toggle.setAttribute('title',initialTheme==='light'?'切换到暗色模式':'切换到明亮模式');
+  toggle.innerHTML='<svg class="moon-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M20 15.2A8.6 8.6 0 0 1 8.8 4a8.6 8.6 0 1 0 11.2 11.2Z"/></svg><svg class="sun-icon" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.42 1.42M17.65 17.65l1.42 1.42M2 12h2M20 12h2M4.93 19.07l1.42-1.42M17.65 6.35l1.42-1.42"/></svg>';
+  const topbar=document.querySelector('.topbar');
+  const loginButton=document.querySelector('#loginButton');
+  if(topbar)topbar.insertBefore(toggle,loginButton||null);
+
+  function setTheme(theme,persist=true){
+    document.documentElement.dataset.theme=theme;
+    const toDark=theme==='light';
+    const label=toDark?'切换到暗色模式':'切换到明亮模式';
+    toggle.setAttribute('aria-label',label);
+    toggle.setAttribute('title',label);
+    if(persist)localStorage.setItem(THEME_KEY,theme);
+  }
+
+  toggle.addEventListener('click',()=>{
+    setTheme(document.documentElement.dataset.theme==='light'?'dark':'light');
+  });
+
+  media.addEventListener?.('change',event=>{
+    if(!localStorage.getItem(THEME_KEY))setTheme(event.matches?'light':'dark',false);
+  });
+
   const style=document.createElement('style');
   style.textContent=`
     #recordDialog{max-width:470px}
