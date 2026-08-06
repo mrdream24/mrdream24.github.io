@@ -1,0 +1,15 @@
+name = "mrdream24-notes-api"
+main = "notes-api.js"
+compatibility_date = "2026-08-01"
+
+[vars]
+SITE_ORIGIN = "https://mrdream24.github.io"
+ALLOWED_GITHUB_LOGIN = "mrdream24"
+REPO_OWNER = "mrdream24"
+REPO_NAME = "mrdream24.github.io"
+REPO_BRANCH = "master"
+
+# 使用 wrangler secret put 设置以下三项，不要写入仓库：
+# GITHUB_CLIENT_ID
+# GITHUB_CLIENT_SECRET
+# COOKIE_SECRET
