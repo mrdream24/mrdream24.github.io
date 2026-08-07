@@ -1,6 +1,7 @@
 name = "mrdream24-notes-api"
 main = "notes-api.js"
 compatibility_date = "2026-08-01"
+workers_dev = true
 
 [vars]
 SITE_ORIGIN = "https://mrdream24.github.io"
@@ -9,7 +10,16 @@ REPO_OWNER = "mrdream24"
 REPO_NAME = "mrdream24.github.io"
 REPO_BRANCH = "master"
 
-# 使用 wrangler secret put 设置以下三项，不要写入仓库：
+[[d1_databases]]
+binding = "DB"
+database_name = "mrdream24-notes"
+database_id = "REPLACE_WITH_D1_DATABASE_ID"
+
+[[r2_buckets]]
+binding = "MEDIA"
+bucket_name = "mrdream24-notes-media"
+
+# 以下三项必须配置为 Cloudflare runtime secrets，不要写入仓库：
 # GITHUB_CLIENT_ID
 # GITHUB_CLIENT_SECRET
 # COOKIE_SECRET
