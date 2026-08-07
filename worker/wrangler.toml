@@ -1,0 +1,26 @@
+name = "mrdream24-notes-api"
+main = "notes-api.js"
+compatibility_date = "2026-08-01"
+workers_dev = true
+
+[vars]
+SITE_ORIGIN = "https://mrdream24.github.io"
+ALLOWED_GITHUB_LOGIN = "mrdream24"
+REPO_OWNER = "mrdream24"
+REPO_NAME = "mrdream24.github.io"
+REPO_BRANCH = "master"
+B2_BUCKET = "mrdream24-notes-media"
+B2_ENDPOINT = "s3.us-east-005.backblazeb2.com"
+B2_REGION = "us-east-005"
+
+[[d1_databases]]
+binding = "DB"
+database_name = "mrdream24-notes"
+database_id = "9865ec14-0192-410c-adea-882837ef10bd"
+
+# Secrets are configured in Cloudflare Dashboard, never committed:
+# GITHUB_CLIENT_ID
+# GITHUB_CLIENT_SECRET
+# COOKIE_SECRET
+# B2_KEY_ID
+# B2_APPLICATION_KEY
