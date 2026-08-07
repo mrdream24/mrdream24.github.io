@@ -1,99 +1,156 @@
 # Notes 发布服务
 
-这套服务使用 Cloudflare Worker + D1 + R2，并继续把每条 Notes 归档为 GitHub Markdown。
+最终架构：Cloudflare Worker + D1 + Backblaze B2 + GitHub Markdown。
 
-- D1：公开内容的运行数据库，发布后前台立即读取。
-- R2：手机图片对象存储，不再让 Git 仓库被图片撑大。
-- GitHub：每条内容生成独立 Markdown，作为长期可迁移的文本归档。
-- Worker：GitHub OAuth、发布鉴权、D1/R2 写入、媒体读取和 GitHub 归档。
+- **D1**：公开内容的运行数据库，发布后前台立即读取。
+- **Backblaze B2**：手机图片对象存储；Bucket 保持 Private。
+- **GitHub**：每条内容生成独立 Markdown，作为长期可迁移归档。
+- **Worker**：GitHub OAuth、发布鉴权、D1 写入、B2 S3 API 上传/读取和 GitHub 归档。
 
-前端不会保存 GitHub Client Secret。OAuth 只申请 `public_repo` 权限，发布账号限制为 `mrdream24`。
+前端不会保存 GitHub Client Secret 或 Backblaze Application Key。OAuth 只申请 `public_repo`，发布账号限制为 `mrdream24`。
 
-## Cloudflare Dashboard 部署（不需要本地写代码）
+## 已确定资源
 
-### 1. 创建 D1
+- D1 database：`mrdream24-notes`
+- D1 Database ID：`9865ec14-0192-410c-adea-882837ef10bd`
+- B2 Bucket：`mrdream24-notes-media`
+- B2 S3 Endpoint：`s3.us-east-005.backblazeb2.com`
+- B2 Region：`us-east-005`
 
-Cloudflare Dashboard → Storage & Databases → D1 → Create database。
+## 1. 初始化 D1（只做一次）
 
-数据库名：`mrdream24-notes`
+Cloudflare Dashboard → Storage & Databases → D1 → `mrdream24-notes` → Console。
 
-创建后记录 Database ID。之后把 ID 告诉负责维护仓库代码的人，用它生成正式 `worker/wrangler.toml`。
+把 `worker/schema.sql` 的全部 SQL 复制进去并执行。
 
-### 2. 创建 R2
+执行成功后应该存在 `notes` 表。
 
-Cloudflare Dashboard → R2 Object Storage → Create bucket。
+## 2. Backblaze 创建 Application Key
 
-Bucket 名：`mrdream24-notes-media`
+Backblaze → B2 Cloud Storage → Application Keys → Add a New Application Key。
 
-不需要开启 Public Development URL，也不需要把 Bucket 设为公开。图片统一通过 Worker `/media/*` 提供。
+建议：
 
-### 3. 初始化 D1 Schema
+- Name：`mrdream24-notes-worker`
+- Allow access to Bucket：`mrdream24-notes-media`
+- Type of Access：Read and Write
 
-Worker 部署后，在 D1 数据库 Console 中执行 `worker/schema.sql` 的 SQL。只需要执行一次。
+创建后保存两项：
 
-### 4. 创建 GitHub OAuth App
+- `keyID`
+- `applicationKey`
+
+`applicationKey` 只显示一次。不要提交到 GitHub，也不要放进 `admin/config.js`。
+
+Worker 通过 Backblaze 的 S3-Compatible API + AWS Signature V4 访问 Private Bucket。代码已内置签名逻辑，不需要 AWS SDK。
+
+## 3. 创建 GitHub OAuth App
 
 GitHub → Settings → Developer settings → OAuth Apps → New OAuth App。
 
+先填写：
+
 - Application name：`Mrdream24 Notes`
 - Homepage URL：`https://mrdream24.github.io`
-- Authorization callback URL：`https://<你的 Worker 域名>/auth/callback`
 
-创建后保存 Client ID，并生成 Client Secret。
+Authorization callback URL 需要等 Worker 第一次部署后拿到 Worker URL，再填写：
 
-### 5. 通过 Cloudflare Git Integration 部署 Worker
+`https://<你的 Worker 域名>/auth/callback`
 
-Cloudflare Dashboard → Workers & Pages → Create application → Import a repository。
+创建完成后保存：
 
-选择 `mrdream24/mrdream24.github.io`。
+- Client ID
+- Client Secret
 
-推荐设置：
+## 4. 通过 Cloudflare Git Integration 部署 Worker
 
-- Production branch：`master`
-- Root directory：`worker`
-- Build command：留空
-- Deploy command：`npx wrangler deploy`
+Cloudflare Dashboard → Workers & Pages → Create / Import a repository。
 
-Worker 名称必须与 Wrangler 配置中的 `name` 一致：`mrdream24-notes-api`。
+连接 GitHub 并选择：
 
-### 6. Runtime variables / secrets
+`mrdream24/mrdream24.github.io`
 
-Worker → Settings → Variables & Secrets。
+部署分支：
 
-普通变量：
+`agent/notes-publishing`
+
+首次联调阶段先部署这个 PR 分支，不需要先合并 `master`。
+
+如果 Cloudflare 要求 Root directory，填写：
+
+`worker`
+
+Worker 名称：
+
+`mrdream24-notes-api`
+
+仓库内 `worker/wrangler.toml` / `worker/wrangler.toml.example` 已包含普通配置和 D1 binding。
+
+## 5. Cloudflare Variables / Secrets
+
+Worker → Settings → Variables and Secrets。
+
+### 普通变量
 
 - `SITE_ORIGIN` = `https://mrdream24.github.io`
 - `ALLOWED_GITHUB_LOGIN` = `mrdream24`
 - `REPO_OWNER` = `mrdream24`
 - `REPO_NAME` = `mrdream24.github.io`
 - `REPO_BRANCH` = `master`
+- `B2_BUCKET` = `mrdream24-notes-media`
+- `B2_ENDPOINT` = `s3.us-east-005.backblazeb2.com`
+- `B2_REGION` = `us-east-005`
 
-Secrets：
+### Secrets
 
 - `GITHUB_CLIENT_ID`
 - `GITHUB_CLIENT_SECRET`
 - `COOKIE_SECRET`
+- `B2_KEY_ID`
+- `B2_APPLICATION_KEY`
 
-`COOKIE_SECRET` 使用密码管理器生成的高强度随机字符串即可，建议至少 32 字节。
+其中：
 
-### 7. Bindings
+- `B2_KEY_ID` = Backblaze `keyID`
+- `B2_APPLICATION_KEY` = Backblaze `applicationKey`
+- `COOKIE_SECRET` 使用密码管理器生成至少 32 字节随机字符串。
 
-Wrangler 正式配置会绑定：
+## 6. D1 Binding
 
-- D1 binding：`DB` → `mrdream24-notes`
-- R2 binding：`MEDIA` → `mrdream24-notes-media`
+Cloudflare Worker 必须存在：
 
-Worker 代码通过 `env.DB` 和 `env.MEDIA` 使用这两个资源。
+- Binding name：`DB`
+- Database：`mrdream24-notes`
 
-### 8. 把 Worker URL 接回网站
+Wrangler 配置已经写入对应 Database ID。
 
-Worker 部署后会得到类似：
+不需要 R2 Binding。
 
-`https://mrdream24-notes-api.<subdomain>.workers.dev`
+## 7. 第一次部署后
 
-将该地址写入 `admin/config.js` 的 `apiBase`。该文件不包含秘密，可以公开提交。
+部署后会得到类似：
 
-## API
+`https://mrdream24-notes-api.<你的-subdomain>.workers.dev`
+
+先打开：
+
+`https://<Worker URL>/health`
+
+正确结果：
+
+```json
+{"ok":true,"service":"mrdream24-notes-api"}
+```
+
+然后把完整 Worker URL 告诉代码维护者，用于更新 `admin/config.js` 和 `notes.html`。
+
+## 8. 更新 GitHub OAuth callback
+
+拿到 Worker URL 后，把 GitHub OAuth App 的 Authorization callback URL 设置为：
+
+`https://<Worker URL>/auth/callback`
+
+## 9. API
 
 ### Public
 
@@ -109,13 +166,22 @@ Worker 部署后会得到类似：
 - `GET /auth/status`
 - `POST /publish`
 
-## 发布流程
+## 10. 发布流程
 
-1. 手机后台把图片压缩为 WebP。
-2. Worker 将图片写入 R2。
-3. Worker 将正文、标签和图片 key 写入 D1。
-4. 此时公开前台已经可以立即读取新内容。
-5. Worker 再将内容归档为 `content/notes/YYYY/MM/*.md`。
-6. 如果 GitHub 归档失败，D1 中内容仍然保持公开，同时记录 `archive_status = failed`，后台会显示警告。
+1. 手机后台把照片压缩为 WebP。
+2. Worker 用 S3 Signature V4 把图片上传到 Backblaze B2 Private Bucket。
+3. Worker 将正文、标签和 B2 object key 写入 D1。
+4. 前台立刻从 Worker `/notes` 读取新内容，不等待 GitHub Pages rebuild。
+5. Worker 将内容归档到 `content/notes/YYYY/MM/*.md`。
+6. Markdown 中只保存 Worker 图片 URL，不复制图片二进制。
+7. 如果 GitHub 归档失败，D1 内容仍然公开，`archive_status` 标记为 `failed`。
 
-GitHub Markdown 只保存图片的 R2 key，不复制图片二进制，因此 Git 仓库不会随照片增长。
+## 11. 图片访问
+
+B2 Bucket 不需要公开。
+
+前台访问：
+
+`https://<Worker URL>/media/notes/<note-id>/01.webp`
+
+Worker 会签名请求并从 B2 读取图片，再返回给浏览器，响应带一年 immutable cache。
