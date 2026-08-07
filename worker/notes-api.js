@@ -21,6 +21,7 @@ export default {
       else if (url.pathname === '/auth/login' && request.method === 'GET') response = await login(url, env);
       else if (url.pathname === '/auth/callback' && request.method === 'GET') response = await callback(url, env);
       else if (url.pathname === '/auth/status' && request.method === 'GET') response = await authStatus(request, env);
+      else if (url.pathname === '/debug/github' && request.method === 'GET') response = await githubDebug(request, env);
       else if (url.pathname === '/publish' && request.method === 'POST') response = await publish(request, url, env);
       else response = json({ error: 'Not found' }, 404);
       return withCors(response, origin, env, publicRoute);
@@ -119,6 +120,48 @@ async function authStatus(request, env) {
   return session ? json({ authenticated: true, login: session.login, expiresAt: session.exp }) : json({ authenticated: false });
 }
 
+async function githubDebug(request, env) {
+  const session = await requireSession(request, env);
+  const userResult = await githubRequest('/user', session.token);
+  if (!userResult.response.ok) throw new Error(`GitHub API ${userResult.response.status}: ${userResult.data.message || 'Unable to read user'}`);
+
+  const repoResult = await githubRequest(`/repos/${env.REPO_OWNER}/${env.REPO_NAME}`, session.token);
+  if (!repoResult.response.ok) throw new Error(`GitHub API ${repoResult.response.status}: ${repoResult.data.message || 'Unable to read repository'}`);
+
+  const latest = await env.DB.prepare(`SELECT id,date,archive_path,archive_status,updated_at FROM notes ORDER BY created_at DESC LIMIT 1`).first();
+  let archiveLookup = null;
+  if (latest?.archive_path) {
+    const ref = encodeURIComponent(env.REPO_BRANCH || 'master');
+    const archiveResult = await githubRequest(`${repoPath(env, latest.archive_path)}?ref=${ref}`, session.token);
+    archiveLookup = {
+      status: archiveResult.response.status,
+      found: archiveResult.response.ok,
+      path: latest.archive_path,
+      sha: archiveResult.data?.sha || null,
+      htmlUrl: archiveResult.data?.html_url || null,
+      message: archiveResult.response.ok ? null : (archiveResult.data?.message || 'Unknown error')
+    };
+  }
+
+  return json({
+    ok: true,
+    tokenScopes: (userResult.response.headers.get('x-oauth-scopes') || '').split(',').map(value => value.trim()).filter(Boolean),
+    login: userResult.data.login,
+    configured: {
+      repoOwner: env.REPO_OWNER,
+      repoName: env.REPO_NAME,
+      repoBranch: env.REPO_BRANCH || 'master'
+    },
+    repository: {
+      fullName: repoResult.data.full_name,
+      defaultBranch: repoResult.data.default_branch,
+      permissions: repoResult.data.permissions || null
+    },
+    latestNote: latest || null,
+    archiveLookup
+  }, 200, { 'Cache-Control': 'no-store' });
+}
+
 async function publish(request, url, env) {
   const session = await requireSession(request, env);
   const note = normalizeInput(await request.json());
@@ -138,9 +181,16 @@ async function publish(request, url, env) {
 
     let archiveStatus = 'archived';
     let archivePath = null;
+    let archiveGitHub = null;
     let warning = null;
     try {
-      archivePath = await archiveToGitHub({ ...note, imageKeys: mediaKeys, origin: url.origin }, session.token, env);
+      const archive = await archiveToGitHub({ ...note, imageKeys: mediaKeys, origin: url.origin }, session.token, env);
+      archivePath = archive.path;
+      archiveGitHub = {
+        commitSha: archive.commitSha,
+        contentSha: archive.contentSha,
+        contentUrl: archive.contentUrl
+      };
       await env.DB.prepare(`UPDATE notes SET archive_path=?,archive_status='archived',updated_at=? WHERE id=?`).bind(archivePath, new Date().toISOString(), note.id).run();
     } catch (error) {
       archiveStatus = 'failed';
@@ -152,6 +202,7 @@ async function publish(request, url, env) {
     return json({
       ok: true,
       note: { id: note.id, date: note.date, title: note.title, body: note.body, tags: note.tags, images: mediaKeys.map(key => mediaUrl(url.origin, key)), archiveStatus, archivePath },
+      archiveGitHub,
       warning
     });
   } catch (error) {
@@ -202,12 +253,17 @@ async function archiveToGitHub(note, token, env) {
     note.body,
     ''
   ].join('\n');
-  await github(repoPath(env, path), token, {
+  const result = await github(repoPath(env, path), token, {
     method: 'PUT',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({ message: `Archive ${note.id}`, content: toBase64(markdown), branch: env.REPO_BRANCH || 'master' })
   });
-  return path;
+  return {
+    path,
+    commitSha: result.commit?.sha || null,
+    contentSha: result.content?.sha || null,
+    contentUrl: result.content?.html_url || null
+  };
 }
 
 function serializeNote(row, origin) {
@@ -305,12 +361,17 @@ async function readSession(request, env) {
   } catch { return null; }
 }
 
-async function github(path, token, init = {}) {
+async function githubRequest(path, token, init = {}) {
   const response = await fetch(`https://api.github.com${path}`, {
     ...init,
     headers: { Accept: 'application/vnd.github+json', Authorization: `Bearer ${token}`, 'User-Agent': 'mrdream24-notes', 'X-GitHub-Api-Version': '2022-11-28', ...(init.headers || {}) }
   });
   const data = await response.json().catch(() => ({}));
+  return { response, data };
+}
+
+async function github(path, token, init = {}) {
+  const { response, data } = await githubRequest(path, token, init);
   if (!response.ok) throw new Error(`GitHub API ${response.status}: ${data.message || 'Unknown error'}`);
   return data;
 }
