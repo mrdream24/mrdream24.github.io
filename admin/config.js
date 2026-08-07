@@ -1,5 +1,5 @@
 window.NOTES_CONFIG = {
-  apiBase: "https://YOUR-WORKER.YOUR-SUBDOMAIN.workers.dev",
+  apiBase: "https://mrdream24-notes-api.mengxianghui23.workers.dev",
   owner: "mrdream24",
   repo: "mrdream24.github.io",
   branch: "master"
