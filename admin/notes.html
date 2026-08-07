@@ -4,14 +4,20 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
   <meta name="theme-color" content="#f4f0e8">
+  <meta name="robots" content="noindex,nofollow">
   <title>写作 · Notes</title>
   <link rel="stylesheet" href="../css/notes.css">
 </head>
 <body class="composer-body">
 <main class="composer-shell">
-  <header class="composer-top"><h1>Notes</h1><a href="../notes.html">查看前台 ↗</a></header>
+  <header class="composer-top">
+    <h1>Notes</h1>
+    <div class="composer-account"><button id="loginButton" class="account-button" type="button">检查登录状态</button><a href="../notes.html">查看前台 ↗</a></div>
+  </header>
   <section class="composer-card">
-    <div class="prototype-notice">第一版为本地发布原型：内容与压缩后的图片保存在当前浏览器中，不会提交到 GitHub。接入 OAuth 后可替换为真实发布。</div>
+    <div id="setupNotice" class="prototype-notice" hidden>
+      真实发布服务尚未配置。请部署 <code>worker/notes-api.js</code>，然后把 Worker 地址填写到 <code>admin/config.js</code>。本地草稿仍可正常使用。
+    </div>
     <input id="noteTitle" class="composer-title" maxlength="120" placeholder="标题（可选）">
     <textarea id="noteBody" class="composer-text" maxlength="12000" placeholder="写点什么……" autofocus></textarea>
     <div id="imagePreview" class="image-preview"></div>
@@ -21,14 +27,13 @@
       <button id="imageButton" class="soft-button" type="button">添加图片</button>
       <button id="titleButton" class="soft-button" type="button">添加标题</button>
       <button id="draftButton" class="soft-button" type="button">保存草稿</button>
-      <button id="publishButton" class="publish-button" type="button">发布</button>
+      <button id="publishButton" class="publish-button" type="button" disabled>发布</button>
     </div>
     <p id="composerStatus" class="composer-status" role="status"></p>
-    <section class="draft-list"><h2>草稿</h2><div id="draftList"></div></section>
+    <section class="draft-list"><h2>本地草稿</h2><div id="draftList"></div></section>
   </section>
 </main>
-<script>
-(()=>{const KEY='mrdream24-notes-v1',DRAFT='mrdream24-note-drafts-v1';const $=s=>document.querySelector(s);let images=[];const read=(k)=>{try{return JSON.parse(localStorage.getItem(k)||'[]')}catch{return[]}};const write=(k,v)=>localStorage.setItem(k,JSON.stringify(v));function status(t){$('#composerStatus').textContent=t;clearTimeout(status.t);status.t=setTimeout(()=>$('#composerStatus').textContent='',2600)}function reset(){images=[];$('#noteTitle').value='';$('#noteBody').value='';$('#noteTags').value='';$('#noteTitle').classList.remove('is-visible');renderImages()}function payload(){return{id:'note-'+Date.now(),date:new Date().toISOString(),title:$('#noteTitle').value.trim(),body:$('#noteBody').value.trim(),tags:$('#noteTags').value.split(/[,，]/).map(x=>x.trim()).filter(Boolean),images}}function renderImages(){$('#imagePreview').innerHTML=images.map((src,i)=>`<figure><img src="${src}" alt="预览 ${i+1}"><button type="button" data-remove="${i}" aria-label="删除图片">×</button></figure>`).join('');document.querySelectorAll('[data-remove]').forEach(b=>b.onclick=()=>{images.splice(Number(b.dataset.remove),1);renderImages()})}async function compress(file){const url=URL.createObjectURL(file),img=new Image();await new Promise((r,j)=>{img.onload=r;img.onerror=j;img.src=url});const max=1600,scale=Math.min(1,max/Math.max(img.width,img.height)),c=document.createElement('canvas');c.width=Math.round(img.width*scale);c.height=Math.round(img.height*scale);c.getContext('2d').drawImage(img,0,0,c.width,c.height);URL.revokeObjectURL(url);return c.toDataURL('image/webp',.8)}$('#imageButton').onclick=()=>$('#imageInput').click();$('#imageInput').onchange=async e=>{status('正在处理图片…');for(const f of [...e.target.files].slice(0,6-images.length)){try{images.push(await compress(f))}catch{status('有一张图片处理失败')}}renderImages();status(`已添加 ${images.length} 张图片`);e.target.value=''};$('#titleButton').onclick=()=>{$('#noteTitle').classList.toggle('is-visible');if($('#noteTitle').classList.contains('is-visible'))$('#noteTitle').focus()};$('#publishButton').onclick=()=>{const p=payload();if(!p.body&&!p.images.length)return status('至少写一句话或添加一张图片');const list=read(KEY);list.unshift(p);write(KEY,list);reset();status('已发布到本机前台');setTimeout(()=>location.href='../notes.html',500)};$('#draftButton').onclick=()=>{const p=payload();if(!p.body&&!p.images.length)return status('没有可保存的内容');const d=read(DRAFT);d.unshift(p);write(DRAFT,d.slice(0,20));reset();renderDrafts();status('草稿已保存')};function renderDrafts(){const d=read(DRAFT);$('#draftList').innerHTML=d.length?d.map((x,i)=>`<div class="draft-item"><span>${x.title||x.body.slice(0,24)||'图片随记'}</span><button data-load="${i}">继续写</button></div>`).join(''):'<p class="composer-status">暂无草稿</p>';document.querySelectorAll('[data-load]').forEach(b=>b.onclick=()=>{const list=read(DRAFT),x=list.splice(Number(b.dataset.load),1)[0];write(DRAFT,list);$('#noteTitle').value=x.title||'';$('#noteBody').value=x.body||'';$('#noteTags').value=(x.tags||[]).join('，');images=x.images||[];if(x.title)$('#noteTitle').classList.add('is-visible');renderImages();renderDrafts();scrollTo({top:0,behavior:'smooth'})})}renderDrafts()})();
-</script>
+<script src="./config.js"></script>
+<script src="../js/notes-admin.js"></script>
 </body>
 </html>
