@@ -91,7 +91,7 @@ async function login(url, env) {
   const target = new URL('https://github.com/login/oauth/authorize');
   target.searchParams.set('client_id', env.GITHUB_CLIENT_ID);
   target.searchParams.set('redirect_uri', `${url.origin}/auth/callback`);
-  target.searchParams.set('scope', 'public_repo');
+  target.searchParams.set('scope', 'repo');
   target.searchParams.set('state', state);
   return Response.redirect(target, 302);
 }
@@ -311,7 +311,7 @@ async function github(path, token, init = {}) {
     headers: { Accept: 'application/vnd.github+json', Authorization: `Bearer ${token}`, 'User-Agent': 'mrdream24-notes', 'X-GitHub-Api-Version': '2022-11-28', ...(init.headers || {}) }
   });
   const data = await response.json().catch(() => ({}));
-  if (!response.ok) throw new Error(data.message || `GitHub API ${response.status}`);
+  if (!response.ok) throw new Error(`GitHub API ${response.status}: ${data.message || 'Unknown error'}`);
   return data;
 }
 
