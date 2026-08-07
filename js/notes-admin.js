@@ -138,7 +138,7 @@
   }
 
   function escapeHtml(value = "") {
-    return value.replace(/[&<>"']/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
+    return String(value).replace(/[&<>"']/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
   }
 
   $("#loginButton").onclick = async () => {
@@ -187,12 +187,16 @@
     const button = $("#publishButton");
     button.disabled = true;
     button.textContent = "发布中……";
-    setStatus("正在上传图片并发布内容，请不要关闭页面。");
+    setStatus("正在保存文字、上传图片并归档，请不要关闭页面。");
     try {
-      await api("/publish", { method: "POST", body: JSON.stringify(item) });
+      const result = await api("/publish", { method: "POST", body: JSON.stringify(item) });
       reset();
-      setStatus("发布成功。GitHub Pages 更新后即可在前台看到。", "success");
-      setTimeout(() => location.href = `../notes.html?v=${Date.now()}`, 1000);
+      if (result.warning) {
+        setStatus(`内容已立即发布；GitHub 归档暂时失败：${result.warning}`, "error");
+      } else {
+        setStatus("发布成功，前台现在即可看到。", "success");
+      }
+      setTimeout(() => location.href = `../notes.html#${encodeURIComponent(result.note.id)}`, 700);
     } catch (error) {
       setStatus(error.message, "error");
     } finally {
