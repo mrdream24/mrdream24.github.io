@@ -9,17 +9,18 @@ ALLOWED_GITHUB_LOGIN = "mrdream24"
 REPO_OWNER = "mrdream24"
 REPO_NAME = "mrdream24.github.io"
 REPO_BRANCH = "master"
+B2_BUCKET = "mrdream24-notes-media"
+B2_ENDPOINT = "s3.us-east-005.backblazeb2.com"
+B2_REGION = "us-east-005"
 
 [[d1_databases]]
 binding = "DB"
 database_name = "mrdream24-notes"
-database_id = "REPLACE_WITH_D1_DATABASE_ID"
+database_id = "9865ec14-0192-410c-adea-882837ef10bd"
 
-[[r2_buckets]]
-binding = "MEDIA"
-bucket_name = "mrdream24-notes-media"
-
-# 以下三项必须配置为 Cloudflare runtime secrets，不要写入仓库：
+# 以下五项必须配置为 Cloudflare runtime secrets，不要写入仓库：
 # GITHUB_CLIENT_ID
 # GITHUB_CLIENT_SECRET
 # COOKIE_SECRET
+# B2_KEY_ID
+# B2_APPLICATION_KEY
