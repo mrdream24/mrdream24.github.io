@@ -1,0 +1,47 @@
+(()=>{
+  const root=document.querySelector('#timelineList');
+  if(!root)return;
+  const authors=window.detectiveAuthors||[];
+  const records=()=>JSON.parse(localStorage.getItem('detectiveReadingRecords')||'{}');
+  const workId=(country,author,title)=>encodeURIComponent(`${country}|${author}|${title}`);
+  const findAuthor=name=>authors.find(a=>a.name===name);
+  const eras=[
+    {years:'1841—1886',title:'侦探的诞生',thesis:'犯罪第一次被组织成可以由理性、观察与叙述重新拼合的谜题。侦探由此成为现代城市中一种新的知识角色。',shift:'从哥特恐怖与感觉派小说中，分化出以证据和推理为中心的独立类型。',keywords:['分析推理','城市犯罪','线索','叙述者'],authors:['埃德加·爱伦·坡','威尔基·柯林斯'],works:[['埃德加·爱伦·坡','莫格街凶杀案'],['埃德加·爱伦·坡','失窃的信'],['威尔基·柯林斯','月亮宝石']],notes:[['读者位置','读者第一次被邀请与侦探竞争，同时又受制于叙述者掌握的信息。'],['空间机制','现代城市、封闭房间与报纸共同构成犯罪可被分析的环境。'],['核心问题','人类理性是否能够把混乱重新还原为秩序？']]},
+    {years:'1887—1919',title:'名侦探神话',thesis:'连续登场的名侦探成为类型中心。侦探不仅解决案件，也形成稳定人格、方法和读者期待。',shift:'从单篇实验转向系列化人物神话，侦探小说成为大众出版的重要类型。',keywords:['名侦探','系列人物','科学观察','冒险'],authors:['阿瑟·柯南·道尔','G.K.切斯特顿','莫里斯·勒布朗'],works:[['阿瑟·柯南·道尔','巴斯克维尔的猎犬'],['阿瑟·柯南·道尔','四签名'],['G.K.切斯特顿','布朗神父的天真'],['莫里斯·勒布朗','奇岩城']],notes:[['人物模型','福尔摩斯确立了天才侦探与普通叙述者的经典组合。'],['道德维度','布朗神父将罪案解释从物理证据推进到人的欲望与信仰。'],['类型扩张','怪盗、冒险和帝国空间让推理与通俗传奇交叉。']]},
+    {years:'1920—1945',title:'黄金时代与硬汉派',thesis:'英国把犯罪塑造成规则严密的智力游戏，美国则把犯罪重新放回资本、街道、腐败与暴力之中。',shift:'同一种类型分裂为两种现代性：封闭谜题追求纯粹秩序，硬汉小说直面社会无序。',keywords:['公平竞争','密室','不在场证明','硬汉派','黑色都市'],authors:['阿加莎·克里斯蒂','多萝西·L·塞耶斯','约翰·狄克森·卡尔','达希尔·哈米特','雷蒙德·钱德勒','埃勒里·奎因'],works:[['阿加莎·克里斯蒂','罗杰疑案'],['阿加莎·克里斯蒂','无人生还'],['约翰·狄克森·卡尔','三口棺材'],['雷蒙德·钱德勒','长眠不醒']],notes:[['规则意识','线索、公平性和解答成为读者与作者之间的游戏契约。'],['城市经验','硬汉派认为犯罪不是例外，而是城市权力结构的日常表现。'],['叙事突破','《罗杰疑案》等作品开始测试叙述者本身是否可信。']]},
+    {years:'1946—1979',title:'社会派与警察程序',thesis:'战后推理把视线从天才侦探转向制度、阶级、创伤和集体生活。破案不再自动意味着秩序恢复。',shift:'谜题中心让位于犯罪原因与社会结构，调查过程本身成为叙事主体。',keywords:['社会派','警察程序','制度犯罪','心理动机','战后创伤'],authors:['松本清张','乔治·西默农','P.D.詹姆斯','鲁丝·伦德尔','马伊·舍瓦尔 / 佩尔·瓦勒'],works:[['松本清张','点与线'],['松本清张','砂器'],['乔治·西默农','黄狗'],['鲁丝·伦德尔','石之审判']],notes:[['社会结构','犯罪被理解为阶级、组织和历史压力的结果。'],['调查主体','警察团队与程序替代孤立的天才侦探。'],['心理深度','罪犯不再只是谜底，而成为需要理解的复杂主体。']]},
+    {years:'1980—1999',title:'新本格、心理犯罪与历史谜案',thesis:'推理小说主动回望自身传统。日本新本格复兴诡计，欧美作品则深入心理、历史和叙事可靠性。',shift:'类型不再天真地重复规则，而是在读者熟悉规则之后重新测试谜题是否仍然可能。',keywords:['新本格','叙述性诡计','历史谜案','心理犯罪','元推理'],authors:['岛田庄司','绫辻行人','京极夏彦','帕特里夏·海史密斯','翁贝托·埃科','詹姆斯·艾尔罗伊'],works:[['岛田庄司','占星术杀人魔法'],['绫辻行人','十角馆事件'],['京极夏彦','姑获鸟之夏'],['翁贝托·埃科','玫瑰的名字']],notes:[['自觉性','作品开始把推理传统本身当作可以引用、改写和反驳的对象。'],['认知危机','京极夏彦与历史谜案都把“真相”放进文化和知识结构中考察。'],['类型混合','犯罪小说与历史、恐怖、哲学和实验叙事深度融合。']]},
+    {years:'2000—2019',title:'全球犯罪叙事',thesis:'北欧犯罪、家庭悬疑、中国社会派与日本多种本格分支并行发展，推理真正成为全球类型。',shift:'单一中心瓦解，不同文化以犯罪叙事处理福利制度、家庭、媒体和城市化问题。',keywords:['北欧犯罪','家庭悬疑','特殊设定','日常之谜','全球化'],authors:['亨宁·曼凯尔','斯蒂格·拉森','东野圭吾','宫部美雪','吉莉安·弗琳','紫金陈'],works:[['斯蒂格·拉森','龙纹身的女孩'],['东野圭吾','嫌疑人X的献身'],['宫部美雪','模仿犯'],['吉莉安·弗琳','消失的爱人']],notes:[['地域经验','天气、福利制度、家庭结构与媒体环境成为犯罪叙事的重要变量。'],['读者扩张','推理跨越文学、影视和网络文化，成为全球大众叙事核心。'],['边界变化','本格、社会派与惊悚之间的边界不断消失。']]},
+    {years:'2020—NOW',title:'混合类型时代',thesis:'舒适推理、文档推理、幻想推理和播客式叙事兴起。侦探小说进入新的媒介与复合类型环境。',shift:'谜题不再依赖传统现实主义世界，类型开始适应碎片化信息、社交媒体和跨媒介阅读。',keywords:['舒适推理','文档推理','幻想推理','播客叙事','类型融合'],authors:['理查德·奥斯曼','简妮丝·哈利特','罗伯特·杰克逊·贝内特','今村昌弘','青崎有吾'],works:[['理查德·奥斯曼','星期四推理俱乐部'],['简妮丝·哈利特','上诉'],['罗伯特·杰克逊·贝内特','毒杯谜案'],['今村昌弘','尸人庄谜案']],notes:[['媒介形式','邮件、聊天记录、节目文本和档案材料成为新的线索载体。'],['阅读情绪','舒适推理说明读者也需要共同体、幽默与低压犯罪叙事。'],['世界规则','幻想与特殊设定推理要求作者同时建立世界规则与谜题规则。']]}
+  ];
+  const streams=[
+    {name:'古典本格',desc:'从分析推理、黄金时代到新本格与现代本格。',nodes:[['坡','莫格街凶杀案'],['克里斯蒂','罗杰疑案'],['卡尔','三口棺材'],['岛田庄司','占星术杀人魔法'],['绫辻行人','十角馆事件'],['青崎有吾','体育馆之谜']]},
+    {name:'硬汉与黑色犯罪',desc:'从私人侦探进入腐败城市、权力和暴力网络。',nodes:[['哈米特','马耳他之鹰'],['钱德勒','漫长的告别'],['罗斯·麦唐诺','地下人'],['艾尔罗伊','洛城机密'],['康奈利','黑色回声']]},
+    {name:'社会派',desc:'追问犯罪背后的阶级、制度、家庭与历史压力。',nodes:[['松本清张','点与线'],['森村诚一','人性的证明'],['宫部美雪','火车'],['紫金陈','长夜难明']]},
+    {name:'心理犯罪',desc:'从“谁做的”转向“为什么做”以及人格如何崩解。',nodes:[['海史密斯','天才雷普利'],['鲁丝·伦德尔','石之审判'],['托马斯·哈里斯','沉默的羔羊'],['吉莉安·弗琳','消失的爱人']]},
+    {name:'元推理与反推理',desc:'把规则、叙述者和推理传统本身变成谜题。',nodes:[['埃勒里·奎因','X的悲剧'],['博尔赫斯','堂伊西德罗·帕罗迪六案'],['麻耶雄嵩','有翼之暗'],['殊能将之','剪刀男']]}
+  ];
+  const matrix=[
+    ['1920—1945',['英国','黄金时代','克里斯蒂、塞耶斯、卡尔'],['美国','硬汉派与本格','哈米特、钱德勒、奎因'],['日本','本格形成','江户川乱步、横沟正史'],['法国','怪盗与心理警探','勒布朗、西默农'],['北欧','尚未形成独立传统','—']],
+    ['1946—1979',['英国','警察程序与心理犯罪','P.D.詹姆斯、伦德尔'],['美国','黑色犯罪深化','海史密斯、麦唐诺'],['日本','社会派崛起','松本清张、森村诚一'],['法国','日常心理犯罪','西默农'],['北欧','社会现实主义警察小说','舍瓦尔 / 瓦勒']],
+    ['1980—1999',['英国','心理犯罪成熟','伦德尔、詹姆斯'],['美国','连环杀手与都市黑色','哈里斯、艾尔罗伊'],['日本','新本格革命','岛田、绫辻、京极'],['法国','犯罪惊悚转型','—'],['北欧','北欧犯罪成形','曼凯尔']],
+    ['2000—2019',['英国','历史谜案与元推理','霍洛维茨'],['美国','家庭悬疑与警察程序','弗琳、康奈利'],['日本','多分支并行','东野、宫部、米泽'],['法国','高强度犯罪惊悚','勒梅特'],['北欧','全球影响力高峰','拉森、奈斯博']]
+  ];
+  function authorWork(authorName,title){const a=findAuthor(authorName);if(!a)return null;const w=a.works.find(x=>x.title===title);return w?{a,w,id:workId(a.country,a.name,w.title)}:null}
+  function status(id){return records()[id]?.status||''}
+  function workCard(pair){const x=authorWork(pair[0],pair[1]);if(!x)return'';const s=status(x.id);return `<article class="timeline-work"><small>${x.a.country} / ${x.a.tradition}</small><h3>《${x.w.title}》</h3><p>${x.a.name}${s?` · ${({want:'想读',reading:'在读',done:'已读',paused:'暂停'})[s]}`:''}</p><button data-record="${x.id}" aria-label="记录《${x.w.title}》">＋</button></article>`}
+  function renderEra(){return eras.map((e,i)=>`<article class="era-dossier"><div class="era-index"><time>${e.years}</time></div><div class="era-body"><div class="era-top"><div><p class="eyebrow">CASE PERIOD ${String(i+1).padStart(2,'0')}</p><h2>${e.title}</h2><p class="era-thesis">${e.thesis}</p></div><aside class="paradigm"><small>PARADIGM SHIFT</small><p>${e.shift}</p></aside></div><div class="era-keywords">${e.keywords.map(k=>`<span>${k}</span>`).join('')}</div><div class="era-authors">${e.authors.map(a=>`<button type="button" data-jump-author="${a}">${a}</button>`).join('')}</div><div class="era-works">${e.works.map(workCard).join('')}</div><div class="era-more"><div class="era-more-grid">${e.notes.map(n=>`<div class="era-note"><b>${n[0]}</b><p>${n[1]}</p></div>`).join('')}</div></div><button class="era-toggle" type="button">展开时代案卷 ↓</button></div></article>`).join('')}
+  function renderStreams(){return `<div class="stream-map">${streams.map(s=>`<article class="stream-row"><div class="stream-label"><h3>${s.name}</h3><p>${s.desc}</p></div><div class="stream-track">${s.nodes.map(n=>`<div class="stream-node"><b>${n[0]}</b><span>《${n[1]}》</span></div>`).join('')}</div></article>`).join('')}</div>`}
+  function renderMatrix(){return `<div class="country-matrix"><table><thead><tr><th>时期</th><th>英国</th><th>美国</th><th>日本</th><th>法国</th><th>北欧</th></tr></thead><tbody>${matrix.map(r=>`<tr><td>${r[0]}</td>${r.slice(1).map(c=>`<td><b>${c[1]}</b><span>${c[2]}</span></td>`).join('')}</tr>`).join('')}</tbody></table></div>`}
+  function render(){
+    const totalWorks=authors.reduce((n,a)=>n+a.works.length,0),rec=records(),done=Object.values(rec).filter(r=>r.status==='done').length;
+    root.className='timeline-shell';root.innerHTML=`<section class="timeline-overview"><div class="lead"><p class="eyebrow">A LIVING HISTORY OF DETECTION</p><h2>推理不是一条直线，而是多种真相机制的并行演化</h2><p>从“谁做的”到“为什么发生”，从封闭谜题到社会结构，再到今天的混合类型。</p></div><div><b>${eras.length}</b><span>历史阶段</span></div><div><b>${streams.length}</b><span>核心流派</span></div><div><b>${authors.length}</b><span>作者档案</span></div><div><b>${done}/${totalWorks}</b><span>个人阅读覆盖</span></div></section><nav class="timeline-view-tabs"><button class="active" data-timeline-view="eras">时代案卷</button><button data-timeline-view="streams">流派河流</button><button data-timeline-view="countries">国家对照</button></nav><section class="timeline-view active" data-view="eras">${renderEra()}</section><section class="timeline-view" data-view="streams">${renderStreams()}</section><section class="timeline-view" data-view="countries">${renderMatrix()}</section><section class="theme-paths"><article class="theme-path"><small>PATH 01 / HOW</small><h3>诡计如何演化</h3><ol><li>分析推理与物证</li><li>密室和不在场证明</li><li>叙述性诡计</li><li>元推理与规则反转</li><li>特殊设定与幻想推理</li></ol></article><article class="theme-path"><small>PATH 02 / WHY</small><h3>犯罪为何发生</h3><ol><li>个人邪恶与欲望</li><li>城市腐败与资本权力</li><li>阶级、制度与历史创伤</li><li>家庭结构与心理崩解</li><li>媒介环境与集体认知</li></ol></article></section>`;
+  }
+  root.addEventListener('click',e=>{
+    const tab=e.target.closest('[data-timeline-view]');if(tab){root.querySelectorAll('[data-timeline-view]').forEach(b=>b.classList.toggle('active',b===tab));root.querySelectorAll('.timeline-view').forEach(v=>v.classList.toggle('active',v.dataset.view===tab.dataset.timelineView));return}
+    const toggle=e.target.closest('.era-toggle');if(toggle){const card=toggle.closest('.era-dossier');card.classList.toggle('expanded');toggle.textContent=card.classList.contains('expanded')?'收起时代案卷 ↑':'展开时代案卷 ↓';return}
+    const jump=e.target.closest('[data-jump-author]');if(jump){const author=findAuthor(jump.dataset.jumpAuthor);if(!author)return;document.querySelector('[data-page="archive"]')?.click();setTimeout(()=>{const country=document.querySelector(`[data-country="${CSS.escape(author.country)}"]`);country?.click();setTimeout(()=>document.querySelector(`[data-author="${CSS.escape(author.name)}"]`)?.click(),0)},0)}
+  });
+  render();
+  window.addEventListener('storage',e=>{if(e.key==='detectiveReadingRecords')render()});
+})();

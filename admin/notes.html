@@ -1,0 +1,39 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+  <meta name="theme-color" content="#f4f0e8">
+  <meta name="robots" content="noindex,nofollow">
+  <title>写作 · Notes</title>
+  <link rel="stylesheet" href="../css/notes.css">
+</head>
+<body class="composer-body">
+<main class="composer-shell">
+  <header class="composer-top">
+    <h1>Notes</h1>
+    <div class="composer-account"><button id="loginButton" class="account-button" type="button">检查登录状态</button><a href="../notes.html">查看前台 ↗</a></div>
+  </header>
+  <section class="composer-card">
+    <div id="setupNotice" class="prototype-notice" hidden>
+      真实发布服务尚未配置。请部署 <code>worker/notes-api.js</code>，然后把 Worker 地址填写到 <code>admin/config.js</code>。本地草稿仍可正常使用。
+    </div>
+    <input id="noteTitle" class="composer-title" maxlength="120" placeholder="标题（可选）">
+    <textarea id="noteBody" class="composer-text" maxlength="12000" placeholder="写点什么……" autofocus></textarea>
+    <div id="imagePreview" class="image-preview"></div>
+    <input id="imageInput" type="file" accept="image/*" multiple hidden>
+    <input id="noteTags" class="composer-tags" maxlength="80" placeholder="标签：阅读、产品、生活（用逗号分隔）">
+    <div class="composer-actions">
+      <button id="imageButton" class="soft-button" type="button">添加图片</button>
+      <button id="titleButton" class="soft-button" type="button">添加标题</button>
+      <button id="draftButton" class="soft-button" type="button">保存草稿</button>
+      <button id="publishButton" class="publish-button" type="button" disabled>发布</button>
+    </div>
+    <p id="composerStatus" class="composer-status" role="status"></p>
+    <section class="draft-list"><h2>本地草稿</h2><div id="draftList"></div></section>
+  </section>
+</main>
+<script src="./config.js"></script>
+<script src="../js/notes-admin.js"></script>
+</body>
+</html>

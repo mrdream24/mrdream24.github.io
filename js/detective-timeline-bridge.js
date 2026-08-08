@@ -1,0 +1,1 @@
+(()=>{window.renderTimeline=()=>{const old=document.querySelector('#timelineList');if(!old)return;const fresh=old.cloneNode(false);old.replaceWith(fresh);const script=document.createElement('script');script.src=`./js/detective-timeline.js?v=${Date.now()}`;script.onload=()=>script.remove();document.body.appendChild(script)}})();

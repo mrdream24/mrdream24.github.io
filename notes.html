@@ -1,0 +1,34 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+  <meta name="description" content="孟祥辉的公开随笔：阅读、产品与生活中尚未整理成文章的部分。">
+  <title>Notes · 孟祥辉</title>
+  <link rel="stylesheet" href="./css/notes.css">
+</head>
+<body>
+<header class="notes-header">
+  <a class="notes-brand" href="./index.html" aria-label="返回首页">孟</a>
+  <nav><a href="./index.html">首页</a><a class="active" href="./notes.html">博客</a><a href="./admin/notes.html">写作</a></nav>
+</header>
+<main class="notes-shell">
+  <section class="notes-hero">
+    <p class="eyebrow">FIELD NOTES / 2026—</p>
+    <h1>Notes</h1>
+    <p>阅读、产品和生活中，尚未整理成文章的部分。</p>
+  </section>
+  <section class="notes-toolbar" aria-label="内容筛选">
+    <button class="is-active" data-filter="all">全部</button>
+    <button data-filter="阅读">阅读</button>
+    <button data-filter="产品">产品</button>
+    <button data-filter="生活">生活</button>
+  </section>
+  <section id="notesList" class="notes-stream" aria-live="polite"></section>
+  <p id="emptyState" class="empty-state" hidden>这里还没有内容。</p>
+</main>
+<footer class="notes-footer"><span>Shanghai</span><span>© 2026 Meng Xianghui</span></footer>
+<script src="./admin/config.js"></script>
+<script src="./js/notes.js"></script>
+</body>
+</html>
