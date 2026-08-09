@@ -3,105 +3,77 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="description" content="工程师、独立产品创作者与文学阅读者的个人网站。">
-  <title>技术的秩序与文学的歧义之间</title>
+  <meta name="description" content="孟祥辉的个人网站：独立 Android 产品、工程实践与文学阅读档案。">
+  <meta name="theme-color" content="#e9edf2">
+  <title>孟祥辉 · 独立产品与阅读档案</title>
   <link rel="stylesheet" href="./css/home-v2.css">
-  <link rel="stylesheet" href="./css/home-detective.css">
+  <script src="./js/home.js" defer></script>
 </head>
 <body>
-<header>
-<div class="header-inner">
-<a aria-label="返回首页" class="brand icon-only" href="#top"><span class="brand-mark">孟</span></a>
-<nav>
-<a href="#about">关于</a>
-<a href="#projects">项目</a>
-<a href="#reading">阅读池</a>
-<a href="./detective.html">推理池</a>
-<a href="./notes.html">博客</a>
-<a href="./resume.html">简历</a>
-<a href="https://github.com/mrdream24">GitHub ↗</a>
-</nav>
-</div>
+<a class="skip-link" href="#content">跳到主要内容</a>
+<header class="site-header">
+  <a class="identity" href="#top" aria-label="返回首页"><span class="identity-mark">孟</span><span>孟祥辉</span></a>
+  <button class="menu-button" type="button" aria-expanded="false" aria-controls="site-nav"><span></span><span></span><span class="sr-only">打开导航</span></button>
+  <nav id="site-nav" aria-label="主要导航">
+    <a href="#work">产品</a><a href="#reading">阅读</a><a href="./notes.html">博客</a><a href="./resume.html">简历</a><a href="https://github.com/mrdream24">GitHub ↗</a>
+  </nav>
 </header>
-<main class="shell" id="top">
-<section class="hero">
-<div class="hero-main">
-<p class="eyebrow">ENGINEER · INDEPENDENT MAKER · READER</p>
-<h1>在<span class="tech-emphasis">技术的秩序</span>与<span class="lit-emphasis">文学的歧义</span>之间</h1>
-<p class="hero-subtitle">工程师、独立产品创作者与文学阅读者。</p>
-</div>
-</section>
-<section class="section" id="about">
-<div class="section-head">
-<div class="index">ABOUT</div>
-<h2>工程解决确定的问题，文学保留无法被消除的疑问。</h2>
-</div>
-<div class="intro-grid">
-<article class="intro-card"><small>ENGINEERING</small><h3>工程</h3><p>把复杂问题拆解成清晰、稳定并可以持续维护的系统。</p></article>
-<article class="intro-card"><small>PRODUCT</small><h3>产品</h3><p>从具体生活经验出发，用删减、节奏与细节建立完整体验。</p></article>
-<article class="intro-card"><small>READING</small><h3>文学</h3><p>在作家、时代与小说形式之间，建立不断修订的阅读坐标。</p></article>
-</div>
-</section>
-<section class="section" id="projects">
-<div class="projects-heading">
-<div>
-<p class="eyebrow">SELECTED INDEPENDENT WORK</p>
-<h2>个人项目</h2>
-</div>
-<p>六个从日常经验中生长出来的 Android 产品：整理记忆、阅读诗词、漫游声音，也收藏影像、游戏与纸上灵感。</p>
-</div>
-<div class="projects-grid">
-<a class="project-card" href="./quliu.html">
-<div class="project-visual"><img alt="去留" src="./img/quliu-icon.png"></div>
-<div class="project-copy">
-<div class="project-top"><span>照片与记忆</span><span>ANDROID</span></div>
-<h3>去留</h3>
-<p>重新观看，而不是机械清理。</p>
-<span class="project-link">查看项目 ↗</span>
-</div>
-</a>
-<a class="project-card" href="./sufei.html">
-<div class="project-visual"><img alt="见诗" src="./img/sufei/home.png"></div>
-<div class="project-copy">
-<div class="project-top"><span>古典诗词</span><span>ANDROID</span></div>
-<h3>见诗</h3>
-<p>在手机里留一页诗。</p>
-<span class="project-link">查看项目 ↗</span>
-</div>
-</a>
-<a class="project-card" href="./tingjian.html">
-<div class="project-visual"><img alt="听见" src="./img/tingjian/home.png"></div>
-<div class="project-copy">
-<div class="project-top"><span>全球电台</span><span>ANDROID</span></div>
-<h3>听见</h3>
-<p>把下一站交给地球。</p>
-<span class="project-link">查看项目 ↗</span>
-</div>
-</a>
-<a class="project-card project-shiying" href="./shiying.html">
-<div class="project-visual"><img alt="拾影" src="./img/shiying/icon.png"></div>
-<div class="project-copy"><div class="project-top"><span>媒体收藏</span><span>ANDROID</span></div><h3>拾影</h3><p>把公开分享里的片刻，收回自己的相册。</p><span class="project-link">查看项目 ↗</span></div>
-</a>
-<a class="project-card project-yosu" href="./yosu.html">
-<div class="project-visual"><img alt="游枢" src="./img/yosu/icon.png"></div>
-<div class="project-copy"><div class="project-top"><span>游戏中枢</span><span>ANDROID</span></div><h3>游枢</h3><p>把散落的游戏，带回同一个入口。</p><span class="project-link">查看项目 ↗</span></div>
-</a>
-<a class="project-card project-paperstudio" href="./paperstudio.html">
-<div class="project-visual"><img alt="PaperStudio" src="./img/paperstudio/icon.png"></div>
-<div class="project-copy"><div class="project-top"><span>壁纸创作</span><span>ANDROID</span></div><h3>PaperStudio</h3><p>从一组颜色开始，做一张只属于此刻的壁纸。</p><span class="project-link">查看项目 ↗</span></div>
-</a>
-</div>
-</section>
-<section class="section reading-section" id="reading">
-<div class="reading-panel"><div class="reading-copy"><p class="eyebrow">LITERATURE READING POOL</p><h2>世界文学阅读池</h2><p>从作家进入时代，从一部小说继续追问它在文学史中的位置。</p><div class="reading-tags"><span>作家维度</span><span>时间维度</span><span>阅读进度</span></div></div><div class="reading-aside"><p class="quote">阅读不是收藏书目，<br>而是建立自己的文学坐标。<small>A LIVING MAP OF LITERATURE</small></p><a class="reading-button" href="./literature.html">进入文学阅读池 <span>↗</span></a></div></div>
-</section>
-<section class="section reading-section">
-<div class="reading-panel detective-panel"><div class="reading-copy"><span class="detective-stamp">CASE FILE / 1841—NOW</span><p class="eyebrow">DETECTIVE FICTION ARCHIVE</p><h2>侦探推理阅读池</h2><p>从国家传统、类型机制和推理史进入，追踪谜题、犯罪与真相如何改变形态。</p><div class="reading-tags"><span>67 位作者</span><span>236 部作品</span><span>阅读案卷</span></div></div><div class="reading-aside"><p class="quote">真相从不自动现身，<br>它需要被阅读、怀疑与重建。<small>DETECTION AS A WAY OF READING</small></p><a class="reading-button" href="./detective.html">进入侦探阅读池 <span>↗</span></a></div></div>
-</section>
-<section class="section reading-section">
-<div class="reading-panel"><div class="reading-copy"><p class="eyebrow">FIELD NOTES / RECENT WRITING</p><h2>博客与随笔</h2><p>一句话、几段随笔，或者一篇尚未完成的长文。让零散的想法拥有可以回望的位置。</p><div class="reading-tags"><span>短句</span><span>图文</span><span>长文</span></div></div><div class="reading-aside"><p class="quote">篇幅不决定一段文字<br>是否值得被保存。<small>NOTES, IN THEIR NATURAL LENGTH</small></p><a class="reading-button" href="./notes.html">进入 Notes <span>↗</span></a></div></div>
-</section>
-<footer><span>Shanghai</span><span class="links"><a href="https://github.com/mrdream24">GitHub</a><a href="mailto:1178790517@qq.com">Email</a><a href="https://www.instagram.com/mrdream24/">Instagram</a></span></footer>
+
+<main id="content">
+  <section class="hero" id="top">
+    <div class="hero-meta"><span>ENGINEER / MAKER / READER</span><span>SHANGHAI · 2026</span></div>
+    <div class="hero-title">
+      <p class="overline">在确定与不确定之间工作</p>
+      <h1>把问题做成<span>产品</span><br>把疑问留给<span>阅读</span></h1>
+    </div>
+    <div class="hero-note">
+      <span class="coordinate">31.2304° N / 121.4737° E</span>
+      <p>我是孟祥辉，一名工程师与独立创作者。这里收录我持续维护的 Android 产品，以及不断修订的文学坐标。</p>
+      <a href="#work">从作品开始 <span>↓</span></a>
+    </div>
+    <div class="axis" aria-hidden="true"><span>BUILD</span><i></i><b></b><i></i><span>READ</span></div>
+  </section>
+
+  <section class="work section" id="work">
+    <header class="section-title reveal">
+      <div><span class="section-code">A / PRODUCTS</span><h2>六个正在生活里的产品</h2></div>
+      <p>它们从照片、诗词、声音、影像、游戏与颜色出发。没有虚构概念，每一个都可以下载、使用，并仍在继续变化。</p>
+    </header>
+    <div class="project-list">
+      <a class="project project-featured reveal" href="./quliu.html">
+        <div class="project-no">01</div><div class="project-name"><span>照片与记忆</span><h3>去留</h3><p>重新观看，而不是机械清理。</p></div>
+        <div class="project-art art-quliu"><img src="./img/quliu-icon.png" alt="去留应用图标"></div><span class="project-arrow">↗</span>
+      </a>
+      <a class="project reveal" href="./sufei.html">
+        <div class="project-no">02</div><div class="project-name"><span>古典诗词</span><h3>见诗</h3><p>在手机里留一页诗。</p></div>
+        <div class="project-art art-sufei"><img src="./img/sufei/home.png" alt="见诗应用界面"></div><span class="project-arrow">↗</span>
+      </a>
+      <a class="project reveal" href="./tingjian.html">
+        <div class="project-no">03</div><div class="project-name"><span>全球电台</span><h3>听见</h3><p>把下一站交给地球。</p></div>
+        <div class="project-art art-tingjian"><img src="./img/tingjian/home.png" alt="听见应用界面"></div><span class="project-arrow">↗</span>
+      </a>
+      <a class="project project-small reveal" href="./shiying.html"><div class="project-no">04</div><div class="project-name"><span>媒体收藏</span><h3>拾影</h3><p>把公开分享里的片刻收回相册。</p></div><div class="project-art art-shiying"><img src="./img/shiying/icon.png" alt="拾影应用图标"></div><span class="project-arrow">↗</span></a>
+      <a class="project project-small reveal" href="./yosu.html"><div class="project-no">05</div><div class="project-name"><span>游戏中枢</span><h3>游枢</h3><p>让散落的游戏回到同一个入口。</p></div><div class="project-art art-yosu"><img src="./img/yosu/icon.png" alt="游枢应用图标"></div><span class="project-arrow">↗</span></a>
+      <a class="project project-small reveal" href="./paperstudio.html"><div class="project-no">06</div><div class="project-name"><span>壁纸创作</span><h3>PaperStudio</h3><p>从一组颜色开始，生成此刻的壁纸。</p></div><div class="project-art art-paper"><img src="./img/paperstudio/icon.png" alt="PaperStudio 应用图标"></div><span class="project-arrow">↗</span></a>
+    </div>
+  </section>
+
+  <section class="reading section" id="reading">
+    <header class="section-title reveal"><div><span class="section-code">B / READING ARCHIVES</span><h2>阅读不是书单，<br>是一张持续校准的地图</h2></div><p>按时代、地域与类型整理阅读，让作品彼此发生关系，也让下一本书有迹可循。</p></header>
+    <div class="archive-grid">
+      <a class="archive archive-literature reveal" href="./literature.html"><span class="archive-index">L / 01</span><div class="archive-glyph">文</div><div><h3>世界文学阅读池</h3><p>从作家进入时代，追问一部小说在文学史中的位置。</p><span class="archive-link">打开文学地图 ↗</span></div></a>
+      <a class="archive archive-detective reveal" href="./detective.html"><span class="archive-index">D / 02 · CASE FILE</span><div class="archive-glyph">案</div><div><h3>侦探推理阅读池</h3><p>追踪谜题、犯罪与真相如何在不同传统中改变形态。</p><span class="archive-link">查看阅读案卷 ↗</span></div></a>
+      <a class="archive archive-notes reveal" href="./notes.html"><span class="archive-index">N / 03 · FIELD NOTES</span><div class="archive-glyph">记</div><div><h3>博客与随笔</h3><p>一句话、几段随笔，或一篇尚未完成的长文。</p><span class="archive-link">翻阅近期笔记 ↗</span></div></a>
+    </div>
+  </section>
+
+  <section class="closing section reveal">
+    <span class="section-code">C / WORKING METHOD</span>
+    <blockquote>工程解决确定的问题，<br>文学保留无法被消除的疑问。</blockquote>
+    <div class="closing-notes"><p><b>工程</b>把复杂问题拆成稳定、可持续维护的系统。</p><p><b>产品</b>从具体生活经验出发，用删减与细节建立体验。</p><p><b>文学</b>在作家、时代与形式之间，修订自己的坐标。</p></div>
+  </section>
 </main>
+
+<footer><span>孟祥辉 · Shanghai</span><div><a href="mailto:1178790517@qq.com">Email</a><a href="https://github.com/mrdream24">GitHub</a><a href="https://www.instagram.com/mrdream24/">Instagram</a></div><a href="#top">回到顶部 ↑</a></footer>
 </body>
 </html>
