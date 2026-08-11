@@ -67,6 +67,35 @@ body{
   min-height:78px;
 }
 
+/* The explore header contains both the title and the map/time segmented control.
+   It must size itself from its content instead of inheriting the generic 78px
+   column-header basis, otherwise the list can visually overlap the control and
+   intercept pointer/touch events. */
+#levelColumn > .explore-head{
+  flex:0 0 auto;
+  height:auto;
+  min-height:112px;
+  position:relative;
+  z-index:2;
+  overflow:visible;
+  background:var(--paper);
+}
+
+#levelColumn > .explore-head .dimension-toggle{
+  position:relative;
+  z-index:3;
+  flex:0 0 auto;
+  pointer-events:auto;
+}
+
+#levelColumn > .column-scroll{
+  position:relative;
+  z-index:1;
+  flex:1 1 0;
+  min-height:0;
+  height:auto !important;
+}
+
 .column-scroll,
 .detail-scroll{
   flex:1 1 auto;
@@ -116,6 +145,11 @@ body{
     top:auto;
     flex:0 0 auto;
     min-height:78px;
+  }
+
+  #levelColumn > .explore-head{
+    flex:0 0 auto;
+    min-height:112px;
   }
 
   .column-scroll,
