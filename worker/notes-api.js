@@ -280,14 +280,26 @@ function serializeNote(row, origin) {
 
 async function b2Request(env, method, key, body = null, contentType = '') {
   requireB2Config(env);
-  const endpoint = env.B2_ENDPOINT.replace(/^https?:\/\//, '').replace(/\/$/, '');
-  const region = env.B2_REGION || endpoint.split('.')[1];
-  const canonicalUri = `/${encodeSegment(env.B2_BUCKET)}/${key.split('/').map(encodeSegment).join('/')}`;
+  const endpoint = String(env.B2_ENDPOINT || '').trim().replace(/^https?:\/\//, '').replace(/\/$/, '');
+  const region = String(env.B2_REGION || endpoint.split('.')[1] || '').trim();
+  const bucket = String(env.B2_BUCKET || '').trim();
+  const accessKeyId = String(env.B2_KEY_ID || '').trim();
+  const applicationKey = String(env.B2_APPLICATION_KEY || '').trim();
+  const canonicalUri = `/${encodeSegment(bucket)}/${key.split('/').map(encodeSegment).join('/')}`;
   const url = `https://${endpoint}${canonicalUri}`;
   const now = new Date();
   const amzDate = now.toISOString().replace(/[:-]|\.\d{3}/g, '');
   const dateStamp = amzDate.slice(0, 8);
-  const payloadHash = await sha256Hex(body || new Uint8Array());
+  const payload = body == null
+    ? new Uint8Array()
+    : body instanceof Uint8Array
+      ? body
+      : body instanceof ArrayBuffer
+        ? new Uint8Array(body)
+        : ArrayBuffer.isView(body)
+          ? new Uint8Array(body.buffer, body.byteOffset, body.byteLength)
+          : encoder.encode(String(body));
+  const payloadHash = await sha256Hex(payload);
   const headersForSigning = { host: endpoint, 'x-amz-content-sha256': payloadHash, 'x-amz-date': amzDate };
   if (contentType) headersForSigning['content-type'] = contentType;
   const signedHeaderNames = Object.keys(headersForSigning).sort();
@@ -296,15 +308,16 @@ async function b2Request(env, method, key, body = null, contentType = '') {
   const canonicalRequest = [method, canonicalUri, '', canonicalHeaders, signedHeaders, payloadHash].join('\n');
   const scope = `${dateStamp}/${region}/s3/aws4_request`;
   const stringToSign = ['AWS4-HMAC-SHA256', amzDate, scope, await sha256Hex(encoder.encode(canonicalRequest))].join('\n');
-  const signingKey = await getSignatureKey(env.B2_APPLICATION_KEY, dateStamp, region, 's3');
+  const signingKey = await getSignatureKey(applicationKey, dateStamp, region, 's3');
   const signature = bytesToHex(await hmac(signingKey, encoder.encode(stringToSign)));
-  const authorization = `AWS4-HMAC-SHA256 Credential=${env.B2_KEY_ID}/${scope}, SignedHeaders=${signedHeaders}, Signature=${signature}`;
+  const authorization = `AWS4-HMAC-SHA256 Credential=${accessKeyId}/${scope}, SignedHeaders=${signedHeaders}, Signature=${signature}`;
   const headers = new Headers({ Authorization: authorization, 'x-amz-content-sha256': payloadHash, 'x-amz-date': amzDate });
   if (contentType) headers.set('Content-Type', contentType);
-  const response = await fetch(url, { method, headers, body: method === 'GET' || method === 'HEAD' ? undefined : body });
+  const requestBody = method === 'GET' || method === 'HEAD' ? undefined : payload;
+  const response = await fetch(url, { method, headers, body: requestBody });
   if (!response.ok && method !== 'GET' && method !== 'DELETE') {
     const text = await response.text().catch(() => '');
-    throw new Error(`B2 ${method} failed (${response.status})${text ? `: ${text.slice(0, 300)}` : ''}`);
+    throw new Error(`B2 ${method} failed (${response.status}) [payloadBytes=${payload.byteLength}]${text ? `: ${text.slice(0, 300)}` : ''}`);
   }
   return response;
 }
