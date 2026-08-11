@@ -1,5 +1,6 @@
 (() => {
   const CONFIG = window.NOTES_CONFIG || {};
+  const SESSION_KEY = "mrdream24-notes-session";
   const defaults = [
     { id: "welcome-short", date: "2026-08-05T22:04:00+08:00", title: "", body: "有时候，阅读一本书只是为了确认自己仍然能够长时间地注视同一个问题。", tags: ["阅读"], images: [] },
     { id: "welcome-medium", date: "2026-08-03T18:22:00+08:00", title: "", body: "最近重新玩了一遍《逆转裁判》。\n\n以前我更在意谜题能不能骗过我，现在却开始注意人物如何在一套高度程式化的类型结构里获得感情。类型小说真正困难的地方，也许不是制造意外，而是在规则内部仍然保留人的重量。", tags: ["产品"], images: [] },
@@ -8,9 +9,23 @@
 
   let notes = defaults;
   let activeFilter = "all";
+  let ownerMode = false;
 
   function apiReady() {
     return Boolean(CONFIG.apiBase && !CONFIG.apiBase.includes("YOUR-"));
+  }
+
+  function session() {
+    return sessionStorage.getItem(SESSION_KEY) || "";
+  }
+
+  async function api(path, options = {}) {
+    const headers = { ...(options.headers || {}) };
+    if (session()) headers.Authorization = `Bearer ${session()}`;
+    const response = await fetch(`${CONFIG.apiBase}${path}`, { ...options, headers });
+    const data = await response.json().catch(() => ({}));
+    if (!response.ok) throw new Error(data.error || `请求失败：${response.status}`);
+    return data;
   }
 
   function escapeHtml(value = "") {
@@ -43,9 +58,13 @@
         : "";
       const collapsible = length > 600;
       const body = collapsible ? `${escapeHtml(note.body.slice(0, 420))}…` : escapeHtml(note.body || "");
+      const ownerActions = ownerMode
+        ? `<div class="note-owner-actions" aria-label="管理内容"><button type="button" data-edit="${escapeHtml(note.id)}">编辑</button><button class="is-danger" type="button" data-delete="${escapeHtml(note.id)}">删除</button></div>`
+        : "";
 
       return `<article class="note ${mode}" id="${escapeHtml(note.id)}">
         <div class="note-meta"><time>${formatDate(note.date)}</time>${(note.tags || []).map(tag => `<span class="note-tag">#${escapeHtml(tag)}</span>`).join("")}</div>
+        ${ownerActions}
         ${note.title ? `<h2 class="note-title">${escapeHtml(note.title)}</h2>` : ""}
         ${imageHtml}
         <div class="note-body" data-full="${encodeURIComponent(note.body || "")}">${body}</div>
@@ -60,25 +79,62 @@
         button.remove();
       };
     });
+
+    root.querySelectorAll("[data-edit]").forEach(button => {
+      button.onclick = () => {
+        location.href = `./admin/notes.html?edit=${encodeURIComponent(button.dataset.edit)}`;
+      };
+    });
+
+    root.querySelectorAll("[data-delete]").forEach(button => {
+      button.onclick = () => deleteNote(button.dataset.delete, button);
+    });
   }
 
-  async function load() {
+  async function deleteNote(id, button) {
+    if (!ownerMode) return;
+    const note = notes.find(item => item.id === id);
+    const label = note?.title || (note?.body || "").slice(0, 28) || id;
+    if (!confirm(`确定删除这条 Note？\n\n${label}\n\n删除后会同时清理正文、图片和 GitHub 归档。`)) return;
+    button.disabled = true;
+    button.textContent = "删除中…";
+    try {
+      const result = await api(`/notes/${encodeURIComponent(id)}`, { method: "DELETE" });
+      notes = notes.filter(item => item.id !== id);
+      render();
+      if (result.warning) alert(`Note 已删除，但有清理项需要注意：\n${result.warning}`);
+    } catch (error) {
+      alert(`删除失败：${error.message}`);
+      button.disabled = false;
+      button.textContent = "删除";
+    }
+  }
+
+  async function loadNotes() {
     if (!apiReady()) {
       notes = defaults;
-      render();
       return;
     }
-
     try {
       const response = await fetch(`${CONFIG.apiBase}/notes?limit=100`, { cache: "no-store" });
       if (!response.ok) throw new Error(`API ${response.status}`);
       const data = await response.json();
-      notes = Array.isArray(data.notes) && data.notes.length ? data.notes : defaults;
+      notes = Array.isArray(data.notes) ? data.notes : [];
     } catch (error) {
       console.warn("Notes API unavailable, using local samples", error);
       notes = defaults;
     }
-    render();
+  }
+
+  async function refreshOwnerMode() {
+    ownerMode = false;
+    if (!apiReady() || !session()) return;
+    try {
+      const result = await api("/auth/status", { method: "GET" });
+      ownerMode = result.authenticated === true;
+    } catch (error) {
+      console.warn("Owner session unavailable", error);
+    }
   }
 
   document.querySelectorAll("[data-filter]").forEach(button => {
@@ -90,5 +146,5 @@
     };
   });
 
-  load();
+  Promise.all([loadNotes(), refreshOwnerMode()]).then(render);
 })();

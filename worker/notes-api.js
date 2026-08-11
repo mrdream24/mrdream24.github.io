@@ -17,6 +17,8 @@ export default {
       if (url.pathname === '/health' && request.method === 'GET') response = json({ ok: true, service: 'mrdream24-notes-api' });
       else if (url.pathname === '/notes' && request.method === 'GET') response = await listNotes(url, env);
       else if (url.pathname.startsWith('/notes/') && request.method === 'GET') response = await getNote(url.pathname.slice(7), url, env);
+      else if (url.pathname.startsWith('/notes/') && request.method === 'PATCH') response = await updateNote(request, url.pathname.slice(7), url, env);
+      else if (url.pathname.startsWith('/notes/') && request.method === 'DELETE') response = await deleteNote(request, url.pathname.slice(7), env);
       else if (url.pathname.startsWith('/media/') && request.method === 'GET') response = await getMedia(url.pathname.slice(7), env);
       else if (url.pathname === '/auth/login' && request.method === 'GET') response = await login(url, env);
       else if (url.pathname === '/auth/callback' && request.method === 'GET') response = await callback(url, env);
@@ -42,7 +44,7 @@ function withCors(response, origin, env, publicRoute) {
   else if (origin && origin === env.SITE_ORIGIN) {
     headers.set('Access-Control-Allow-Origin', origin);
     headers.set('Access-Control-Allow-Headers', 'Content-Type, Authorization');
-    headers.set('Access-Control-Allow-Methods', 'GET, POST, OPTIONS');
+    headers.set('Access-Control-Allow-Methods', 'GET, POST, PATCH, DELETE, OPTIONS');
   }
   headers.set('Vary', 'Origin');
   return new Response(response.body, { status: response.status, headers });
@@ -70,6 +72,119 @@ async function getNote(id, url, env) {
   const row = await env.DB.prepare(`SELECT id,date,title,body,tags_json,images_json,archive_status FROM notes WHERE id=? AND published=1 LIMIT 1`).bind(cleanId).first();
   if (!row) return json({ error: 'Note not found' }, 404);
   return json({ note: serializeNote(row, url.origin) }, 200, { 'Cache-Control': 'no-store' });
+}
+
+async function updateNote(request, encodedId, url, env) {
+  const session = await requireSession(request, env);
+  const id = validateId(decodeURIComponent(encodedId));
+  const row = await env.DB.prepare(`SELECT id,date,title,body,tags_json,images_json,archive_path,archive_status,created_at,updated_at FROM notes WHERE id=? AND published=1 LIMIT 1`).bind(id).first();
+  if (!row) throw httpError('Note 不存在', 404);
+
+  const input = await request.json();
+  const body = String(input?.body || '').trim();
+  const title = String(input?.title || '').trim().slice(0, 120);
+  const tags = Array.isArray(input?.tags) ? input.tags.map(tag => String(tag).trim().slice(0, 30)).filter(Boolean).slice(0, 8) : [];
+  const newImages = Array.isArray(input?.images) ? input.images : [];
+  const oldKeys = parseJsonArray(row.images_json);
+  const keepKeys = Array.isArray(input?.existingImages)
+    ? [...new Set(input.existingImages.map(value => mediaKeyFromUrl(value, url.origin)).filter(key => key && oldKeys.includes(key)))]
+    : oldKeys.slice();
+
+  if (body.length > MAX_BODY_LENGTH) throw new Error('正文过长');
+  if (newImages.length > MAX_IMAGES || keepKeys.length + newImages.length > MAX_IMAGES) throw new Error('最多保留 6 张图片');
+  if (!body && keepKeys.length === 0 && newImages.length === 0) throw new Error('至少写一句话或保留一张图片');
+
+  const uploadedKeys = [];
+  try {
+    for (let index = 0; index < newImages.length; index += 1) {
+      const image = decodeDataImage(newImages[index]);
+      const key = `notes/${id}/edit-${Date.now()}-${String(index + 1).padStart(2, '0')}.${image.ext}`;
+      await b2Request(env, 'PUT', key, image.bytes, image.contentType);
+      uploadedKeys.push(key);
+    }
+
+    const finalKeys = [...keepKeys, ...uploadedKeys];
+    const updatedAt = new Date().toISOString();
+    await env.DB.prepare(`UPDATE notes SET title=?,body=?,tags_json=?,images_json=?,archive_status='pending',updated_at=? WHERE id=?`)
+      .bind(title, body, JSON.stringify(tags), JSON.stringify(finalKeys), updatedAt, id).run();
+
+    const note = { id, date: row.date, title, body, tags, imageKeys: finalKeys, origin: url.origin };
+    let archiveStatus = 'archived';
+    let archivePath = row.archive_path || null;
+    let warning = null;
+
+    try {
+      const archive = await archiveToGitHub(note, session.token, env, archivePath);
+      archivePath = archive.path;
+      await env.DB.prepare(`UPDATE notes SET archive_path=?,archive_status='archived',updated_at=? WHERE id=?`)
+        .bind(archivePath, new Date().toISOString(), id).run();
+    } catch (error) {
+      archiveStatus = 'failed';
+      warning = `GitHub Markdown 归档更新失败：${error?.message || 'unknown error'}`;
+      await env.DB.prepare(`UPDATE notes SET archive_status='failed',updated_at=? WHERE id=?`)
+        .bind(new Date().toISOString(), id).run();
+      console.error('Archive update failed', error);
+    }
+
+    const removedKeys = oldKeys.filter(key => !keepKeys.includes(key));
+    const cleanupWarning = await cleanupB2Keys(removedKeys, env);
+    if (cleanupWarning) warning = [warning, cleanupWarning].filter(Boolean).join('；');
+
+    return json({
+      ok: true,
+      note: {
+        id,
+        date: row.date,
+        title,
+        body,
+        tags,
+        images: finalKeys.map(key => mediaUrl(url.origin, key)),
+        archiveStatus,
+        archivePath
+      },
+      warning
+    });
+  } catch (error) {
+    await Promise.allSettled(uploadedKeys.map(key => b2Request(env, 'DELETE', key)));
+    throw error;
+  }
+}
+
+async function deleteNote(request, encodedId, env) {
+  const session = await requireSession(request, env);
+  const id = validateId(decodeURIComponent(encodedId));
+  const row = await env.DB.prepare(`SELECT id,images_json,archive_path FROM notes WHERE id=? AND published=1 LIMIT 1`).bind(id).first();
+  if (!row) throw httpError('Note 不存在', 404);
+
+  await env.DB.prepare(`DELETE FROM notes WHERE id=?`).bind(id).run();
+
+  const warnings = [];
+  const mediaWarning = await cleanupB2Keys(parseJsonArray(row.images_json), env);
+  if (mediaWarning) warnings.push(mediaWarning);
+
+  if (row.archive_path) {
+    try {
+      await deleteGitHubArchive(row.archive_path, id, session.token, env);
+    } catch (error) {
+      warnings.push(`GitHub Markdown 清理失败：${error?.message || 'unknown error'}`);
+      console.error('Archive delete failed', error);
+    }
+  }
+
+  return json({ ok: true, id, warning: warnings.length ? warnings.join('；') : null });
+}
+
+async function cleanupB2Keys(keys, env) {
+  const failures = [];
+  for (const key of keys) {
+    try {
+      const response = await b2Request(env, 'DELETE', key);
+      if (!response.ok && response.status !== 404) failures.push(`${key} (${response.status})`);
+    } catch (error) {
+      failures.push(`${key} (${error?.message || 'failed'})`);
+    }
+  }
+  return failures.length ? `B2 图片清理失败：${failures.join(', ')}` : null;
 }
 
 async function getMedia(encodedKey, env) {
@@ -232,13 +347,13 @@ function decodeDataImage(value) {
   return { bytes: Uint8Array.from(binary, c => c.charCodeAt(0)), ext: type === 'jpeg' ? 'jpg' : type, contentType: type === 'jpeg' ? 'image/jpeg' : `image/${type}` };
 }
 
-async function archiveToGitHub(note, token, env) {
+async function archiveToGitHub(note, token, env, existingPath = null) {
   const date = new Date(note.date);
   const year = String(date.getUTCFullYear());
   const month = String(date.getUTCMonth() + 1).padStart(2, '0');
   const day = String(date.getUTCDate()).padStart(2, '0');
   const stamp = `${String(date.getUTCHours()).padStart(2, '0')}${String(date.getUTCMinutes()).padStart(2, '0')}${String(date.getUTCSeconds()).padStart(2, '0')}`;
-  const path = `content/notes/${year}/${month}/${year}-${month}-${day}-${stamp}-${note.id}.md`;
+  const path = existingPath || `content/notes/${year}/${month}/${year}-${month}-${day}-${stamp}-${note.id}.md`;
   const imageUrls = note.imageKeys.map(key => mediaUrl(note.origin, key));
   const markdown = [
     '---',
@@ -253,17 +368,41 @@ async function archiveToGitHub(note, token, env) {
     note.body,
     ''
   ].join('\n');
+
+  const branch = env.REPO_BRANCH || 'master';
+  let sha = null;
+  if (existingPath) {
+    const current = await githubRequest(`${repoPath(env, path)}?ref=${encodeURIComponent(branch)}`, token);
+    if (current.response.ok) sha = current.data?.sha || null;
+    else if (current.response.status !== 404) throw new Error(`GitHub API ${current.response.status}: ${current.data?.message || 'Unable to read archive'}`);
+  }
+
+  const body = { message: `${existingPath ? 'Update' : 'Archive'} ${note.id}`, content: toBase64(markdown), branch };
+  if (sha) body.sha = sha;
   const result = await github(repoPath(env, path), token, {
     method: 'PUT',
     headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ message: `Archive ${note.id}`, content: toBase64(markdown), branch: env.REPO_BRANCH || 'master' })
+    body: JSON.stringify(body)
   });
+
   return {
     path,
     commitSha: result.commit?.sha || null,
     contentSha: result.content?.sha || null,
     contentUrl: result.content?.html_url || null
   };
+}
+
+async function deleteGitHubArchive(path, noteId, token, env) {
+  const branch = env.REPO_BRANCH || 'master';
+  const current = await githubRequest(`${repoPath(env, path)}?ref=${encodeURIComponent(branch)}`, token);
+  if (current.response.status === 404) return;
+  if (!current.response.ok) throw new Error(`GitHub API ${current.response.status}: ${current.data?.message || 'Unable to read archive'}`);
+  await github(repoPath(env, path), token, {
+    method: 'DELETE',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ message: `Delete archive ${noteId}`, sha: current.data.sha, branch })
+  });
 }
 
 function serializeNote(row, origin) {
@@ -276,6 +415,17 @@ function serializeNote(row, origin) {
     images: parseJsonArray(row.images_json).map(key => mediaUrl(origin, key)),
     archiveStatus: row.archive_status || 'pending'
   };
+}
+
+function mediaKeyFromUrl(value, origin) {
+  try {
+    const url = new URL(String(value || ''));
+    if (url.origin !== origin || !url.pathname.startsWith('/media/')) return null;
+    const key = decodePath(url.pathname.slice(7));
+    return key && !key.includes('..') ? key : null;
+  } catch {
+    return null;
+  }
 }
 
 async function b2Request(env, method, key, body = null, contentType = '') {
@@ -313,7 +463,7 @@ async function b2Request(env, method, key, body = null, contentType = '') {
   const authorization = `AWS4-HMAC-SHA256 Credential=${accessKeyId}/${scope}, SignedHeaders=${signedHeaders}, Signature=${signature}`;
   const headers = new Headers({ Authorization: authorization, 'x-amz-content-sha256': payloadHash, 'x-amz-date': amzDate });
   if (contentType) headers.set('Content-Type', contentType);
-  const requestBody = method === 'GET' || method === 'HEAD' ? undefined : payload;
+  const requestBody = method === 'GET' || method === 'HEAD' || method === 'DELETE' ? undefined : payload;
   const response = await fetch(url, { method, headers, body: requestBody });
   if (!response.ok && method !== 'GET' && method !== 'DELETE') {
     const text = await response.text().catch(() => '');
