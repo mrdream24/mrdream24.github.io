@@ -3,7 +3,10 @@
   const DRAFT_KEY = "mrdream24-note-drafts-v2";
   const SESSION_KEY = "mrdream24-notes-session";
   const $ = selector => document.querySelector(selector);
+  const editId = new URLSearchParams(location.search).get("edit") || "";
   let images = [];
+  let existingImages = [];
+  let originalDate = "";
   let authenticated = false;
 
   const apiReady = () => CONFIG.apiBase && !CONFIG.apiBase.includes("YOUR-");
@@ -22,7 +25,7 @@
     const value = hash.get("session");
     if (!value) return;
     sessionStorage.setItem(SESSION_KEY, value);
-    history.replaceState(null, "", location.pathname);
+    history.replaceState(null, "", `${location.pathname}${location.search}`);
   }
 
   async function api(path, options = {}) {
@@ -61,17 +64,20 @@
 
   function payload() {
     return {
-      id: `note-${Date.now()}`,
-      date: new Date().toISOString(),
+      id: editId || `note-${Date.now()}`,
+      date: originalDate || new Date().toISOString(),
       title: $("#noteTitle").value.trim(),
       body: $("#noteBody").value.trim(),
       tags: $("#noteTags").value.split(/[,，]/).map(x => x.trim()).filter(Boolean).slice(0, 8),
+      existingImages,
       images
     };
   }
 
   function reset() {
     images = [];
+    existingImages = [];
+    originalDate = "";
     $("#noteTitle").value = "";
     $("#noteBody").value = "";
     $("#noteTags").value = "";
@@ -80,13 +86,22 @@
   }
 
   function renderImages() {
-    $("#imagePreview").innerHTML = images.map((src, index) => `
+    const existing = existingImages.map((src, index) => `
       <figure>
-        <img src="${src}" alt="预览 ${index + 1}">
-        <button type="button" data-remove="${index}" aria-label="删除图片">×</button>
+        <img src="${escapeHtml(src)}" alt="现有图片 ${index + 1}">
+        <button type="button" data-remove-existing="${index}" aria-label="删除图片">×</button>
       </figure>`).join("");
-    document.querySelectorAll("[data-remove]").forEach(button => {
-      button.onclick = () => { images.splice(Number(button.dataset.remove), 1); renderImages(); };
+    const added = images.map((src, index) => `
+      <figure>
+        <img src="${src}" alt="新图片 ${index + 1}">
+        <button type="button" data-remove-new="${index}" aria-label="删除图片">×</button>
+      </figure>`).join("");
+    $("#imagePreview").innerHTML = existing + added;
+    document.querySelectorAll("[data-remove-existing]").forEach(button => {
+      button.onclick = () => { existingImages.splice(Number(button.dataset.removeExisting), 1); renderImages(); };
+    });
+    document.querySelectorAll("[data-remove-new]").forEach(button => {
+      button.onclick = () => { images.splice(Number(button.dataset.removeNew), 1); renderImages(); };
     });
   }
 
@@ -117,6 +132,7 @@
   }
 
   function loadDraft(index) {
+    if (editId) return;
     const drafts = read(DRAFT_KEY);
     const item = drafts.splice(index, 1)[0];
     write(DRAFT_KEY, drafts);
@@ -141,6 +157,28 @@
     return String(value).replace(/[&<>"']/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
   }
 
+  async function loadEditNote() {
+    if (!editId || !apiReady()) return;
+    setStatus("正在载入 Note……");
+    try {
+      const result = await api(`/notes/${encodeURIComponent(editId)}`, { method: "GET", headers: {} });
+      const note = result.note;
+      originalDate = note.date;
+      existingImages = Array.isArray(note.images) ? note.images.slice(0, 6) : [];
+      $("#noteTitle").value = note.title || "";
+      $("#noteBody").value = note.body || "";
+      $("#noteTags").value = (note.tags || []).join("，");
+      if (note.title) $("#noteTitle").classList.add("is-visible");
+      $("#publishButton").textContent = "保存修改";
+      $("#draftButton").hidden = true;
+      renderImages();
+      setStatus("正在编辑已发布的 Note。保存后前台会立即更新。", "success");
+    } catch (error) {
+      setStatus(`无法载入 Note：${error.message}`, "error");
+      $("#publishButton").disabled = true;
+    }
+  }
+
   $("#loginButton").onclick = async () => {
     if (authenticated) {
       sessionStorage.removeItem(SESSION_KEY);
@@ -148,20 +186,21 @@
       await refreshAuth();
       return;
     }
-    const returnTo = `${location.origin}${location.pathname}`;
+    const returnTo = `${location.origin}${location.pathname}${location.search}`;
     location.href = `${CONFIG.apiBase}/auth/login?return=${encodeURIComponent(returnTo)}`;
   };
 
   $("#imageButton").onclick = () => $("#imageInput").click();
   $("#imageInput").onchange = async event => {
     setStatus("正在压缩图片……");
-    const selected = [...event.target.files].slice(0, 6 - images.length);
+    const room = 6 - existingImages.length - images.length;
+    const selected = [...event.target.files].slice(0, Math.max(0, room));
     for (const file of selected) {
       try { images.push(await compress(file)); }
       catch { setStatus(`无法处理图片：${file.name}`, "error"); }
     }
     renderImages();
-    setStatus(`已添加 ${images.length} 张图片`);
+    setStatus(`当前共 ${existingImages.length + images.length} 张图片`);
     event.target.value = "";
   };
 
@@ -171,6 +210,7 @@
   };
 
   $("#draftButton").onclick = () => {
+    if (editId) return;
     const item = payload();
     if (!item.body && !item.images.length) return setStatus("没有可保存的内容", "error");
     const drafts = read(DRAFT_KEY);
@@ -183,29 +223,31 @@
 
   $("#publishButton").onclick = async () => {
     const item = payload();
-    if (!item.body && !item.images.length) return setStatus("至少写一句话或添加一张图片", "error");
+    if (!item.body && !item.images.length && !item.existingImages.length) return setStatus("至少写一句话或添加一张图片", "error");
     const button = $("#publishButton");
     button.disabled = true;
-    button.textContent = "发布中……";
-    setStatus("正在保存文字、上传图片并归档，请不要关闭页面。");
+    button.textContent = editId ? "保存中……" : "发布中……";
+    setStatus(editId ? "正在保存修改并同步归档……" : "正在保存文字、上传图片并归档，请不要关闭页面。");
     try {
-      const result = await api("/publish", { method: "POST", body: JSON.stringify(item) });
-      reset();
+      const path = editId ? `/notes/${encodeURIComponent(editId)}` : "/publish";
+      const method = editId ? "PATCH" : "POST";
+      const result = await api(path, { method, body: JSON.stringify(item) });
+      if (!editId) reset();
       if (result.warning) {
-        setStatus(`内容已立即发布；GitHub 归档暂时失败：${result.warning}`, "error");
+        setStatus(`${editId ? "内容已更新" : "内容已立即发布"}；部分归档或媒体清理失败：${result.warning}`, "error");
       } else {
-        setStatus("发布成功，前台现在即可看到。", "success");
+        setStatus(editId ? "修改已保存。" : "发布成功，前台现在即可看到。", "success");
       }
       setTimeout(() => location.href = `../notes.html#${encodeURIComponent(result.note.id)}`, 700);
     } catch (error) {
       setStatus(error.message, "error");
     } finally {
-      button.textContent = "发布";
+      button.textContent = editId ? "保存修改" : "发布";
       button.disabled = !authenticated;
     }
   };
 
   captureSession();
   renderDrafts();
-  refreshAuth();
+  Promise.all([refreshAuth(), loadEditNote()]);
 })();
