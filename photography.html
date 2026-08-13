@@ -1,0 +1,53 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+  <meta name="theme-color" content="#f2efe8">
+  <meta name="description" content="一日一帧：孟祥辉的每日摄影练习与视觉日记。">
+  <title>一日一帧 · Daily Frame</title>
+  <link rel="stylesheet" href="./css/photography.css?v=20260813-1">
+  <script src="./js/photography.js?v=20260813-1" defer></script>
+</head>
+<body>
+<header class="photo-header">
+  <a class="back" href="./index.html">孟祥辉 / HOME</a>
+  <div class="header-actions"><span id="photoCount">0 FRAMES</span><a href="./admin/photography.html">UPLOAD ↗</a></div>
+</header>
+
+<main>
+  <section class="photo-hero">
+    <p class="eyebrow">DAILY FRAME / SINCE 2026</p>
+    <h1>一日一帧</h1>
+    <p class="intro">每天至少认真看一次世界。不是作品集，而是一份持续发生的观看记录。</p>
+    <div class="hero-meta"><span id="currentYear">2026</span><span id="streakText">— DAY STREAK</span></div>
+  </section>
+
+  <section class="toolbar" aria-label="浏览控制">
+    <div class="view-switch"><button class="active" data-view="grid" type="button">GRID</button><button data-view="calendar" type="button">CALENDAR</button></div>
+    <select id="yearSelect" aria-label="选择年份"></select>
+  </section>
+
+  <section id="gridView" class="photo-grid" aria-live="polite"></section>
+  <section id="calendarView" class="calendar-view" hidden></section>
+  <p id="emptyState" class="empty-state" hidden>这一年还没有照片。</p>
+</main>
+
+<dialog id="photoDialog" class="photo-dialog">
+  <button class="dialog-close" type="button" aria-label="关闭">×</button>
+  <div class="dialog-layout">
+    <figure><img id="detailImage" alt=""></figure>
+    <article>
+      <p id="detailDate" class="detail-date"></p>
+      <h2 id="detailCaption"></h2>
+      <p id="detailLocation" class="detail-location"></p>
+      <p id="detailNote" class="detail-note"></p>
+      <dl id="detailExif" class="exif-list"></dl>
+      <div class="detail-nav"><button id="prevPhoto" type="button">← PREVIOUS</button><button id="nextPhoto" type="button">NEXT →</button></div>
+    </article>
+  </div>
+</dialog>
+
+<footer><span>DAILY FRAME</span><span>LOOK · FRAME · REMEMBER</span><a href="./index.html">返回首页 ↑</a></footer>
+</body>
+</html>

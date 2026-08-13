@@ -1,0 +1,48 @@
+name: Deploy Cloudflare Worker
+
+on:
+  push:
+    branches:
+      - master
+      - agent/daily-photo
+    paths:
+      - "worker/**"
+      - ".github/workflows/deploy-worker.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: worker
+    env:
+      RAW_CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+      RAW_CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      - name: Normalize Cloudflare secrets
+        run: |
+          CLEAN_TOKEN="$(printf '%s' "$RAW_CLOUDFLARE_API_TOKEN" | tr -d '\r\n')"
+          CLEAN_ACCOUNT_ID="$(printf '%s' "$RAW_CLOUDFLARE_ACCOUNT_ID" | tr -d '[:space:]')"
+          test -n "$CLEAN_TOKEN" || (echo "Missing CLOUDFLARE_API_TOKEN" && exit 1)
+          test -n "$CLEAN_ACCOUNT_ID" || (echo "Missing CLOUDFLARE_ACCOUNT_ID" && exit 1)
+          echo "CLOUDFLARE_API_TOKEN=$CLEAN_TOKEN" >> "$GITHUB_ENV"
+          echo "CLOUDFLARE_ACCOUNT_ID=$CLEAN_ACCOUNT_ID" >> "$GITHUB_ENV"
+
+      - name: Apply photography migration
+        run: npx --yes wrangler@latest d1 execute mrdream24-notes --remote --file=./migrations/0002_photography.sql
+
+      - name: Deploy Worker
+        run: npx --yes wrangler@latest deploy
