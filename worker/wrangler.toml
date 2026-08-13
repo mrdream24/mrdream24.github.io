@@ -1,5 +1,5 @@
 name = "mrdream24-notes-api"
-main = "notes-api.js"
+main = "site-api.js"
 compatibility_date = "2026-08-01"
 workers_dev = true
 
@@ -24,3 +24,6 @@ database_id = "9865ec14-0192-410c-adea-882837ef10bd"
 # COOKIE_SECRET
 # B2_KEY_ID
 # B2_APPLICATION_KEY
+# CLOUDINARY_CLOUD_NAME
+# CLOUDINARY_API_KEY
+# CLOUDINARY_API_SECRET
