@@ -6,8 +6,8 @@
   <meta name="theme-color" content="#f2efe8">
   <meta name="description" content="一日一帧：孟祥辉的每日摄影练习与视觉日记。">
   <title>一日一帧 · Daily Frame</title>
-  <link rel="stylesheet" href="./css/photography.css?v=20260813-1">
-  <script src="./js/photography.js?v=20260813-1" defer></script>
+  <link rel="stylesheet" href="./css/photography.css?v=20260813-2">
+  <script src="./js/photography.js?v=20260813-2" defer></script>
 </head>
 <body>
 <header class="photo-header">
@@ -17,8 +17,10 @@
 
 <main>
   <section class="photo-hero">
-    <p class="eyebrow">DAILY FRAME / SINCE 2026</p>
-    <h1>一日一帧</h1>
+    <div class="hero-title-block">
+      <p class="eyebrow">DAILY FRAME / SINCE 2026</p>
+      <h1>一日一帧</h1>
+    </div>
     <p class="intro">每天至少认真看一次世界。不是作品集，而是一份持续发生的观看记录。</p>
     <div class="hero-meta"><span id="currentYear">2026</span><span id="streakText">— DAY STREAK</span></div>
   </section>
@@ -44,6 +46,10 @@
       <p id="detailNote" class="detail-note"></p>
       <dl id="detailExif" class="exif-list"></dl>
       <div class="detail-nav"><button id="prevPhoto" type="button">← PREVIOUS</button><button id="nextPhoto" type="button">NEXT →</button></div>
+      <div id="ownerActions" class="owner-actions" hidden>
+        <span>OWNER</span>
+        <button id="deletePhoto" type="button">删除这张照片</button>
+      </div>
     </article>
   </div>
 </dialog>
