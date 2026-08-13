@@ -1,0 +1,1 @@
+.archive-grid{grid-template-columns:repeat(2,minmax(0,1fr));min-height:0}.archive{min-height:390px}.archive-photography{color:#e9edf2}.archive-photography:hover{background:#293b43}.archive-photography .archive-index,.archive-photography .archive-link{color:#9fc3c5}@media(max-width:980px){.archive-grid{grid-template-columns:1fr}.archive{min-height:350px}}
