@@ -7,7 +7,7 @@
   <meta name="description" content="一日一帧：孟祥辉的每日摄影练习与视觉日记。">
   <title>一日一帧 · Daily Frame</title>
   <link rel="stylesheet" href="./css/photography.css?v=20260813-2">
-  <script src="./js/photography.js?v=20260813-2" defer></script>
+  <script src="./js/photography.js?v=20260813-5" defer></script>
 </head>
 <body>
 <header class="photo-header">
@@ -25,15 +25,11 @@
     <div class="hero-meta"><span id="currentYear">2026</span><span id="streakText">— DAY STREAK</span></div>
   </section>
 
-  <section class="toolbar" aria-label="浏览控制">
-    <div class="view-switch"><button class="active" data-view="grid" type="button">GRID</button><button data-view="calendar" type="button">CALENDAR</button></div>
-    <select id="yearSelect" aria-label="选择年份"></select>
-  </section>
-
-  <section id="gridView" class="photo-grid" aria-live="polite"></section>
-  <section id="calendarView" class="calendar-view" hidden></section>
-  <p id="emptyState" class="empty-state" hidden>这一年还没有照片。</p>
+  <section id="gridView" class="photo-stream" aria-live="polite"></section>
+  <p id="emptyState" class="empty-state" hidden>还没有照片。</p>
 </main>
+
+<aside id="timeRail" class="time-rail" aria-label="摄影时间轴" hidden></aside>
 
 <dialog id="photoDialog" class="photo-dialog">
   <button class="dialog-close" type="button" aria-label="关闭">×</button>
