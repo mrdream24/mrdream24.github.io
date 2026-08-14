@@ -2,3 +2,34 @@
 @media(max-width:900px){.masthead span:last-child{display:none}.masthead{grid-template-columns:1fr auto}.intro,.section-head{grid-template-columns:1fr;gap:28px}.intro a{justify-self:start}.product-grid{grid-template-columns:1fr}.archive-grid{grid-template-columns:repeat(2,1fr)}.archive-grid>a:nth-child(2){border-right:0}.archive-grid>a:nth-child(-n+2){border-bottom:1px solid var(--border)}}
 @media(max-width:560px){.page-shell{padding-top:18px}.masthead{font-size:9px}.hero{padding:56px 0 70px}.hero h1{font-size:12vw;line-height:1.3;margin-bottom:48px}.hero h1 .boxed{font-size:.68em}.lead-box{font-size:20px}.section{padding:68px 0}.section-head{margin-bottom:36px}.product{padding:16px}.product-copy h3{font-size:29px}.arrow{right:16px;bottom:18px}.archive-grid{grid-template-columns:1fr}.archive-grid>a{min-height:300px;border-right:0!important;border-bottom:1px solid var(--border)}.archive-grid>a:last-child{border-bottom:0}.archive-grid i{margin-bottom:38px}.quote{margin-top:25px;padding-block:55px}footer{grid-template-columns:1fr auto}footer nav{grid-column:1/-1;grid-row:1;flex-wrap:wrap}footer>a{text-align:right}}
 @media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}*,*:before,*:after{transition:none!important}[data-reveal]{opacity:1;transform:none}}
+
+/* v2 refinement: neo-brutalist hierarchy with Swiss editorial discipline */
+.masthead{position:sticky;top:0;z-index:30;height:56px;align-items:center;margin-inline:calc(clamp(20px,4vw,64px)*-1);padding-inline:clamp(20px,4vw,64px);background:rgba(246,245,242,.85);border-bottom-color:var(--border);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px)}
+.hero{padding-top:clamp(84px,11vw,158px)}
+.hero h1{max-width:1280px;font-family:var(--sans);font-weight:800;line-height:.98;letter-spacing:-.055em}
+.hero h1 .boxed{color:var(--terra);border-color:var(--terra);font-weight:800;letter-spacing:-.07em}
+.hero h1 em{font-family:var(--serif);font-weight:400;letter-spacing:-.04em}
+.section-head>div>span:before{content:"";display:inline-block;width:7px;height:7px;margin-right:9px;background:var(--terra);vertical-align:1px}
+.section-head h2{font-family:var(--sans);font-weight:750;letter-spacing:-.04em}
+.product-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:34px 28px}
+.product:first-child{grid-column:1/-1;display:grid;grid-template-columns:minmax(0,1.45fr) minmax(280px,.55fr);gap:0 36px}
+.product:first-child .product-meta{grid-column:1/-1}
+.product:first-child picture{grid-column:1;grid-row:2/4;aspect-ratio:16/8}
+.product:first-child .product-copy{grid-column:2;grid-row:2;align-self:end;padding-bottom:52px}
+.product:first-child .product-copy h3{font-size:clamp(42px,5vw,72px)}
+.product:first-child .arrow{right:28px;bottom:28px}
+.product-meta{padding-top:12px;border-top:1px solid var(--border)}
+.product picture{padding:clamp(18px,3vw,40px);background:#ebe8e2}
+.product img{object-fit:contain;filter:grayscale(1);box-shadow:0 8px 18px rgba(26,25,24,.13)}
+.product:hover{transform:translateY(-4px)}
+.product .arrow{color:#8a8782;transition:color .25s,transform .25s}
+.product:hover .arrow{color:var(--terra);transform:translate(3px,-3px)}
+.product:hover img{transform:scale(1.02)}
+.quote{margin-top:86px;margin-bottom:86px;padding-block:clamp(90px,12vw,170px);background:#121212;border-color:#121212;color:var(--paper)}
+.quote blockquote{font-size:clamp(30px,4.3vw,64px);line-height:1.48;letter-spacing:-.025em}
+.quote cite{color:#aaa7a1}
+.archive-grid i{width:44px;height:44px;background:var(--subtle);font-size:17px}
+
+@media(min-width:1024px){.product:nth-child(even){margin-top:0}.product:nth-child(3),.product:nth-child(5){margin-top:38px}.product-grid{padding-bottom:38px}}
+@media(max-width:900px){.product:first-child{display:block}.product:first-child picture{aspect-ratio:16/10}.product:first-child .product-copy{padding-bottom:0}.product:first-child .product-copy h3{font-size:38px}}
+@media(max-width:560px){.masthead{height:52px}.hero{padding-top:72px}.hero h1{font-size:13vw;line-height:1.02}.product picture{padding:18px}.quote{margin-top:20px;margin-bottom:20px;padding-block:78px}.quote blockquote{font-size:8vw}}
